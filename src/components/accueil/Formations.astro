@@ -2,8 +2,6 @@
 import CarteFormation from '../ui/CarteFormation.astro'
 import EnteteSection from '../ui/EnteteSection.astro'
 import Icone from '../ui/Icone.astro'
-import voiture from '../../assets/photos/voiture.jpg'
-import moto from '../../assets/photos/moto.jpg'
 import { FORMATIONS_PUBLIEES, formation } from '../../data/formations.ts'
 
 const code = formation('code-de-la-route')
@@ -22,23 +20,13 @@ const secondaires = FORMATIONS_PUBLIEES.filter((f) => !PRINCIPALES.has(f.slug))
 
     <div class="formations__grille">
       <CarteFormation titre={code.nom} resume={code.resume} href={`/${code.slug}`} motif="panneau" />
-      <CarteFormation
-        titre={b.nomCourt}
-        resume={b.resume}
-        href={`/${b.slug}`}
-        motif="voiture"
-        photo={voiture}
-        alt=""
-        cadrage="30% center"
-      />
+      <CarteFormation titre={b.nomCourt} resume={b.resume} href={`/${b.slug}`} motif="voiture" />
       <CarteFormation titre={auto.nomCourt} resume={auto.resume} href={`/${auto.slug}`} motif="automatique" />
       <CarteFormation
         titre="Permis moto"
         resume="A1 dès 16 ans, A2 dès 18 ans, passerelle vers le A : prenez la route à deux roues."
         href="/permis-moto"
         motif="moto"
-        photo={moto}
-        alt=""
         lienTexte="Découvrir les formations"
       />
     </div>
