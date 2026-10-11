@@ -3,7 +3,7 @@ export const noteFr = (n: number) => n.toLocaleString('fr-FR', { maximumFraction
 
 /** 1090 → « 1 090 € » (TTC : l’établissement facture des particuliers). */
 export const euros = (n: number) =>
-  `${n.toLocaleString('fr-FR', { maximumFractionDigits: 0 }).replace(/ | /g, ' ')} €`
+  `${n.toLocaleString('fr-FR', { maximumFractionDigits: 0 }).replace(/[\u202f\u00a0]/g, '\u00a0')}\u00a0€`
 
 /** « 2026-10-11 » → « en octobre 2026 » */
 export function dateRelevee(iso: string): string {

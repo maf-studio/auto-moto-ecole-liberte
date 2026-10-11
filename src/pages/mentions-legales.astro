@@ -18,7 +18,8 @@ const l = e.legal
     <div><dt>Raison sociale</dt><dd><ACompleter valeur={l.raisonSociale} libelle="raison sociale" /></dd></div>
     <div><dt>Forme juridique</dt><dd><ACompleter valeur={l.formeJuridique} libelle="forme juridique" /></dd></div>
     <div><dt>Capital social</dt><dd><ACompleter valeur={l.capital} libelle="capital social (si société)" /></dd></div>
-    <div><dt>Adresse de l’établissement</dt><dd>{e.adresse.rue}, {e.adresse.codePostal} {e.adresse.ville}</dd></div>
+    <div><dt>Siège social</dt><dd>{l.siegeSocial ?? `${e.adresse.rue}, ${e.adresse.codePostal} ${e.adresse.ville}`}</dd></div>
+    <div><dt>SIREN</dt><dd><ACompleter valeur={l.siren} libelle="numéro SIREN" /></dd></div>
     <div><dt>SIRET</dt><dd><ACompleter valeur={l.siret} libelle="numéro SIRET" /></dd></div>
     <div><dt>Immatriculation</dt><dd><ACompleter valeur={l.rcs} libelle="RCS ou RM et ville" /></dd></div>
     <div><dt>TVA intracommunautaire</dt><dd><ACompleter valeur={l.tva} libelle="numéro de TVA (le cas échéant)" /></dd></div>
@@ -46,12 +47,23 @@ const l = e.legal
     )
   }
 
-  <h2>Médiation de la consommation</h2>
-  <p>
-    En cas de litige avec un consommateur, et après une réclamation écrite restée sans réponse satisfaisante, celui-ci
-    peut recourir gratuitement au médiateur de la consommation dont relève l’établissement :{' '}
-    {l.mediateur ? <a href={l.mediateur.site} target="_blank" rel="noopener">{l.mediateur.nom}</a> : <ACompleter valeur={null} libelle="nom et site du médiateur" />}.
-  </p>
+  {
+    /* Le paragraphe n’apparaît qu’avec un médiateur réel ; tant qu’il manque,
+       pnpm check:publication le signale comme bloquant. */
+    l.mediateur && (
+      <>
+        <h2>Médiation de la consommation</h2>
+        <p>
+          En cas de litige, et après une réclamation écrite restée sans réponse satisfaisante, le consommateur peut
+          recourir gratuitement au médiateur de la consommation dont relève l’établissement :{' '}
+          <a href={l.mediateur.site} target="_blank" rel="noopener">
+            {l.mediateur.nom}
+          </a>
+          .
+        </p>
+      </>
+    )
+  }
 
   <h2>Propriété intellectuelle</h2>
   <p>

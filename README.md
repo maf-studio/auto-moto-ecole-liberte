@@ -2,13 +2,13 @@
 
 Site de l’Auto-Moto École Liberté, 44 boulevard de la Liberté, 93260 Les Lilas. Réalisé par MAF Studio.
 
-- **28 pages** : accueil, deux pages rubriques (permis auto, permis moto), 11 pages formations (dont 1 en
-  brouillon), financement, tarifs, documents d’inscription, à propos, démarche qualité, avis, contact, pages
+- **28 pages** : accueil, deux pages rubriques (permis auto, permis moto), 11 pages formations, financement, tarifs, documents d’inscription, à propos, démarche qualité, avis, contact, pages
   légales, plan du site, 404.
 - **Direction artistique** reprise du dépliant de l’établissement : bleu nuit, bleu pétrole, capitales condensées,
   bandeaux inclinés, lignes de route en pointillés, signature manuscrite « depuis 2010 ».
-- **Rien d’inventé** : chaque information inconnue vaut `null` et ce qui en dépend disparaît. Les prix lus sur la
-  vitrine ne s’affichent qu’une fois confirmés. Les règles (âges, durées, aides) citent leur source officielle.
+- **Rien d’inventé** : chaque information inconnue vaut `null` et ce qui en dépend disparaît. Les prix sont ceux de
+  la vitrine (TTC), les mentions légales celles du Registre national des entreprises. Les règles (âges, durées,
+  aides) citent leur source officielle.
 
 ## Pile
 

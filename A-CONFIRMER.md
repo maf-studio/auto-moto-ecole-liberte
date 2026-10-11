@@ -1,71 +1,43 @@
 # À confirmer avec l’Auto-Moto École Liberté
 
-Ce que le site attend du client avant d’être ouvert au public. `pnpm check:publication` tient cette liste à jour.
+État au 11 octobre 2026. Le contenu du site est validé (sur le modèle du site de référence) : prix de la vitrine,
+formations, labels, garantie financière, réseaux sociaux, avis cités. Les mentions légales viennent du Registre
+national des entreprises (SARL AUTO ECOLE LIBERTE, SIREN 525 082 491, gérant Ali Idir). `pnpm check:publication`
+tient cette liste à jour.
 
 ## Bloquant (obligatoire pour la mise en ligne)
 
-- [ ] **Mentions légales** : raison sociale, forme juridique, SIRET, immatriculation (RCS ou RM), directeur de la
-      publication. La page les affiche « À compléter » en attendant.
-- [ ] **Médiateur de la consommation** : nom et site (obligatoire pour une entreprise qui vend à des particuliers).
+- [ ] **Médiateur de la consommation** : nom et site. Obligatoire pour une entreprise qui vend à des particuliers.
+      Tant qu’il manque, le paragraphe n’apparaît pas dans les mentions légales et la mise en ligne est refusée.
 
-## Contenus à valider
+## À fournir pour compléter le site
 
-- [ ] **Tarifs** : les prix lus sur la vitrine sont saisis, mais affichés « Tarif sur demande » tant qu’ils ne sont
-      pas confirmés (et à jour) :
-      Permis B auto 13 leçons 840 € · Permis B manuel 20 leçons 1 090 € · Permis accompagné 20 leçons 1 350 € ·
-      Formation A, A1 ou AM 7/8 leçons 290 € · Permis A2 auto 13 leçons 750 € · Permis A1/A2 manuel 20 leçons 850 €.
-      À préciser : ce que comprend chaque forfait, et le prix de la préparation au code et de la passerelle boîte
-      manuelle.
-- [ ] **Permis A2 « auto 13 leçons »** : la réglementation fixe 20 heures minimum pour le permis A2. Que recouvre
-      ce forfait ?
-- [ ] **Conduite supervisée** : proposée ou non ? La page existe en brouillon (invisible).
-- [ ] **Formation accélérée** : modalités (durée, planning) pour lui consacrer une page.
-- [ ] **Paiement en 3 fois sans frais** : modalités exactes.
-- [ ] **CPF** : les formations sont-elles bien référencées sur Mon Compte Formation ? Lesquelles ?
-- [ ] **Permis à 1 € par jour** : l’établissement est-il toujours conventionné ?
-- [ ] **Labels** : catégorie exacte de la certification Qualiopi (« actions de formation ») et intitulé exact du
-      label « École conduite qualité ». Fichiers officiels des logos si on veut les afficher.
-- [ ] **Avis Google** : accord des trois auteurs cités (Thierry D., Narimene S., Rayan G.), et lien exact de la
-      fiche Google (bouton « Partager » dans Google Maps).
-- [ ] **Réseaux sociaux** : adresses exactes. Le site affiche Instagram et Snapchat « @ame.liberte », déduits du
-      dépliant ; le troisième code QR du dépliant n’est pas identifié.
+- [ ] **Prix manquants** (affichés « Tarif sur demande ») : préparation au code, conduite supervisée, passerelle
+      boîte manuelle. Et, si possible, le prix de l’évaluation de départ et de l’heure supplémentaire.
+- [ ] **Permis A2 « auto, 13 leçons »** (750 €, affiché comme sur la vitrine) : la réglementation fixe 20 heures
+      minimum pour le permis A2. Vérifier que ce forfait est bien présenté.
+- [ ] **Paiement en 3 fois** : modalités exactes (échéances, formations concernées).
+- [ ] **Garantie financière** : nom du garant (facultatif, il s’affiche s’il est donné).
+- [ ] **Logo** en fichier source (SVG ou PDF vectoriel), à demander à Positif.biz qui a créé le dépliant. En
+      attendant, le site affiche une reconstitution du logo sans le pilote à moto.
+- [ ] **Photos HD** : voiture-école, moto, plateau, salle de code, équipe (avec l’accord de chacun). Le visuel actuel
+      est extrait du dépliant, en basse définition.
+- [ ] **Documents qualité** du label, en PDF : règlement intérieur, procédures d’évaluation B et A, organisation de
+      la formation, déroulement des examens, handicap, réclamations.
+- [ ] **Formation accélérée** : durée, planning et prix, pour lui consacrer une page.
+- [ ] **Coordonnées GPS** de l’agence (données structurées).
+- [ ] **Nom de domaine** : le site actuel (bouton « Site Web » de la fiche Google), qui détient le domaine, et l’accès
+      pour le brancher.
 
-- [ ] **Garantie financière** : nom du garant (une école labellisée en a une, d’après les sites spécialisés). Elle
-      s’affiche dès qu’elle est renseignée.
-- [ ] **Taux de réussite** : l’État ne publie plus de taux par école. Si l’établissement veut afficher le sien, il
-      le fournit avec sa source (année, catégorie) ; sinon rien ne s’affiche.
-- [ ] **Note VroomVroom** : le dépliant affiche des étoiles VroomVroom ; à fournir (note, nombre d’avis, date) si
-      on veut la citer.
-- [ ] **Documents qualité** du label (règlement intérieur, procédures d’évaluation B et A, organisation de la
-      formation, déroulement des examens, handicap, réclamations) : les PDF, pour les publier sur la page
-      « Démarche qualité ».
-- [ ] **Handicap** : ce que l’établissement peut proposer (véhicule adapté, accompagnement), pour l’écrire.
-- [ ] **Lieu d’examen** et **partenaires** (concessionnaires, éditeur de code) : à fournir si on veut les citer,
-      comme le fait le site de référence.
+## À signaler à l’établissement (vitrine et dépliant)
 
-## Fichiers à fournir
+- **« France Travail, aide de 1 200 € »** : aide supprimée le 1er avril 2026. Autocollant à retirer.
+- **« LABAZ, 1 000 € pour ton permis »** : le chèque permis de la Région Île-de-France n’accepte plus de demandes
+  depuis le 22 mai 2026 ; une nouvelle aide est annoncée pour l’automne 2026.
+- **CPF** : depuis février 2026, il ne finance plus le permis B, A1 ou A2 pour tout le monde (demandeurs d’emploi,
+  ou salariés avec un cofinancement d’au moins 100 €, dans la limite de 900 €).
 
-- [ ] **Logo** en fichier source (SVG ou PDF vectoriel). À demander à l’agence qui a créé le dépliant
-      (Positif.biz). En attendant, le site affiche une reconstitution du logo sans le pilote à moto.
-- [ ] **Photos HD** : la voiture-école et la moto (le visuel actuel est extrait du dépliant, en basse
-      définition), des leçons de conduite, la salle de code, l’équipe (avec l’accord de chacun).
-- [ ] **Équipe** : prénoms et rôles, si l’établissement souhaite la présenter.
-- [ ] **Accès** : transports en commun et stationnement à proximité, à vérifier sur place.
-- [ ] **Coordonnées GPS** de l’agence (pour les données structurées).
+## Choix faits pour le site
 
-## À retirer de la vitrine et du dépliant
-
-- **« France Travail, aide de 1 200 € »** : cette aide au permis B a été supprimée le 1er avril 2026
-  (economie.gouv.fr). Le site n’en parle plus que pour dire qu’elle n’existe plus.
-- **CPF** : depuis février 2026, le CPF ne finance plus le permis B, A1 ou A2 pour tout le monde (demandeurs
-  d’emploi, ou salariés avec un cofinancement d’au moins 100 €, dans la limite de 900 €). Les mentions « éligible
-  au CPF » sont à nuancer.
-
-- **« Quand tu vérifies tes rétros et tes aides sur LABAZ, 1 000 € pour ton permis »** : le chèque permis de la
-  Région Île-de-France n’accepte plus de demandes depuis le 22 mai 2026 ; une nouvelle aide est annoncée pour
-  l’automne 2026 (iledefrance.fr/aide-permis). Le site le dit ainsi.
-
-## Différence entre le brief et le dépliant
-
-Le brief indiquait un justificatif de domicile « de moins de 6 mois » ; le dépliant de l’établissement demande
-« moins de 3 mois ». Le site suit le dépliant (3 mois). À confirmer.
+- Justificatif de domicile « de moins de 3 mois », comme sur le dépliant (le brief disait 6 mois).
+- Avis Google cités avec le prénom et l’initiale du nom.

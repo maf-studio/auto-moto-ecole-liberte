@@ -71,7 +71,7 @@ const criteres = [
                 <Icone nom="euro" />
               </span>
               <h3>Garantie financière</h3>
-              <p class="label-carte__detail">Garant : {e.garantieFinanciere.garant}</p>
+              {e.garantieFinanciere.garant && <p class="label-carte__detail">Garant : {e.garantieFinanciere.garant}</p>}
               <p class="texte-doux">
                 Les prestations payées d’avance et non consommées sont remboursées si l’école ne peut plus assurer la
                 formation (fermeture définitive ou d’au moins trois mois).

@@ -30,6 +30,10 @@ export const SOURCES = {
     titre: 'Conduite supervisée à partir de 18 ans (Service-Public.fr)',
     url: 'https://www.service-public.gouv.fr/particuliers/vosdroits/F21012',
   },
+  superviseeSR: {
+    titre: 'Conduite supervisée (Sécurité routière)',
+    url: 'https://www.securite-routiere.gouv.fr/passer-son-permis-de-conduire/conduite-accompagnee/conduite-supervisee',
+  },
   code: {
     titre: 'Comment passer le code : l’épreuve théorique générale (Service-Public.fr)',
     url: 'https://www.service-public.gouv.fr/particuliers/vosdroits/F33694',

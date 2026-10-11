@@ -1,5 +1,5 @@
 import { ETABLISSEMENT } from '../data/etablissement.ts'
-import { FORMATIONS_PUBLIEES } from '../data/formations.ts'
+import { FORMATIONS_PUBLIEES, prixAffiche } from '../data/formations.ts'
 import { horairesSchema } from './horaires.ts'
 
 /**
@@ -16,6 +16,8 @@ export function ecoleJsonLd(site: URL, image: string | null) {
     '@id': new URL('/#ecole', site).href,
     name: e.nom,
     alternateName: e.nomCourt,
+    ...(e.legal.raisonSociale ? { legalName: e.legal.raisonSociale } : {}),
+    ...(e.legal.tva ? { vatID: e.legal.tva } : {}),
     url: new URL('/', site).href,
     telephone: e.telephone.international,
     email: e.email,
@@ -38,10 +40,14 @@ export function ecoleJsonLd(site: URL, image: string | null) {
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
       name: 'Formations à la conduite',
-      itemListElement: FORMATIONS_PUBLIEES.map((f) => ({
-        '@type': 'Offer',
-        itemOffered: { '@type': 'Service', name: f.nom, url: new URL(`/${f.slug}`, site).href },
-      })),
+      itemListElement: FORMATIONS_PUBLIEES.map((f) => {
+        const prix = f.tarifs.map(prixAffiche).find((p) => p !== null) ?? null
+        return {
+          '@type': 'Offer',
+          itemOffered: { '@type': 'Service', name: f.nom, url: new URL(`/${f.slug}`, site).href },
+          ...(prix !== null ? { price: String(prix), priceCurrency: 'EUR' } : {}),
+        }
+      }),
     },
   }
 }

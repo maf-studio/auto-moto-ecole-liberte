@@ -84,7 +84,15 @@ export const FINANCEMENTS: readonly Financement[] = [
     demarche:
       'Consultez vos droits sur moncompteformation.gouv.fr, puis appelez-nous : nous vérifions avec vous si la formation visée peut être financée ainsi.',
     sources: ['cpf', 'economie'],
-    formations: ['code-de-la-route', 'permis-b', 'permis-automatique', 'conduite-accompagnee', 'permis-a1', 'permis-a2'],
+    formations: [
+      'code-de-la-route',
+      'permis-b',
+      'permis-automatique',
+      'conduite-accompagnee',
+      'conduite-supervisee',
+      'permis-a1',
+      'permis-a2',
+    ],
   },
   {
     id: 'autres-aides',

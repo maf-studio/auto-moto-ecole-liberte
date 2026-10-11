@@ -13,10 +13,10 @@ import type { Financement } from './financements.ts'
  *                   mais n’est liée de nulle part, porte `noindex` et un
  *                   bandeau « brouillon ». Passer à `publiee` après validation.
  *
- * `tarifs` : les prix lus sur la vitrine (photo du 11 octobre 2026) sont saisis
- * avec `verifie: false`. Ils ne s’affichent qu’une fois passés à `true`, après
- * confirmation par l’établissement ; d’ici là, le site écrit « Tarif sur
- * demande ». Aucun prix n’est inventé.
+ * `tarifs` : les prix TTC affichés sur la vitrine de l’établissement, validés
+ * pour le site le 11 octobre 2026 (`verifie: true`). Un tarif sans prix, ou
+ * avec `verifie: false`, s’affiche « Tarif sur demande ». Aucun prix n’est
+ * inventé.
  *
  * Les règles écrites ici viennent des sources officielles de `sources.ts`
  * (vérifiées le 11 octobre 2026). Une règle modifiée par une réforme se corrige
@@ -285,7 +285,7 @@ export const FORMATIONS: readonly Formation[] = [
       'Les leçons ont lieu du lundi au samedi, de 7 h à 20 h.',
     ],
     financements: ['permis-1-euro', 'paiement-3-fois', 'cpf', 'autres-aides'],
-    tarifs: [{ libelle: 'Permis B boîte manuelle', volume: '20 leçons', prixTTC: 1090, verifie: false }],
+    tarifs: [{ libelle: 'Permis B boîte manuelle', volume: '20 leçons', prixTTC: 1090, verifie: true }],
     faq: [
       {
         question: 'Combien d’heures faut-il pour obtenir le permis ?',
@@ -351,7 +351,7 @@ export const FORMATIONS: readonly Formation[] = [
       'Les leçons ont lieu du lundi au samedi, de 7 h à 20 h.',
     ],
     financements: ['permis-1-euro', 'paiement-3-fois', 'cpf', 'autres-aides'],
-    tarifs: [{ libelle: 'Permis B boîte automatique', volume: '13 leçons', prixTTC: 840, verifie: false }],
+    tarifs: [{ libelle: 'Permis B boîte automatique', volume: '13 leçons', prixTTC: 840, verifie: true }],
     faq: [
       {
         question: 'Puis-je conduire une voiture manuelle avec ce permis ?',
@@ -445,7 +445,7 @@ export const FORMATIONS: readonly Formation[] = [
       'Examen pratique : dès 17 ans.',
     ],
     financements: ['permis-1-euro', 'paiement-3-fois', 'cpf', 'autres-aides'],
-    tarifs: [{ libelle: 'Conduite accompagnée', volume: '20 leçons', prixTTC: 1350, verifie: false }],
+    tarifs: [{ libelle: 'Conduite accompagnée', volume: '20 leçons', prixTTC: 1350, verifie: true }],
     faq: [
       {
         question: 'Qui peut être accompagnateur ?',
@@ -475,51 +475,72 @@ export const FORMATIONS: readonly Formation[] = [
   {
     slug: 'conduite-supervisee',
     categorie: 'auto',
-    statut: 'brouillon',
+    statut: 'publiee',
     nom: 'Conduite supervisée',
     nomCourt: 'Conduite supervisée',
     titreSeo: 'Conduite supervisée dès 18 ans aux Lilas',
     descriptionSeo:
       'Conduite supervisée aux Lilas dès 18 ans : après la formation initiale, conduisez avec un accompagnateur pour gagner de l’expérience avant l’examen du permis B.',
-    resume: 'Après la formation initiale, roulez avec un accompagnateur avant l’examen.',
+    resume: 'Dès 18 ans, roulez avec un accompagnateur après la formation initiale.',
     accroche:
-      'Pour les adultes qui veulent gagner en expérience avant l’examen : une fois la formation initiale terminée, vous conduisez avec un accompagnateur.',
+      'Pour les adultes qui veulent gagner en expérience avant l’examen : une fois la formation initiale terminée, vous conduisez avec un proche, sans durée ni distance minimales imposées.',
     visuel: 'duo',
     enBref: [
       { libelle: 'Âge', valeur: 'Dès 18 ans' },
       { libelle: 'Condition', valeur: 'Formation initiale terminée' },
       { libelle: 'Accompagnateur', valeur: 'Permis B depuis 5 ans' },
+      { libelle: 'Durée', valeur: 'Ni durée ni distance minimales' },
     ],
     pourQui: [
-      'La conduite supervisée complète la formation initiale suivie en auto-école. Elle s’adresse aux candidats d’au moins 18 ans qui veulent davantage de pratique avant l’examen.',
+      'La conduite supervisée complète la formation initiale suivie à l’auto-école. Elle s’adresse aux candidats d’au moins 18 ans qui veulent davantage de pratique avant l’examen pratique.',
+      'Contrairement à la conduite accompagnée, elle ne réduit pas la période probatoire : elle reste de 3 ans.',
     ],
     prerequis: [
       'Avoir au moins 18 ans.',
-      'Avoir terminé la formation initiale (code obtenu, heures de conduite effectuées).',
-      'Un accompagnateur titulaire du permis B depuis au moins 5 ans sans interruption.',
+      'Avoir réussi le code et terminé la formation initiale, attestée par l’attestation de fin de formation initiale.',
+      'Un ou plusieurs accompagnateurs titulaires du permis B depuis au moins 5 ans, sans suspension ni annulation de permis au cours des 5 dernières années.',
       'L’accord écrit de l’assureur du véhicule.',
     ],
     deroule: [
-      { titre: 'Formation initiale', texte: 'Évaluation de départ, code et leçons de conduite à l’auto-école.' },
       {
-        titre: 'Attestation et rendez-vous préalable',
-        texte: 'Fin de formation initiale validée, puis rendez-vous avec l’accompagnateur et l’enseignant.',
+        titre: 'Formation initiale',
+        texte: 'Évaluation de départ, code, puis au moins 20 heures de conduite à l’auto-école (13 en boîte automatique).',
       },
-      { titre: 'Conduite supervisée', texte: 'Vous roulez avec votre accompagnateur pour gagner en aisance.' },
-      { titre: 'Examen pratique', texte: 'Vous vous présentez quand vous êtes prêt.' },
+      {
+        titre: 'Attestation de fin de formation',
+        texte: 'Quand le niveau est atteint, nous délivrons l’attestation de fin de formation initiale, à transmettre à l’assureur.',
+      },
+      {
+        titre: 'Rendez-vous préalable',
+        texte: 'Au moins 2 heures avec l’enseignant et l’accompagnateur, pour préparer la conduite supervisée.',
+      },
+      { titre: 'Conduite supervisée', texte: 'Vous roulez avec votre accompagnateur, à votre rythme, pour gagner en aisance.' },
+      { titre: 'Examen pratique', texte: 'Vous vous présentez quand vous êtes prêt, avec une période probatoire de 3 ans.' },
     ],
     programme: COMPETENCES_B,
-    duree: ['Les règles de durée et de kilométrage sont rappelées à l’inscription.'],
-    financements: ['paiement-3-fois', 'autres-aides'],
+    duree: [
+      'Formation initiale : au moins 20 heures de conduite en boîte manuelle, 13 heures en boîte automatique.',
+      'Conduite supervisée : aucune durée ni distance minimales ne sont imposées. Plus vous roulez, plus vous gagnez en expérience.',
+    ],
+    financements: ['permis-1-euro', 'paiement-3-fois', 'cpf', 'autres-aides'],
     tarifs: [{ libelle: 'Conduite supervisée', volume: null, prixTTC: null, verifie: false }],
     faq: [
       {
         question: 'Quelle différence avec la conduite accompagnée ?',
         reponse:
-          'La conduite accompagnée commence dès 15 ans et suit des règles de durée et de distance minimales. La conduite supervisée s’adresse aux candidats de 18 ans et plus.',
+          'La conduite accompagnée commence dès 15 ans, dure au moins un an et 3 000 km, et réduit la période probatoire à 2 ans. La conduite supervisée s’adresse aux 18 ans et plus, sans durée ni distance minimales, et la période probatoire reste de 3 ans.',
+      },
+      {
+        question: 'Qui peut être accompagnateur ?',
+        reponse:
+          'Une personne titulaire du permis B depuis au moins 5 ans, sans suspension ni annulation au cours des 5 dernières années, avec l’accord de l’assureur du véhicule.',
+      },
+      {
+        question: 'Combien de temps dure la conduite supervisée ?',
+        reponse: 'Aucune durée minimale n’est imposée : vous vous présentez à l’examen quand vous êtes prêt.',
       },
     ],
-    sources: ['supervisee', 'facons'],
+    sources: ['supervisee', 'superviseeSR', 'facons'],
     liees: ['conduite-accompagnee', 'permis-b'],
   },
   {
@@ -627,7 +648,7 @@ export const FORMATIONS: readonly Formation[] = [
     programme: COMPETENCES_MOTO,
     duree: ['Au moins 20 heures de formation pratique : 8 heures sur plateau et 12 heures en circulation.'],
     financements: ['permis-1-euro', 'paiement-3-fois', 'cpf', 'autres-aides'],
-    tarifs: [{ libelle: 'Permis A1 ou A2, boîte manuelle', volume: '20 leçons', prixTTC: 850, verifie: false }],
+    tarifs: [{ libelle: 'Permis A1 ou A2, boîte manuelle', volume: '20 leçons', prixTTC: 850, verifie: true }],
     faq: [
       {
         question: 'Faut-il avoir le permis B ?',
@@ -684,8 +705,8 @@ export const FORMATIONS: readonly Formation[] = [
     duree: ['Au moins 20 heures de formation pratique : 8 heures sur plateau et 12 heures en circulation.'],
     financements: ['permis-1-euro', 'paiement-3-fois', 'cpf', 'autres-aides'],
     tarifs: [
-      { libelle: 'Permis A1 ou A2, boîte manuelle', volume: '20 leçons', prixTTC: 850, verifie: false },
-      { libelle: 'Permis A2, boîte automatique', volume: '13 leçons', prixTTC: 750, verifie: false },
+      { libelle: 'Permis A1 ou A2, boîte manuelle', volume: '20 leçons', prixTTC: 850, verifie: true },
+      { libelle: 'Permis A2, boîte automatique', volume: '13 leçons', prixTTC: 750, verifie: true },
     ],
     faq: [
       {
@@ -746,7 +767,7 @@ export const FORMATIONS: readonly Formation[] = [
     ],
     duree: ['7 heures : 2 heures de théorie, 2 heures hors circulation et 3 heures en circulation.'],
     financements: ['paiement-3-fois', 'autres-aides'],
-    tarifs: [{ libelle: 'Formation A, A1 ou AM', volume: '7 ou 8 heures', prixTTC: 290, verifie: false }],
+    tarifs: [{ libelle: 'Formation A, A1 ou AM', volume: '7 ou 8 heures', prixTTC: 290, verifie: true }],
     faq: [
       { question: 'Y a-t-il un examen ?', reponse: 'Non. La formation se valide par l’attestation remise à la fin.' },
       {
@@ -800,7 +821,7 @@ export const FORMATIONS: readonly Formation[] = [
     programme: COMPETENCES_MOTO,
     duree: ['7 heures de formation, sans examen à la fin.'],
     financements: ['paiement-3-fois', 'autres-aides'],
-    tarifs: [{ libelle: 'Formation A, A1 ou AM', volume: '7 ou 8 heures', prixTTC: 290, verifie: false }],
+    tarifs: [{ libelle: 'Formation A, A1 ou AM', volume: '7 ou 8 heures', prixTTC: 290, verifie: true }],
     faq: [
       { question: 'Faut-il passer un examen ?', reponse: 'Non. La formation se valide par une attestation.' },
       {
@@ -857,7 +878,7 @@ export const FORMATIONS: readonly Formation[] = [
     ],
     duree: ['8 heures de formation, sans examen.'],
     financements: ['paiement-3-fois', 'autres-aides'],
-    tarifs: [{ libelle: 'Formation A, A1 ou AM', volume: '7 ou 8 heures', prixTTC: 290, verifie: false }],
+    tarifs: [{ libelle: 'Formation A, A1 ou AM', volume: '7 ou 8 heures', prixTTC: 290, verifie: true }],
     faq: [
       { question: 'Y a-t-il un examen ?', reponse: 'Non. Le permis AM s’obtient après la formation de 8 heures.' },
       {

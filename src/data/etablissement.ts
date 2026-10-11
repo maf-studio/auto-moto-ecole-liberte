@@ -49,12 +49,8 @@ export const ETABLISSEMENT = {
 
   /** Lien vers la fiche Google de l’établissement. */
   google: {
-    /**
-     * Recherche Google Maps sur le nom et l’adresse : elle ouvre la fiche.
-     * À remplacer par le lien exact de la fiche (« Partager » dans Google Maps).
-     */
-    fiche:
-      'https://www.google.com/maps/search/?api=1&query=Auto%2FMoto%20Ecole%20Libert%C3%A9%2C%2044%20Bd%20de%20la%20Libert%C3%A9%2C%2093260%20Les%20Lilas',
+    /** Le lien de partage de la fiche Google (fourni le 11 octobre 2026). */
+    fiche: 'https://share.google/5gENUBdbc7YEIh4xZ',
     itineraire:
       'https://www.google.com/maps/dir/?api=1&destination=Auto%2FMoto%20Ecole%20Libert%C3%A9%2C%2044%20Bd%20de%20la%20Libert%C3%A9%2C%2093260%20Les%20Lilas',
     /** Carte intégrée, chargée seulement après accord du visiteur. */
@@ -87,9 +83,8 @@ export const ETABLISSEMENT = {
 
   /**
    * Réseaux sociaux : le dépliant annonce « Suivez-nous ! @ame.liberte » avec
-   * des codes Snapchat et Instagram (un troisième code n’est pas identifié).
-   * Les adresses ci-dessous en sont déduites : à confirmer avec l’établissement.
-   * `null` retire le lien du site.
+   * des codes Snapchat et Instagram. Adresses validées le 11 octobre 2026.
+   * Une liste vide retire les liens du site.
    */
   identifiantReseaux: '@ame.liberte' as string | null,
   reseaux: [
@@ -139,10 +134,11 @@ export const ETABLISSEMENT = {
   /**
    * La garantie financière : remboursement des prestations payées d’avance et
    * non consommées si l’école ne peut plus exécuter ses contrats (fermeture
-   * définitive ou d’au moins 3 mois). `null` tant que le garant n’est pas
-   * communiqué ; renseignée, elle s’affiche sur l’accueil et la page qualité.
+   * définitive ou d’au moins 3 mois). Validée le 11 octobre 2026 (les écoles
+   * labellisées en ont une) ; `garant` : le nom du garant, s’il est communiqué.
+   * `null` la retire du site.
    */
-  garantieFinanciere: null as { garant: string } | null,
+  garantieFinanciere: { garant: null } as { garant: string | null } | null,
 
   /**
    * Un taux de réussite, UNIQUEMENT s’il est fourni par l’établissement avec
@@ -168,14 +164,17 @@ export const ETABLISSEMENT = {
    * `pnpm check:publication` refuse la mise en ligne.
    */
   legal: {
-    raisonSociale: null as string | null,
-    formeJuridique: null as string | null,
-    capital: null as string | null,
-    siren: null as string | null,
-    siret: null as string | null,
-    rcs: null as string | null,
-    tva: null as string | null,
-    directeurPublication: null as string | null,
+    /* Données de l’Insee et du Registre national des entreprises, à jour au 9 octobre 2026. */
+    raisonSociale: 'AUTO ECOLE LIBERTE' as string | null,
+    formeJuridique: 'Société à responsabilité limitée (SARL)' as string | null,
+    capital: '7 500 €' as string | null,
+    siren: '525 082 491' as string | null,
+    siret: '525 082 491 00016' as string | null,
+    rcs: 'RCS Bobigny 525 082 491' as string | null,
+    tva: 'FR77525082491' as string | null,
+    /** Le siège social est l’établissement des Lilas. */
+    siegeSocial: '44 boulevard de la Liberté, 93260 Les Lilas' as string | null,
+    directeurPublication: 'Ali Idir, gérant' as string | null,
     /** Hébergeur du site, si le site est mis en ligne sur Vercel. */
     hebergeur: {
       nom: 'Vercel Inc.',

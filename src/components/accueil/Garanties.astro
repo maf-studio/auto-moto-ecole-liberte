@@ -31,7 +31,7 @@ const garanties: Garantie[] = [
         {
           icone: 'euro' as const,
           titre: 'Garantie financière',
-          texte: `Les prestations payées d’avance et non consommées sont remboursées si l’école ne peut plus assurer la formation (garant : ${e.garantieFinanciere.garant}).`,
+          texte: `Les prestations payées d’avance et non consommées sont remboursées si l’école ne peut plus assurer la formation${e.garantieFinanciere.garant ? ` (garant : ${e.garantieFinanciere.garant})` : ''}.`,
         },
       ]
     : []),

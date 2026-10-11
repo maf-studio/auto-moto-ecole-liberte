@@ -27,23 +27,21 @@ for (const [cle, libelle] of champsLegaux) {
   if (new RegExp(`\\b${cle}: null\\b`).test(etablissement)) bloquants.push(`Mentions légales : ${libelle}`)
 }
 
-const prixNonVerifies = (formations.match(/verifie: false \}/g) ?? []).length
-if (prixNonVerifies > 0)
-  aConfirmer.push(`${prixNonVerifies} tarif(s) lu(s) sur la vitrine, affichés « Tarif sur demande » (verifie: false)`)
+const sansPrix = (formations.match(/prixTTC: null/g) ?? []).length
+if (sansPrix > 0) aConfirmer.push(`${sansPrix} formule(s) sans prix connu, affichée(s) « Tarif sur demande »`)
+const prixNonVerifies = (formations.match(/prixTTC: \d+, verifie: false/g) ?? []).length
+if (prixNonVerifies > 0) aConfirmer.push(`${prixNonVerifies} prix saisi(s) mais non validé(s) (verifie: false)`)
 
 const brouillons = [...formations.matchAll(/slug: '([^']+)',\s*categorie: '[^']+',\s*statut: 'brouillon'/g)].map((m) => m[1])
 if (brouillons.length > 0) aConfirmer.push(`Formation(s) en brouillon, invisibles : ${brouillons.join(', ')}`)
 
 if (/logoFichier: null/.test(etablissement)) aConfirmer.push('Logo : fichier source (SVG) à obtenir ; logo reconstitué affiché')
 if (/geo: null/.test(etablissement)) aConfirmer.push('Coordonnées GPS non relevées (données structurées sans géolocalisation)')
-if (/capital: null/.test(etablissement)) aConfirmer.push('Capital social (si société)')
-if (/tva: null/.test(etablissement)) aConfirmer.push('Numéro de TVA intracommunautaire (le cas échéant)')
-if (/garantieFinanciere: null/.test(etablissement)) aConfirmer.push('Garantie financière : garant à renseigner')
+if (/garantieFinanciere: \{ garant: null \}/.test(etablissement)) aConfirmer.push('Garantie financière : nom du garant (facultatif)')
 const qualite = lire('src/data/qualite.ts')
 const docsManquants = (qualite.match(/fichier: null \}/g) ?? []).length
 if (docsManquants > 0) aConfirmer.push(`${docsManquants} document(s) qualité du label sans fichier (page Démarche qualité)`)
 if (/conditions: null/.test(etablissement)) aConfirmer.push('Modalités exactes du paiement en 3 fois')
-if (/instagram\.com\/ame\.liberte/.test(etablissement)) aConfirmer.push('Adresses Instagram et Snapchat (@ame.liberte, déduites du dépliant)')
 
 const releve = etablissement.match(/releveLe: '(\d{4}-\d{2}-\d{2})'/)?.[1]
 if (releve) {

@@ -42,8 +42,8 @@ financements possibles, sources.
 - **Publier ou masquer une formation** : `statut: 'publiee'` ou `statut: 'brouillon'`. Un brouillon n’apparaît ni
   dans les menus, ni dans le plan, ni dans Google.
 - **Afficher un prix** : dans `tarifs`, renseigner `prixTTC` (en euros, sans espace) et passer `verifie: true`.
-  Tant que `verifie` vaut `false`, le site écrit « Tarif sur demande ». Les prix de la vitrine sont déjà saisis :
-  il suffit de les confirmer.
+  Tant que `verifie` vaut `false`, ou sans prix, le site écrit « Tarif sur demande ». Les prix de la vitrine sont
+  saisis et validés.
 - **Ajouter une formation** : copier une entrée existante, changer le `slug` (l’adresse de la page) et les textes.
   Elle apparaît automatiquement dans les menus, le pied de page, les tarifs, le formulaire et le sitemap.
 
