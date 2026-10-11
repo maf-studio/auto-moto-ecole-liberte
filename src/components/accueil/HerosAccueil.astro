@@ -2,7 +2,7 @@
 import { Picture } from 'astro:assets'
 import Etoiles from '../ui/Etoiles.astro'
 import Icone from '../ui/Icone.astro'
-import voitureMoto from '../../assets/photos/voiture-moto.webp'
+import voitureMoto from '../../assets/photos/voiture-moto.jpg'
 import { ETABLISSEMENT } from '../../data/etablissement.ts'
 import { dateRelevee, noteFr } from '../../lib/format.ts'
 
@@ -69,7 +69,7 @@ const note = e.noteGoogle
           src={voitureMoto}
           formats={['avif', 'webp']}
           fallbackFormat="jpg"
-          widths={[480, 720, 945]}
+          widths={[480, 720, 960, 1280, 1537]}
           sizes="(min-width: 64rem) 46vw, 100vw"
           alt="La voiture-école blanche aux couleurs de Liberté, avec la moto-école à ses côtés"
           loading="eager"

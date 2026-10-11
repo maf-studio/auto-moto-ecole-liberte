@@ -8,7 +8,7 @@ import Questions from '../components/sections/Questions.astro'
 import CarteFormation from '../components/ui/CarteFormation.astro'
 import EnteteSection from '../components/ui/EnteteSection.astro'
 import Icone from '../components/ui/Icone.astro'
-import voiture from '../assets/photos/voiture.webp'
+import voiture from '../assets/photos/voiture.jpg'
 import '../styles/rubrique.css'
 import { ETABLISSEMENT } from '../data/etablissement.ts'
 import { AUTRES_FORMULES_AUTO, formationsDe } from '../data/formations.ts'
@@ -77,7 +77,7 @@ const questions: Question[] = [
         src={voiture}
         formats={['avif', 'webp']}
           fallbackFormat="jpg"
-        widths={[400, 600]}
+        widths={[400, 600, 900]}
         sizes="(min-width: 64rem) 40vw, 100vw"
         alt="La voiture-école blanche aux couleurs de Liberté"
         loading="eager"

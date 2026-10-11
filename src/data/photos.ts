@@ -1,6 +1,6 @@
-import voiture from '../assets/photos/voiture.webp'
-import voitureAvant from '../assets/photos/voiture-avant.webp'
-import moto from '../assets/photos/moto.webp'
+import voiture from '../assets/photos/voiture.jpg'
+import voitureAvant from '../assets/photos/voiture-avant.jpg'
+import moto from '../assets/photos/moto.jpg'
 
 /**
  * Les images de l’établissement associées aux formations (haut de page et
