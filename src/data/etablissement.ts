@@ -10,6 +10,9 @@
  * Guide de modification en français simple : MODIFIER-LE-CONTENU.md
  */
 
+import logoSombre from '../assets/marque/logo-liberte-sombre.png'
+import logoClair from '../assets/marque/logo-liberte-clair.png'
+
 export const ETABLISSEMENT = {
   nom: 'Auto-Moto École Liberté',
   nomCourt: 'Auto-École Liberté',
@@ -100,13 +103,13 @@ export const ETABLISSEMENT = {
   equipe: [] as ReadonlyArray<{ prenom: string; role: string; photo: ImageMetadata | null }>,
 
   /**
-   * Le fichier source du logo (SVG de préférence), à demander à l’agence qui a
-   * créé le dépliant (Positif.biz). En attendant, `null` : le site affiche une
-   * reconstitution du logo du dépliant en SVG (composant `ui/Logo.astro`).
-   * Pour poser le vrai : déposer le fichier dans `src/assets/marque/`, puis
-   * l’importer ici (MODIFIER-LE-CONTENU.md).
+   * Le logo officiel, détouré depuis l’image fournie par l’établissement
+   * (11 octobre 2026) : `sombre` pour les fonds nuit (noir passé en blanc),
+   * `clair` pour les fonds clairs (couleurs d’origine). Un fichier vectoriel
+   * (SVG) remplacera ces images s’il est un jour fourni. `null` : le site
+   * affiche la reconstitution en SVG du composant `ui/Logo.astro`.
    */
-  logoFichier: null as ImageMetadata | null,
+  logoFichier: { sombre: logoSombre, clair: logoClair } as { sombre: ImageMetadata; clair: ImageMetadata } | null,
 
   /**
    * Labels et certifications, tels qu’annoncés sur le dépliant de
@@ -155,7 +158,11 @@ export const ETABLISSEMENT = {
    */
   paiementPlusieursFois: {
     libelle: 'Paiement en 3 fois sans frais',
-    conditions: null as string | null,
+    /* Formulation provisoire, à valider avec le gérant. */
+    conditions:
+      'Le prix de la formation est réparti en trois règlements, sans frais ni intérêts. Le calendrier des règlements est fixé avec vous à l’inscription.' as
+        | string
+        | null,
   },
 
   /**

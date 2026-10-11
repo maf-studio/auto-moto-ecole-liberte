@@ -5,8 +5,8 @@ import { ETABLISSEMENT } from '../../data/etablissement.ts'
 /**
  * Le logo de l’établissement.
  *
- * Tant que le fichier source n’est pas fourni (`ETABLISSEMENT.logoFichier`),
- * il est reconstitué en SVG d’après le dépliant : la ligne de toit, la
+ * Le logo officiel (`ETABLISSEMENT.logoFichier`), en version pour fond sombre
+ * ou clair. Sans fichier, il est reconstitué en SVG d’après le dépliant : la ligne de toit, la
  * signature « depuis 2010 », « LIBERTÉ » en italique pétrole sur une ligne de
  * route, et « AUTO MOTO ÉCOLE » en capitales espacées. Le pilote à moto du
  * logo original n’est pas redessiné : il reviendra avec le fichier source.
@@ -27,7 +27,13 @@ const tirets = Array.from({ length: 7 }, (_, i) => 206 + i * 14)
 
 {
   fichier ? (
-    <Image src={fichier} alt={ETABLISSEMENT.nom} class:list={['logo', classe]} loading="eager" />
+    <Image
+      src={variante === 'sombre' ? fichier.sombre : fichier.clair}
+      alt={ETABLISSEMENT.nom}
+      width={480}
+      class:list={['logo', 'logo--image', classe]}
+      loading="eager"
+    />
   ) : (
     <svg
       class:list={['logo', `logo--${variante}`, classe]}
@@ -66,6 +72,7 @@ const tirets = Array.from({ length: 7 }, (_, i) => 206 + i * 14)
 <style>
   .logo {
     display: block;
+    width: 100%;
     height: auto;
     overflow: visible;
   }
