@@ -3,10 +3,11 @@ import voitureAvant from '../assets/photos/voiture-avant.jpg'
 import moto from '../assets/photos/moto.jpg'
 
 /**
- * Les images de l’établissement associées aux formations (haut de page et
- * cartes). Une formation absente d’ici reçoit un visuel dessiné aux couleurs
- * de la marque. Pour ajouter une vraie photo : la déposer dans
- * `src/assets/photos/`, l’importer ici, et l’associer au bon identifiant.
+ * Les images de l’établissement en haut des pages des formations. Une
+ * formation absente d’ici reçoit un visuel dessiné aux couleurs de la marque.
+ * Les cartes des formations montrent toujours ce visuel dessiné (icônes).
+ * Pour ajouter une vraie photo : la déposer dans `src/assets/photos/`,
+ * l’importer ici, et l’associer au bon identifiant.
  */
 export const PHOTOS_FORMATIONS: Record<string, { src: ImageMetadata; alt: string } | undefined> = {
   'permis-b': {

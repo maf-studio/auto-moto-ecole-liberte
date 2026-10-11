@@ -50,7 +50,8 @@ financements possibles, sources.
 ## Les photos : `src/data/photos.ts`
 
 Déposer la photo dans `src/assets/photos/`, l’importer en haut du fichier, puis l’associer à la formation
-(`'permis-b': { src: maPhoto, alt: 'description de la photo' }`). Le texte `alt` décrit ce qu’on voit.
+(`'permis-b': { src: maPhoto, alt: 'description de la photo' }`). Le texte `alt` décrit ce qu’on voit. La photo
+apparaît en haut de la page de la formation ; les cartes des formations gardent leur icône.
 
 ## Les financements : `src/data/financements.ts`
 

@@ -12,7 +12,6 @@ import voiture from '../assets/photos/voiture.jpg'
 import '../styles/rubrique.css'
 import { ETABLISSEMENT } from '../data/etablissement.ts'
 import { AUTRES_FORMULES_AUTO, formationsDe } from '../data/formations.ts'
-import { PHOTOS_FORMATIONS } from '../data/photos.ts'
 import type { Question } from '../data/faq.ts'
 
 const formations = formationsDe('auto')
@@ -99,7 +98,6 @@ const questions: Question[] = [
               resume={f.resume}
               href={`/${f.slug}`}
               motif={f.visuel}
-              photo={PHOTOS_FORMATIONS[f.slug]?.src ?? null}
               niveau={3}
             />
           ))

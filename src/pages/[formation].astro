@@ -338,18 +338,9 @@ const sommaire = [
             </Fragment>
           </EnteteSection>
           <div class="liees__grille">
-            {liees.map((l) => {
-              const p = PHOTOS_FORMATIONS[l.slug]
-              return (
-                <CarteFormation
-                  titre={l.nomCourt}
-                  resume={l.resume}
-                  href={`/${l.slug}`}
-                  motif={l.visuel}
-                  photo={p?.src ?? null}
-                />
-              )
-            })}
+            {liees.map((l) => (
+              <CarteFormation titre={l.nomCourt} resume={l.resume} href={`/${l.slug}`} motif={l.visuel} />
+            ))}
           </div>
         </div>
       </section>
