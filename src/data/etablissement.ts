@@ -121,16 +121,36 @@ export const ETABLISSEMENT = {
    */
   labels: [
     {
-      nom: 'Qualiopi',
-      detail: 'Processus certifié, au titre des actions de formation.',
-      lien: null,
-    },
-    {
       nom: 'École conduite qualité',
       detail: 'Le label qualité de l’État pour les écoles de conduite.',
+      explication:
+        'Créé par l’arrêté du 26 février 2018, il est accordé aux écoles agréées qui respectent des critères de qualité : objectifs de formation adaptés à chaque élève, accueil, suivi et évaluation, moyens pédagogiques, formation des enseignants, information du public et prise en compte de l’avis des élèves.',
+      lien: 'https://www.centre-inffo.fr/site-droit-formation/actualites-droit/creation-d-un-label-qualite-pour-les-formations-au-sein-des-auto-ecoles',
+    },
+    {
+      nom: 'Qualiopi',
+      detail: 'Processus certifié, au titre des actions de formation.',
+      explication:
+        'La certification qualité des organismes de formation, exigée pour qu’une formation puisse être financée par le compte personnel de formation (CPF).',
       lien: null,
     },
-  ] as ReadonlyArray<{ nom: string; detail: string; lien: string | null }>,
+  ] as ReadonlyArray<{ nom: string; detail: string; explication: string; lien: string | null }>,
+
+  /**
+   * La garantie financière : remboursement des prestations payées d’avance et
+   * non consommées si l’école ne peut plus exécuter ses contrats (fermeture
+   * définitive ou d’au moins 3 mois). `null` tant que le garant n’est pas
+   * communiqué ; renseignée, elle s’affiche sur l’accueil et la page qualité.
+   */
+  garantieFinanciere: null as { garant: string } | null,
+
+  /**
+   * Un taux de réussite, UNIQUEMENT s’il est fourni par l’établissement avec
+   * sa source (l’État ne publie plus de taux par école). `null` : rien ne
+   * s’affiche. Exemple de forme : { categorie: 'B', taux: 70, annee: 2025,
+   * source: 'Bilan transmis par la préfecture' }.
+   */
+  tauxReussite: null as { categorie: string; taux: number; annee: number; source: string } | null,
 
   /**
    * Le paiement en plusieurs fois, annoncé sur la vitrine (« 3X sans frais »).

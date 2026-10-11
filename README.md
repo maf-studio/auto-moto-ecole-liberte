@@ -2,9 +2,9 @@
 
 Site de l’Auto-Moto École Liberté, 44 boulevard de la Liberté, 93260 Les Lilas. Réalisé par MAF Studio.
 
-- **27 pages** : accueil, deux pages rubriques (permis auto, permis moto), 11 pages formations (dont 1 en
-  brouillon), financement, tarifs, documents d’inscription, à propos, avis, contact, pages légales, plan du
-  site, 404.
+- **28 pages** : accueil, deux pages rubriques (permis auto, permis moto), 11 pages formations (dont 1 en
+  brouillon), financement, tarifs, documents d’inscription, à propos, démarche qualité, avis, contact, pages
+  légales, plan du site, 404.
 - **Direction artistique** reprise du dépliant de l’établissement : bleu nuit, bleu pétrole, capitales condensées,
   bandeaux inclinés, lignes de route en pointillés, signature manuscrite « depuis 2010 ».
 - **Rien d’inventé** : chaque information inconnue vaut `null` et ce qui en dépend disparaît. Les prix lus sur la
@@ -51,6 +51,7 @@ Tout le contenu est dans `src/data/` : voir **[MODIFIER-LE-CONTENU.md](./MODIFIE
 | Sources officielles et date de vérification | `src/data/sources.ts` |
 | Photos associées aux formations | `src/data/photos.ts` |
 | Menus | `src/data/navigation.ts` |
+| Documents qualité du label (PDF) | `src/data/qualite.ts` |
 
 ## Composants
 
@@ -116,7 +117,7 @@ du client.
 
 ## Accessibilité et performance
 
-- Contrôle axe (WCAG 2.2 AA) sans violation sur les 27 adresses, à 360 et 1440 px ; aucun débordement horizontal.
+- Contrôle axe (WCAG 2.2 AA) sans violation sur les 28 adresses, à 360 et 1440 px ; aucun débordement horizontal.
 - Navigation au clavier, lien d’évitement, anneau de focus visible, sous-menus au clavier (Échap), menu mobile
   natif (`popover`), FAQ en `details`, contrastes calculés (voir l’en-tête de `global.css`).
 - Mouvement : révélations jouées une fois sous la ligne de flottaison, transitions de page natives, tout coupé

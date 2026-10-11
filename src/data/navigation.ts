@@ -63,6 +63,7 @@ export const MENU: readonly EntreeMenu[] = [
     sousMenu: [
       { libelle: 'L’auto-école', href: '/a-propos', description: 'Aux Lilas depuis 2010' },
       { libelle: 'Avis des élèves', href: '/avis-clients', description: 'Notre note Google' },
+      { libelle: 'Démarche qualité', href: '/demarche-qualite', description: 'Label, certification, agrément' },
     ],
   },
   { libelle: 'Contact', href: '/contact' },

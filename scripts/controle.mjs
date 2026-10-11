@@ -8,7 +8,7 @@ const routes = [
   '/', '/permis-auto', '/permis-moto', '/code-de-la-route', '/permis-b', '/permis-automatique',
   '/conduite-accompagnee', '/conduite-supervisee', '/passerelle-boite-manuelle', '/permis-a1', '/permis-a2',
   '/passerelle-a2-a', '/formation-125', '/permis-am', '/financement', '/tarifs', '/documents-inscription',
-  '/a-propos', '/avis-clients', '/contact', '/demande-envoyee', '/demande-erreur', '/mentions-legales',
+  '/a-propos', '/avis-clients', '/demarche-qualite', '/contact', '/demande-envoyee', '/demande-erreur', '/mentions-legales',
   '/confidentialite', '/cookies', '/plan-du-site', '/page-inexistante',
 ]
 const navigateur = await chromium.launch(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH } : {})

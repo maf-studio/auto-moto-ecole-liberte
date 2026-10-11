@@ -70,6 +70,14 @@ export const SOURCES = {
     titre: 'Comment financer votre permis de conduire ? (economie.gouv.fr, 2 mars 2026)',
     url: 'https://www.economie.gouv.fr/particuliers/comment-financer-permis-conduire',
   },
+  regionIdf: {
+    titre: 'Aide au permis de la Région Île-de-France (iledefrance.fr)',
+    url: 'https://www.iledefrance.fr/aide-permis',
+  },
+  seineSaintDenis: {
+    titre: 'Aide départementale au permis de conduire, Seine-Saint-Denis (Mes aides, France Travail)',
+    url: 'https://mes-aides.francetravail.fr/mobilite/financer-vos-permis/departement-seine-saint-denis/aide-departementale-au-permis-de-conduire-seine-saint-denis',
+  },
   ants: {
     titre: 'ANTS : permis de conduire, demande d’inscription (numéro NEPH)',
     url: 'https://permisdeconduire.ants.gouv.fr/',

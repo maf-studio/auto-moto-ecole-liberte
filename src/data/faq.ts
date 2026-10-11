@@ -61,9 +61,14 @@ export const FAQ_ACCUEIL: readonly Question[] = [
     lien: { libelle: 'Demander un devis', href: '/contact' },
   },
   {
-    question: 'Proposez-vous des formations moto ?',
+    question: 'Combien de temps faut-il pour obtenir son permis ?',
     reponse:
-      'Oui : permis A1 et A2, passerelle A2 vers A, formation 125 cm³ pour les titulaires du permis B, et permis AM dès 14 ans.',
+      'Cela dépend de votre disponibilité et de votre progression : le code d’abord, puis au moins 20 heures de conduite (13 en boîte automatique), et l’examen pratique selon les places attribuées. L’évaluation de départ donne une première estimation.',
+  },
+  {
+    question: 'Quels permis préparez-vous ?',
+    reponse:
+      'Le code de la route ; le permis B en boîte manuelle ou automatique, la conduite accompagnée et la passerelle vers la boîte manuelle ; côté moto, les permis A1 et A2, la passerelle A2 vers A, la formation 125 cm³ et le permis AM.',
     lien: { libelle: 'Les permis moto', href: '/permis-moto' },
   },
 ]
@@ -88,6 +93,12 @@ export const FAQ_FINANCEMENT: readonly Question[] = [
     question: 'Qui contacter pour le permis à 1 € par jour ?',
     reponse:
       'Commencez par nous : nous établissons le contrat de formation. Vous le présentez ensuite à une banque partenaire du dispositif, qui décide d’accorder le prêt.',
+  },
+  {
+    question: 'Existe-t-il des aides en Île-de-France ?',
+    reponse:
+      'Le chèque permis de la Région, pour les 18-25 ans en formation ou en recherche d’emploi, n’accepte plus de demandes depuis le 22 mai 2026 ; une nouvelle aide est annoncée pour l’automne 2026, sur l’application LABAZ. Le Département de la Seine-Saint-Denis propose aussi une aide, par l’intermédiaire des missions locales et des CCAS.',
+    lien: { libelle: 'La page de la Région', href: 'https://www.iledefrance.fr/aide-permis' },
   },
   {
     question: 'Comment savoir à quelles aides j’ai droit ?',

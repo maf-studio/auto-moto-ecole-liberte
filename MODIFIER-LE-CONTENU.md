@@ -19,6 +19,9 @@ Règle d’or : **ne jamais inventer**. Une information inconnue s’écrit `nul
 - **Labels** : `labels` (nom et détail). Une liste vide retire la section.
 - **Paiement en plusieurs fois** : `paiementPlusieursFois.conditions`, une phrase sur les modalités exactes.
 - **Équipe** : `equipe` (prénom, rôle, photo). La section apparaît dès qu’une personne est ajoutée, avec son accord.
+- **Garantie financière** : `garantieFinanciere` (`{ garant: 'Nom du garant' }`). Elle s’affiche sur l’accueil et
+  la page Démarche qualité.
+- **Taux de réussite** : `tauxReussite`, seulement avec sa source (catégorie, taux, année, source).
 - **Mentions légales** : `legal` (raison sociale, SIRET, directeur de la publication, médiateur…).
 
 ## Le logo
@@ -62,6 +65,11 @@ mettent à jour seules.
 ## Les questions fréquentes : `src/data/faq.ts`
 
 Questions de l’accueil et du financement. Les questions propres à une formation sont dans `formations.ts`.
+
+## Les documents qualité : `src/data/qualite.ts`
+
+Déposer le PDF dans `public/documents/`, puis écrire son adresse dans `fichier`
+(`'/documents/reglement-interieur.pdf'`). Seuls les documents fournis apparaissent sur la page Démarche qualité.
 
 ## Les avis : `src/data/avis.ts`
 

@@ -30,6 +30,19 @@ Ce que le site attend du client avant d’être ouvert au public. `pnpm check:pu
 - [ ] **Réseaux sociaux** : adresses exactes. Le site affiche Instagram et Snapchat « @ame.liberte », déduits du
       dépliant ; le troisième code QR du dépliant n’est pas identifié.
 
+- [ ] **Garantie financière** : nom du garant (une école labellisée en a une, d’après les sites spécialisés). Elle
+      s’affiche dès qu’elle est renseignée.
+- [ ] **Taux de réussite** : l’État ne publie plus de taux par école. Si l’établissement veut afficher le sien, il
+      le fournit avec sa source (année, catégorie) ; sinon rien ne s’affiche.
+- [ ] **Note VroomVroom** : le dépliant affiche des étoiles VroomVroom ; à fournir (note, nombre d’avis, date) si
+      on veut la citer.
+- [ ] **Documents qualité** du label (règlement intérieur, procédures d’évaluation B et A, organisation de la
+      formation, déroulement des examens, handicap, réclamations) : les PDF, pour les publier sur la page
+      « Démarche qualité ».
+- [ ] **Handicap** : ce que l’établissement peut proposer (véhicule adapté, accompagnement), pour l’écrire.
+- [ ] **Lieu d’examen** et **partenaires** (concessionnaires, éditeur de code) : à fournir si on veut les citer,
+      comme le fait le site de référence.
+
 ## Fichiers à fournir
 
 - [ ] **Logo** en fichier source (SVG ou PDF vectoriel). À demander à l’agence qui a créé le dépliant
@@ -47,6 +60,10 @@ Ce que le site attend du client avant d’être ouvert au public. `pnpm check:pu
 - **CPF** : depuis février 2026, le CPF ne finance plus le permis B, A1 ou A2 pour tout le monde (demandeurs
   d’emploi, ou salariés avec un cofinancement d’au moins 100 €, dans la limite de 900 €). Les mentions « éligible
   au CPF » sont à nuancer.
+
+- **« Quand tu vérifies tes rétros et tes aides sur LABAZ, 1 000 € pour ton permis »** : le chèque permis de la
+  Région Île-de-France n’accepte plus de demandes depuis le 22 mai 2026 ; une nouvelle aide est annoncée pour
+  l’automne 2026 (iledefrance.fr/aide-permis). Le site le dit ainsi.
 
 ## Différence entre le brief et le dépliant
 

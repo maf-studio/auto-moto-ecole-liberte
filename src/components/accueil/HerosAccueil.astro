@@ -18,13 +18,16 @@ const note = e.noteGoogle
 
   <div class="conteneur heros__grille">
     <div class="heros__texte">
-      <p class="heros__badge">
-        <span class="heros__badge-texte">Auto-moto école aux Lilas</span>
-        <span class="signature heros__badge-signature">depuis {e.anneeCreation}</span>
-      </p>
-      <h1 id="titre-heros" class="heros__titre">
-        Votre permis.<br />
-        <span class="accent">Votre liberté.</span>
+      {/* Le titre porte la recherche locale (« auto-moto école aux Lilas »), puis le slogan. */}
+      <h1 id="titre-heros" class="heros__h1">
+        <span class="heros__badge">
+          <span class="heros__badge-texte">Auto-moto école aux Lilas</span>{' '}
+          <span class="signature heros__badge-signature">depuis {e.anneeCreation}</span>
+        </span>{' '}
+        <span class="heros__titre">
+          Votre permis.<br />
+          <span class="accent">Votre liberté.</span>
+        </span>
       </h1>
       <p class="chapo heros__chapo">
         Prenez la route en toute confiance avec Auto-Moto École Liberté. Des formations auto et moto adaptées à votre
@@ -37,6 +40,10 @@ const note = e.noteGoogle
         </a>
         <a class="bouton bouton--contour-clair" href="/contact#demande">Demander un devis</a>
       </div>
+      <a class="heros__tel" href={e.telephone.lien}>
+        <Icone nom="telephone" />
+        <span>Une question ? Appelez-nous au <strong>{e.telephone.affiche}</strong></span>
+      </a>
 
       {
         note && (
@@ -128,6 +135,10 @@ const note = e.noteGoogle
     align-items: center;
   }
 
+  .heros__h1 {
+    margin: 0;
+  }
+
   .heros__badge {
     display: inline-flex;
     flex-wrap: wrap;
@@ -142,6 +153,7 @@ const note = e.noteGoogle
 
   .heros__badge-texte {
     font-family: var(--police-titre);
+    line-height: 1.3;
     font-size: 0.98rem;
     font-weight: 700;
     letter-spacing: 0.14em;
@@ -154,6 +166,7 @@ const note = e.noteGoogle
   }
 
   .heros__titre {
+    display: block;
     font-size: var(--taille-heros);
     line-height: 0.9;
     letter-spacing: 0;
@@ -177,8 +190,39 @@ const note = e.noteGoogle
     text-wrap: balance;
   }
 
-  .heros__note {
+  .heros__tel {
     display: inline-flex;
+    align-items: center;
+    gap: var(--e-3);
+    margin-block-start: var(--e-5);
+    color: var(--sur-nuit-doux);
+    text-decoration: none;
+  }
+
+  .heros__tel strong {
+    color: var(--sur-nuit);
+    font-family: var(--police-titre);
+    font-size: 1.3rem;
+    letter-spacing: 0.03em;
+  }
+
+  .heros__tel :global(svg) {
+    flex: none;
+    width: 2.4rem;
+    height: 2.4rem;
+    padding: 0.6rem;
+    border-radius: 50%;
+    background: var(--petrole-fonce);
+    color: var(--blanc);
+  }
+
+  .heros__tel:hover strong {
+    color: var(--petrole-clair);
+  }
+
+  .heros__note {
+    display: flex;
+    width: fit-content;
     align-items: center;
     gap: var(--e-3);
     margin-block-start: var(--e-6);

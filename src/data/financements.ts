@@ -7,6 +7,9 @@ import type { CleSource } from './sources.ts'
  * elle est faite, sous quelles conditions, et renvoie vers la source officielle.
  * Règles vérifiées le 11 octobre 2026 (voir `sources.ts`).
  *
+ * Suspendue : le chèque permis de la Région Île-de-France (LABAZ), fermé aux
+ * nouvelles demandes le 22 mai 2026, réouverture annoncée à l’automne 2026.
+ *
  * Retirées du site, et à NE PAS remettre sans vérification :
  *   - l’aide au permis B de France Travail (jusqu’à 1 200 €) : supprimée le
  *     1er avril 2026 (economie.gouv.fr). L’autocollant de la vitrine est à retirer ;
@@ -87,18 +90,19 @@ export const FINANCEMENTS: readonly Financement[] = [
     id: 'autres-aides',
     titre: 'Les autres aides possibles',
     resume:
-      'Selon votre âge, votre situation et votre commune, d’autres aides peuvent exister : employeur, collectivités, missions locales.',
+      'Selon votre âge et votre situation, d’autres aides existent : Région Île-de-France, Département de la Seine-Saint-Denis, employeur.',
     mention: 'À étudier au cas par cas',
     pourQui: 'Toute personne qui prépare un permis, selon les dispositifs ouverts là où elle habite.',
     points: [
-      'Certaines collectivités (région, département, commune) aident au permis, souvent en échange d’un engagement citoyen.',
+      'Région Île-de-France : le « chèque permis » des 18-25 ans en formation ou en recherche d’emploi n’accepte plus de demandes depuis le 22 mai 2026 ; une nouvelle aide est annoncée pour l’automne 2026, sur l’application LABAZ.',
+      'Seine-Saint-Denis : le Département propose une aide au permis aux jeunes accompagnés par une structure relais (mission locale, CCAS de la commune).',
       'Un employeur peut participer au financement, notamment avec le CPF.',
       'Le simulateur « Mes aides » de France Travail recense les aides selon votre profil.',
       'L’aide au permis B que versait France Travail a été supprimée le 1er avril 2026.',
     ],
     demarche:
       'Faites une simulation sur « Mes aides », puis venez nous voir avec le résultat : nous préparons les pièces que l’organisme demande à l’auto-école.',
-    sources: ['mesAides', 'aides', 'economie'],
+    sources: ['regionIdf', 'seineSaintDenis', 'mesAides', 'economie'],
     formations: null,
   },
 ]

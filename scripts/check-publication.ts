@@ -38,6 +38,10 @@ if (/logoFichier: null/.test(etablissement)) aConfirmer.push('Logo : fichier sou
 if (/geo: null/.test(etablissement)) aConfirmer.push('Coordonnées GPS non relevées (données structurées sans géolocalisation)')
 if (/capital: null/.test(etablissement)) aConfirmer.push('Capital social (si société)')
 if (/tva: null/.test(etablissement)) aConfirmer.push('Numéro de TVA intracommunautaire (le cas échéant)')
+if (/garantieFinanciere: null/.test(etablissement)) aConfirmer.push('Garantie financière : garant à renseigner')
+const qualite = lire('src/data/qualite.ts')
+const docsManquants = (qualite.match(/fichier: null \}/g) ?? []).length
+if (docsManquants > 0) aConfirmer.push(`${docsManquants} document(s) qualité du label sans fichier (page Démarche qualité)`)
 if (/conditions: null/.test(etablissement)) aConfirmer.push('Modalités exactes du paiement en 3 fois')
 if (/instagram\.com\/ame\.liberte/.test(etablissement)) aConfirmer.push('Adresses Instagram et Snapchat (@ame.liberte, déduites du dépliant)')
 
