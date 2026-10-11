@@ -88,17 +88,23 @@ automatiquement (`?formation=permis-b` dans l’adresse la présélectionne).
 
 ## Mise en ligne sur Vercel (pas à pas)
 
-Le site vit pour l’instant dans le dépôt de MAF Studio, dans `clients/auto-moto-ecole-liberte/`. Il est autonome
-(son propre `package.json`, son propre `pnpm-workspace.yaml`) et peut être déplacé tel quel dans un dépôt au nom
-du client.
+Le site a son propre dépôt GitHub, privé : `maf-studio/auto-moto-ecole-liberte`, le site à la racine. Les
+réglages de build sont dans `vercel.json` (Astro, pnpm, fonctions à Paris : `cdg1`).
 
-1. Vercel → **Add New… → Project** → importer le dépôt.
-2. **Root Directory** : `clients/auto-moto-ecole-liberte`. Framework : Astro (détecté). Laisser les commandes par défaut.
-3. **Environment Variables** (voir `.env.example`) : `EMAIL_PROVIDER`, `RESEND_API_KEY` (ou `BREVO_API_KEY`),
-   `CONTACT_TO`, `CONTACT_FROM`, `FORM_SECRET` (`openssl rand -hex 32`).
-4. Chez Resend (ou Brevo) : vérifier le domaine d’expédition, puis renseigner `CONTACT_FROM` sur ce domaine.
-5. Déployer. Les pages sont statiques : **après tout ajout de variable, redéployer** pour que les formulaires
-   apparaissent.
+Compte Vercel Hobby et dépôt privé : Vercel ne déploie que si l’auteur du dernier commit est le propriétaire du
+projet, le compte GitHub `maf-studio`. L’identité git du dépôt est donc
+`maf-studio <279308962+maf-studio@users.noreply.github.com>`.
+
+1. Vercel → **Add New… → Project** → importer `maf-studio/auto-moto-ecole-liberte`. S’il n’apparaît pas :
+   **Adjust GitHub App Permissions**, et cocher ce dépôt.
+2. **Root Directory** : laisser la racine. Framework : Astro (détecté). Ne rien changer aux commandes.
+3. **Deploy**. Sans variable d’environnement, le site se construit déjà : les formulaires y sont remplacés par
+   le téléphone et l’e-mail, et toutes les pages sont en `noindex`.
+4. Pour activer les formulaires, **Settings → Environment Variables** (voir `.env.example`) : `EMAIL_PROVIDER`,
+   `RESEND_API_KEY` (ou `BREVO_API_KEY`), `CONTACT_TO`, `CONTACT_FROM`, `FORM_SECRET` (`openssl rand -hex 32`).
+   Chez Resend (ou Brevo), vérifier d’abord le domaine d’expédition, puis renseigner `CONTACT_FROM` sur ce domaine.
+5. Les pages sont statiques : **après tout ajout de variable, redéployer** (Deployments → ⋯ → Redeploy) pour que
+   les formulaires apparaissent.
 6. Domaine : l’ajouter dans **Settings → Domains**, puis renseigner `SITE_URL=https://www.le-domaine.fr` et
    redéployer. Tant que le site tourne sur `*.vercel.app`, toutes les pages sont en `noindex` et `robots.txt`
    ferme l’accès : une maquette présentée au client n’entre jamais dans Google.

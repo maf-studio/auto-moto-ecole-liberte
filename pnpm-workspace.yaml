@@ -1,5 +1,4 @@
-# Projet autonome : ce fichier en fait sa propre racine pnpm, indépendante du
-# site de MAF Studio qui l'héberge pour l'instant dans son dépôt.
+# Projet autonome : ce fichier en fait sa propre racine pnpm.
 
 overrides:
   'path-to-regexp@>=6.0.0 <6.3.0': 6.3.0
