@@ -1,0 +1,118 @@
+---
+import { Image } from 'astro:assets'
+import { ETABLISSEMENT } from '../../data/etablissement.ts'
+
+/**
+ * Le logo de l’établissement.
+ *
+ * Tant que le fichier source n’est pas fourni (`ETABLISSEMENT.logoFichier`),
+ * il est reconstitué en SVG d’après le dépliant : la ligne de toit, la
+ * signature « depuis 2010 », « LIBERTÉ » en italique pétrole sur une ligne de
+ * route, et « AUTO MOTO ÉCOLE » en capitales espacées. Le pilote à moto du
+ * logo original n’est pas redessiné : il reviendra avec le fichier source.
+ *
+ * `id` : unique par page (dégradé SVG), `variante` : `sombre` sur fond nuit,
+ * `clair` sur fond blanc.
+ */
+interface Props {
+  id: string
+  variante?: 'sombre' | 'clair'
+  class?: string
+}
+
+const { id, variante = 'sombre', class: classe } = Astro.props
+const fichier = ETABLISSEMENT.logoFichier
+const tirets = Array.from({ length: 7 }, (_, i) => 206 + i * 14)
+---
+
+{
+  fichier ? (
+    <Image src={fichier} alt={ETABLISSEMENT.nom} class:list={['logo', classe]} loading="eager" />
+  ) : (
+    <svg
+      class:list={['logo', `logo--${variante}`, classe]}
+      viewBox="0 0 320 124"
+      role="img"
+      aria-label={ETABLISSEMENT.nom}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs>
+        <linearGradient id={`${id}-degrade`} x1="0" y1="0" x2="0" y2="1">
+          <stop class="logo__haut" offset="0" />
+          <stop class="logo__bas" offset="1" />
+        </linearGradient>
+      </defs>
+      <path
+        class="logo__trait"
+        d="M14 56C60 27 130 7 200 9c48 2 84 16 106 38-26-16-60-26-106-27-64-1-130 15-186 36Z"
+      />
+      <text class="logo__signature" x="176" y="38" text-anchor="middle">
+        depuis 2010
+      </text>
+      <text class="logo__nom" x="158" y="90" text-anchor="middle" fill={`url(#${id}-degrade)`}>
+        LIBERTÉ
+      </text>
+      <rect class="logo__trait" x="14" y="98" width="186" height="3.2" rx="1" />
+      {tirets.map((x) => (
+        <rect class="logo__trait" x={x} y="98" width="8" height="3.2" rx="1" />
+      ))}
+      <text class="logo__activite" x="163.5" y="121" text-anchor="middle">
+        AUTO MOTO ÉCOLE
+      </text>
+    </svg>
+  )
+}
+
+<style>
+  .logo {
+    display: block;
+    height: auto;
+    overflow: visible;
+  }
+
+  .logo__trait {
+    fill: var(--blanc);
+  }
+
+  .logo__haut {
+    stop-color: var(--logo-haut);
+  }
+
+  .logo__bas {
+    stop-color: var(--logo-bas);
+  }
+
+  .logo__signature {
+    font-family: var(--police-signature);
+    font-size: 19px;
+    fill: var(--blanc);
+  }
+
+  .logo__nom {
+    font-family: var(--police-titre-italique);
+    font-style: italic;
+    font-weight: 800;
+    font-size: 66px;
+    letter-spacing: 1px;
+    stroke: var(--blanc);
+    stroke-width: 1.4px;
+    paint-order: stroke fill;
+  }
+
+  .logo__activite {
+    font-family: var(--police-titre);
+    font-weight: 700;
+    font-size: 19.5px;
+    letter-spacing: 7px;
+    fill: var(--blanc);
+  }
+
+  .logo--clair .logo__trait,
+  .logo--clair .logo__activite {
+    fill: var(--nuit);
+  }
+
+  .logo--clair .logo__signature {
+    fill: var(--petrole-fonce);
+  }
+</style>

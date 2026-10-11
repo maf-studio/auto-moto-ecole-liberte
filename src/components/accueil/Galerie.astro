@@ -1,0 +1,154 @@
+---
+import { Picture } from 'astro:assets'
+import EnteteSection from '../ui/EnteteSection.astro'
+import facade from '../../assets/photos/facade.webp'
+import accueil from '../../assets/photos/accueil.png'
+import voiture from '../../assets/photos/voiture.webp'
+import moto from '../../assets/photos/moto.webp'
+
+/**
+ * Les lieux et les véhicules : uniquement des images de l’établissement
+ * (photos et visuels de son dépliant). Aucun modèle de véhicule n’est nommé,
+ * aucune personne n’est présentée sans photo ni accord.
+ */
+const images = [
+  {
+    src: facade,
+    alt: 'La façade de l’auto-école, boulevard de la Liberté aux Lilas',
+    legende: 'L’agence, 44 boulevard de la Liberté',
+    classe: 'galerie__item--grand',
+  },
+  {
+    src: accueil,
+    alt: 'L’espace d’accueil : mur bleu, canapé et fauteuils, documentation de la sécurité routière',
+    legende: 'L’espace d’accueil',
+    classe: 'galerie__item--haut',
+  },
+  {
+    src: voiture,
+    alt: 'Une voiture-école blanche aux couleurs de Liberté, avec son panneau « Auto-école » sur le toit',
+    legende: 'Voiture-école aux couleurs de Liberté',
+    classe: '',
+  },
+  {
+    src: moto,
+    alt: 'La moto-école, une moto noire aux jantes bleues',
+    legende: 'La moto-école',
+    classe: '',
+  },
+]
+---
+
+<section class="section section--gris galerie" aria-labelledby="titre-galerie">
+  <div class="conteneur">
+    <EnteteSection etiquette="L’auto-école" id="titre-galerie">
+      <Fragment slot="titre">Apprenez dans les <span class="accent">meilleures conditions</span></Fragment>
+      Une agence au cœur des Lilas, des voitures-écoles aux couleurs de Liberté et une moto-école pour les permis
+      deux-roues.
+    </EnteteSection>
+
+    <ul class="galerie__grille">
+      {
+        images.map((image, i) => (
+          <li class:list={['galerie__item', image.classe]} data-revele style={`--rang: ${i}`}>
+            <figure>
+              <Picture
+                src={image.src}
+                formats={['avif', 'webp']}
+          fallbackFormat="jpg"
+                widths={[360, 640, 960]}
+                sizes="(min-width: 64rem) 40vw, 100vw"
+                alt={image.alt}
+                class="galerie__image"
+              />
+              <figcaption>{image.legende}</figcaption>
+            </figure>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .galerie__grille {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--e-3);
+    list-style: none;
+  }
+
+  .galerie__item {
+    grid-column: span 2;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--rayon);
+    background: var(--nuit);
+  }
+
+  .galerie__item figure,
+  .galerie__item :global(picture) {
+    display: block;
+    height: 100%;
+    margin: 0;
+  }
+
+  .galerie__item :global(.galerie__image) {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    transition: transform var(--duree-longue) var(--courbe);
+  }
+
+  .galerie__item:hover :global(.galerie__image) {
+    transform: scale(1.03);
+  }
+
+  .galerie__item figcaption {
+    position: absolute;
+    inset-inline-start: var(--e-3);
+    inset-block-end: var(--e-3);
+    padding: 0.3rem 0.75rem;
+    border-radius: var(--rayon-s);
+    background: rgb(7 29 43 / 0.82);
+    color: var(--blanc);
+    font-size: var(--taille-petit);
+    font-weight: 600;
+  }
+
+  @media (min-width: 40rem) {
+    .galerie__item {
+      grid-column: span 1;
+    }
+
+    .galerie__item--grand {
+      grid-column: span 2;
+    }
+
+    .galerie__item--grand :global(.galerie__image) {
+      aspect-ratio: 16 / 9;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .galerie__grille {
+      grid-template-columns: 1.6fr 1fr 1fr;
+      grid-template-rows: repeat(2, minmax(13rem, 1fr));
+    }
+
+    .galerie__item--grand {
+      grid-column: 1;
+      grid-row: span 2;
+    }
+
+    .galerie__item--haut {
+      grid-row: span 2;
+    }
+
+    .galerie__item :global(.galerie__image),
+    .galerie__item--grand :global(.galerie__image) {
+      aspect-ratio: auto;
+    }
+  }
+</style>

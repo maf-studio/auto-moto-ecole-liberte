@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro'
+import PageMessage from '../components/sections/PageMessage.astro'
+import Icone from '../components/ui/Icone.astro'
+import { ETABLISSEMENT } from '../data/etablissement.ts'
+---
+
+<Base titre="Demande envoyée" description="Votre demande a bien été transmise à l’Auto-Moto École Liberté, aux Lilas." noindex>
+  <PageMessage icone="coche" ton="succes">
+    <Fragment slot="titre">Demande <span class="accent">envoyée</span></Fragment>
+    <p>Merci ! Votre demande est bien arrivée. Nous vous recontactons par téléphone ou par e-mail, aux horaires du bureau.</p>
+    <p>Pour une question urgente : {ETABLISSEMENT.telephone.affiche}.</p>
+    <Fragment slot="actions">
+      <a class="bouton bouton--clair" href="/">Retour à l’accueil</a>
+      <a class="bouton bouton--contour-clair" href="/documents-inscription">
+        <Icone nom="document" /> Préparer mon dossier
+      </a>
+    </Fragment>
+  </PageMessage>
+</Base>
