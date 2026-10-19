@@ -1,9 +1,13 @@
 ---
 import Icone, { type NomIcone } from '../ui/Icone.astro'
+import LogoTiers from '../ui/LogoTiers.astro'
 import { FINANCEMENTS, type Financement } from '../../data/financements.ts'
+import { LOGOS_FINANCEMENTS } from '../../data/logos.ts'
 
 /**
- * Les solutions de financement en cartes (accueil, pages formations).
+ * Les solutions de financement en cartes (accueil, pages formations). Celles
+ * qui ont un logo sur le flyer le montrent, sur un carreau blanc ; les autres,
+ * la pastille du flyer.
  * `ids` : la sélection à montrer, dans l’ordre ; toutes par défaut.
  */
 interface Props {
@@ -28,9 +32,15 @@ const ICONE: Record<Financement['id'], NomIcone> = {
   {
     liste.map((f, i) => (
       <li class="financement" data-revele style={`--rang: ${i}`}>
-        <span class="financement__icone">
-          <Icone nom={ICONE[f.id]} />
-        </span>
+        {LOGOS_FINANCEMENTS[f.id] ? (
+          <span class="financement__logo">
+            <LogoTiers logo={LOGOS_FINANCEMENTS[f.id]!} />
+          </span>
+        ) : (
+          <span class="pastille financement__pastille" aria-hidden="true">
+            <Icone nom={ICONE[f.id]} />
+          </span>
+        )}
         <p class="financement__mention">{f.mention}</p>
         <Titre class="financement__titre">
           <a href={`/financement#${f.id}`} class="carte__lien">
@@ -78,19 +88,25 @@ const ICONE: Record<Financement['id'], NomIcone> = {
     outline-offset: 3px;
   }
 
-  .financement__icone {
+  /* Le carreau blanc du logo, à hauteur fixe pour aligner les cartes. */
+  .financement__logo {
     display: grid;
     place-items: center;
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%;
-    background: var(--ciel);
-    color: var(--petrole-fonce);
+    align-self: flex-start;
+    height: 6.6rem;
+    padding: var(--e-2) var(--e-3);
+    border-radius: var(--rayon);
+    background: var(--blanc);
   }
 
-  .financement__icone :global(svg) {
-    width: 1.4rem;
-    height: 1.4rem;
+  .financement__logo :global(img) {
+    max-height: 100%;
+    width: auto;
+  }
+
+  .financement__pastille {
+    --taille: 4.2rem;
+    margin: 0.4rem 0 0.8rem 0.4rem;
   }
 
   .financement__mention {
@@ -138,9 +154,8 @@ const ICONE: Record<Financement['id'], NomIcone> = {
     outline-color: var(--petrole-clair);
   }
 
-  .financements--nuit .financement__icone {
-    background: var(--petrole-fonce);
-    color: var(--blanc);
+  .financements--nuit .financement__pastille {
+    outline-color: var(--petrole-clair);
   }
 
   .financements--nuit .financement__mention {

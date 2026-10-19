@@ -6,6 +6,7 @@ import Base from '../layouts/Base.astro'
 import FormulaireDemande from '../components/formulaire/FormulaireDemande.astro'
 import HerosPage from '../components/sections/HerosPage.astro'
 import Questions from '../components/sections/Questions.astro'
+import CarteFormule from '../components/tarifs/CarteFormule.astro'
 import CarteFormation from '../components/ui/CarteFormation.astro'
 import EnteteSection from '../components/ui/EnteteSection.astro'
 import Icone from '../components/ui/Icone.astro'
@@ -14,9 +15,10 @@ import { PHOTOS_FORMATIONS } from '../data/photos.ts'
 import { piecesPour } from '../data/documents.ts'
 import { ETABLISSEMENT } from '../data/etablissement.ts'
 import { financement } from '../data/financements.ts'
-import { FORMATIONS, formation as trouver, prixAffiche, type Formation } from '../data/formations.ts'
+import { FORMATIONS, formation as trouver, type Formation } from '../data/formations.ts'
+import { DEFINITION_LECON } from '../data/tarifs.ts'
 import { DERNIERE_VERIFICATION, SOURCES } from '../data/sources.ts'
-import { dateLongue, euros } from '../lib/format.ts'
+import { dateLongue } from '../lib/format.ts'
 import { serviceEnvoiConfigure } from '../lib/demande/configuration.ts'
 
 export const getStaticPaths = (() =>
@@ -83,18 +85,19 @@ const sommaire = [
         Nous appeler
       </a>
     </Fragment>
-    <div slot="visuel" class="formation-visuel">
+    <div slot="visuel" class:list={['formation-visuel', { 'formation-visuel--portrait': photo?.portrait }]}>
       {
         photo ? (
           <Picture
             src={photo.src}
             formats={['avif', 'webp']}
-          fallbackFormat="jpg"
-            widths={[400, 640, 900]}
+            fallbackFormat="jpg"
+            widths={[480, 720, 1125]}
             sizes="(min-width: 64rem) 40vw, 100vw"
             alt={photo.alt}
             loading="eager"
             class="formation-visuel__image"
+            style={`object-position: ${photo.position}`}
           />
         ) : (
           <Visuel motif={f.visuel} class="formation-visuel__image" />
@@ -225,34 +228,13 @@ const sommaire = [
 
       <section class="bloc" aria-labelledby="tarifs">
         <h2 id="tarifs" class="bloc__titre">Tarifs et <span class="accent">financement</span></h2>
-        <ul class="tarifs">
-          {
-            f.tarifs.map((t) => {
-              const prix = prixAffiche(t)
-              return (
-                <li class="tarif carte">
-                  <div>
-                    <h3 class="tarif__nom">{t.libelle}</h3>
-                    {prix !== null && t.volume && <p class="tarif__volume">{t.volume}</p>}
-                  </div>
-                  <p class="tarif__prix">
-                    {prix !== null ? (
-                      <>
-                        {euros(prix)}
-                        <span>TTC</span>
-                      </>
-                    ) : (
-                      'Tarif sur demande'
-                    )}
-                  </p>
-                </li>
-              )
-            })
-          }
-        </ul>
+        <div class="formules">
+          {f.formules.map((fo) => <CarteFormule formule={fo} />)}
+        </div>
         <p class="bloc__texte texte-doux">
-          Prix TTC affichés en vitrine. Les forfaits sont exprimés en leçons : le devis précise leur durée, détaille
-          chaque prestation et s’ajuste au nombre d’heures estimé lors de l’évaluation de départ.
+          Tous nos tarifs sont indiqués TTC. {f.categorie === 'code' ? '' : `${DEFINITION_LECON} `}Le devis
+          s’ajuste au nombre de leçons estimé lors de l’évaluation de départ.{' '}
+          <a href="/tarifs">Tous les tarifs</a>
         </p>
         <a class="bouton" href={lienDevis}>Obtenir un devis personnalisé</a>
 
@@ -377,6 +359,11 @@ const sommaire = [
     width: 100%;
     aspect-ratio: 4 / 3;
     object-fit: cover;
+  }
+
+  .formation-visuel--portrait :global(.formation-visuel__image) {
+    aspect-ratio: 4 / 5;
+    max-height: 34rem;
   }
 
   .en-bref {
@@ -578,47 +565,13 @@ const sommaire = [
     font-size: 0.93rem;
   }
 
-  .tarifs {
+  .formules {
     display: grid;
-    gap: var(--e-3);
-    margin-block-end: var(--e-4);
-    list-style: none;
+    gap: var(--e-5);
+    margin-block-end: var(--e-5);
   }
 
-  .tarif {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--e-3) var(--e-5);
-    padding: var(--e-5);
-    box-shadow: none;
-  }
-
-  .tarif__nom {
-    font-size: 1.35rem;
-  }
-
-  .tarif__volume {
-    color: var(--texte-doux);
-    font-size: var(--taille-petit);
-  }
-
-  .tarif__prix {
-    font-family: var(--police-titre);
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--petrole-fonce);
-    text-transform: uppercase;
-  }
-
-  .tarif__prix span {
-    margin-inline-start: 0.3rem;
-    font-size: 0.9rem;
-    color: var(--texte-doux);
-  }
-
-  .tarifs + .bloc__texte {
+  .formules + .bloc__texte {
     margin-block-end: var(--e-5);
   }
 

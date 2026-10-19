@@ -97,7 +97,7 @@ export const FAQ_FINANCEMENT: readonly Question[] = [
   {
     question: 'Existe-t-il des aides en Île-de-France ?',
     reponse:
-      'Le chèque permis de la Région, pour les 18-25 ans en formation ou en recherche d’emploi, n’accepte plus de demandes depuis le 22 mai 2026 ; une nouvelle aide est annoncée pour l’automne 2026, sur l’application LABAZ. Le Département de la Seine-Saint-Denis propose aussi une aide, par l’intermédiaire des missions locales et des CCAS.',
+      'Le chèque permis de la Région, pour les 18-25 ans en formation ou en recherche d’emploi, n’accepte plus de demandes depuis le 22 mai 2026 ; la Région annonce sa réouverture début 2027, sous une nouvelle forme, sur l’application LABAZ. Le Département de la Seine-Saint-Denis propose aussi une aide, par l’intermédiaire des missions locales et des CCAS.',
     lien: { libelle: 'La page de la Région', href: 'https://www.iledefrance.fr/aide-permis' },
   },
   {

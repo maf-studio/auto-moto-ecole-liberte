@@ -1,5 +1,5 @@
 import { ETABLISSEMENT } from '../data/etablissement.ts'
-import { FORMATIONS_PUBLIEES, prixAffiche } from '../data/formations.ts'
+import { FORMATIONS_PUBLIEES, prixMinimum } from '../data/formations.ts'
 import { horairesSchema } from './horaires.ts'
 
 /**
@@ -41,11 +41,14 @@ export function ecoleJsonLd(site: URL, image: string | null) {
       '@type': 'OfferCatalog',
       name: 'Formations à la conduite',
       itemListElement: FORMATIONS_PUBLIEES.map((f) => {
-        const prix = f.tarifs.map(prixAffiche).find((p) => p !== null) ?? null
+        /* Le prix de départ des forfaits ; le code n’a que des prestations à la carte. */
+        const prix = f.categorie === 'code' ? null : prixMinimum(f)
         return {
           '@type': 'Offer',
           itemOffered: { '@type': 'Service', name: f.nom, url: new URL(`/${f.slug}`, site).href },
-          ...(prix !== null ? { price: String(prix), priceCurrency: 'EUR' } : {}),
+          ...(prix !== null
+            ? { priceSpecification: { '@type': 'PriceSpecification', minPrice: prix, priceCurrency: 'EUR' } }
+            : {}),
         }
       }),
     },

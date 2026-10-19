@@ -10,8 +10,8 @@
  * Guide de modification en français simple : MODIFIER-LE-CONTENU.md
  */
 
-import logoSombre from '../assets/marque/logo-liberte-sombre.png'
-import logoClair from '../assets/marque/logo-liberte-clair.png'
+import logoSombre from '../assets/marque/logo-liberte-sombre.svg'
+import logoClair from '../assets/marque/logo-liberte-clair.svg'
 
 export const ETABLISSEMENT = {
   nom: 'Auto-Moto École Liberté',
@@ -103,11 +103,11 @@ export const ETABLISSEMENT = {
   equipe: [] as ReadonlyArray<{ prenom: string; role: string; photo: ImageMetadata | null }>,
 
   /**
-   * Le logo officiel, détouré depuis l’image fournie par l’établissement
-   * (11 octobre 2026) : `sombre` pour les fonds nuit (noir passé en blanc),
-   * `clair` pour les fonds clairs (couleurs d’origine). Un fichier vectoriel
-   * (SVG) remplacera ces images s’il est un jour fourni. `null` : le site
-   * affiche la reconstitution en SVG du composant `ui/Logo.astro`.
+   * Le logo officiel, en vectoriel, tiré du fichier du graphiste
+   * (« AE LIBERTE - LOGOS - by positifdesign », reçu le 19 octobre 2026) :
+   * `sombre` pour les fonds nuit (sa version sur fond noir, fond retiré),
+   * `clair` pour les fonds clairs. `null` : le site affiche la reconstitution
+   * en SVG du composant `ui/Logo.astro`.
    */
   logoFichier: { sombre: logoSombre, clair: logoClair } as { sombre: ImageMetadata; clair: ImageMetadata } | null,
 

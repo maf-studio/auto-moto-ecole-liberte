@@ -8,7 +8,10 @@ import type { CleSource } from './sources.ts'
  * Règles vérifiées le 11 octobre 2026 (voir `sources.ts`).
  *
  * Suspendue : le chèque permis de la Région Île-de-France (LABAZ), fermé aux
- * nouvelles demandes le 22 mai 2026, réouverture annoncée à l’automne 2026.
+ * nouvelles demandes le 22 mai 2026. La FAQ LABAZ de la Région annonce une
+ * réouverture début 2027, sous une nouvelle forme (vérifié le 19 octobre 2026).
+ * Le flyer en montre encore le visuel « 1000 € pour ton permis » : il n’est pas
+ * repris sur le site tant que l’aide est fermée.
  *
  * Retirées du site, et à NE PAS remettre sans vérification :
  *   - l’aide au permis B de France Travail (jusqu’à 1 200 €) : supprimée le
@@ -102,7 +105,7 @@ export const FINANCEMENTS: readonly Financement[] = [
     mention: 'À étudier au cas par cas',
     pourQui: 'Toute personne qui prépare un permis, selon les dispositifs ouverts là où elle habite.',
     points: [
-      'Région Île-de-France : le « chèque permis » des 18-25 ans en formation ou en recherche d’emploi n’accepte plus de demandes depuis le 22 mai 2026 ; une nouvelle aide est annoncée pour l’automne 2026, sur l’application LABAZ.',
+      'Région Île-de-France : le « chèque permis » des 18-25 ans en formation ou en recherche d’emploi n’accepte plus de demandes depuis le 22 mai 2026 ; la Région annonce sa réouverture début 2027, sous une nouvelle forme, sur l’application LABAZ.',
       'Seine-Saint-Denis : le Département propose une aide au permis aux jeunes accompagnés par une structure relais (mission locale, CCAS de la commune).',
       'Un employeur peut participer au financement, notamment avec le CPF.',
       'Le simulateur « Mes aides » de France Travail recense les aides selon votre profil.',
@@ -110,7 +113,7 @@ export const FINANCEMENTS: readonly Financement[] = [
     ],
     demarche:
       'Faites une simulation sur « Mes aides », puis venez nous voir avec le résultat : nous préparons les pièces que l’organisme demande à l’auto-école.',
-    sources: ['regionIdf', 'seineSaintDenis', 'mesAides', 'economie'],
+    sources: ['regionIdf', 'labaz', 'seineSaintDenis', 'mesAides', 'economie'],
     formations: null,
   },
 ]

@@ -2,7 +2,7 @@
 import { Picture } from 'astro:assets'
 import EnteteSection from '../ui/EnteteSection.astro'
 import Icone from '../ui/Icone.astro'
-import facade from '../../assets/photos/facade.webp'
+import { PHOTOS } from '../../data/photos.ts'
 import { ETABLISSEMENT } from '../../data/etablissement.ts'
 
 const e = ETABLISSEMENT
@@ -12,13 +12,14 @@ const e = ETABLISSEMENT
   <div class="conteneur a-propos__grille">
     <figure class="a-propos__media" data-revele>
       <Picture
-        src={facade}
+        src={PHOTOS.attente.src}
         formats={['avif', 'webp']}
-          fallbackFormat="jpg"
-        widths={[480, 800, 1200]}
-        sizes="(min-width: 64rem) 48vw, 100vw"
-        alt="La façade de l’Auto-École Liberté, boulevard de la Liberté aux Lilas, avec ses tarifs en vitrine"
+        fallbackFormat="jpg"
+        widths={[480, 720, 1125]}
+        sizes="(min-width: 64rem) 40vw, 100vw"
+        alt={PHOTOS.attente.alt}
         class="a-propos__photo"
+        style={`object-position: ${PHOTOS.attente.position}`}
       />
       <figcaption class="a-propos__macaron">
         <span class="signature">depuis</span>
@@ -64,7 +65,8 @@ const e = ETABLISSEMENT
 
   .a-propos__media :global(.a-propos__photo) {
     width: 100%;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 4 / 5;
+    max-height: 40rem;
     object-fit: cover;
     border-radius: var(--rayon-l);
     box-shadow: var(--ombre-forte);

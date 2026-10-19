@@ -1,0 +1,33 @@
+---
+import { Image } from 'astro:assets'
+import type { Logo } from '../../data/logos.ts'
+
+/**
+ * Un logo du flyer (label ou financement), à sa largeur d’affichage, servi en
+ * deux densités pour rester net sur les écrans haute définition.
+ */
+interface Props {
+  logo: Logo
+  class?: string
+  /** `true` : le logo répète un texte voisin, il est caché aux lecteurs d’écran. */
+  decoratif?: boolean
+}
+
+const { logo, class: classe, decoratif = false } = Astro.props
+---
+
+<Image
+  src={logo.src}
+  alt={decoratif ? '' : logo.alt}
+  width={logo.largeur}
+  densities={[1, 1.5]}
+  class:list={['logo-tiers', classe]}
+  loading="lazy"
+/>
+
+<style>
+  .logo-tiers {
+    display: block;
+    height: auto;
+  }
+</style>

@@ -2,40 +2,43 @@
 import Base from '../layouts/Base.astro'
 import AppelFinal from '../components/sections/AppelFinal.astro'
 import HerosPage from '../components/sections/HerosPage.astro'
+import CarteFormule from '../components/tarifs/CarteFormule.astro'
 import EnteteSection from '../components/ui/EnteteSection.astro'
 import Icone from '../components/ui/Icone.astro'
 import { ETABLISSEMENT } from '../data/etablissement.ts'
-import { financement } from '../data/financements.ts'
-import { FORMATIONS_PUBLIEES, prixAffiche, type Categorie } from '../data/formations.ts'
+import { formation } from '../data/formations.ts'
+import { AUTRES_FORMATIONS, DEFINITION_LECON, GROUPES_TARIFS, PRESTATIONS_A_LA_CARTE } from '../data/tarifs.ts'
 import { euros } from '../lib/format.ts'
 
 /**
- * Les formules et leurs prix, lus dans `formations.ts` (`tarifs`). Un prix ne
- * s’affiche que s’il est confirmé (`verifie: true`) ; sinon « Tarif sur
- * demande ». Modifier un prix = modifier la donnée, jamais cette page.
+ * Les tarifs, dans l’ordre et la présentation du flyer : formules permis B,
+ * formules permis moto, autres formations, prestations à la carte. Les prix
+ * viennent de `formations.ts` et de `tarifs.ts` ; modifier un prix = modifier
+ * la donnée, jamais cette page.
  */
 const filAriane = [
   { libelle: 'Accueil', href: '/' },
   { libelle: 'Tarifs et devis', href: '/tarifs' },
 ]
 
-const rubriques: Array<{ cle: Categorie; titre: string }> = [
-  { cle: 'code', titre: 'Code de la route' },
-  { cle: 'auto', titre: 'Permis auto' },
-  { cle: 'moto', titre: 'Permis moto' },
-]
-const tousSurDemande = FORMATIONS_PUBLIEES.every((f) => f.tarifs.every((t) => prixAffiche(t) === null))
+const groupes = GROUPES_TARIFS.map((g) => ({
+  titre: g.titre,
+  formules: g.formules.map(({ formation: slug, rang }) => {
+    const f = formation(slug)
+    return { formule: f.formules[rang], lien: f.statut === 'publiee' ? `/${f.slug}` : null }
+  }),
+}))
 ---
 
 <Base
   titre="Tarifs auto-école aux Lilas : formules et devis"
-  description="Formules et tarifs de l’Auto-Moto École Liberté aux Lilas : code, permis B, boîte automatique, conduite accompagnée, permis moto. Devis personnalisé, prix TTC."
+  description="Les formules et tarifs TTC de l’Auto-Moto École Liberté aux Lilas : permis B, boîte automatique, conduite accompagnée, permis moto, passerelles, leçons à la carte."
   filAriane={filAriane}
 >
   <HerosPage filAriane={filAriane} surTitre="Tarifs et devis">
     <Fragment slot="titre">Nos formules <span class="accent">et tarifs</span></Fragment>
-    Le prix d’un permis dépend de la formation choisie et du nombre d’heures dont vous aurez besoin. Demandez un devis :
-    il détaille chaque prestation et son prix TTC.
+    Des forfaits complets, du dossier jusqu’à l’examen, et des leçons à la carte. Tous nos tarifs sont indiqués TTC ;
+    le devis s’ajuste au nombre de leçons estimé lors de l’évaluation de départ.
     <Fragment slot="actions">
       <a class="bouton bouton--clair" href="/contact#demande">
         Obtenir un devis personnalisé <Icone nom="fleche" />
@@ -46,94 +49,126 @@ const tousSurDemande = FORMATIONS_PUBLIEES.every((f) => f.tarifs.every((t) => pr
     </Fragment>
   </HerosPage>
 
-  {
-    rubriques.map((r, i) => {
-      const formations = FORMATIONS_PUBLIEES.filter((f) => f.categorie === r.cle)
-      return (
-        <section class:list={['section section--serree', { 'section--gris': i % 2 === 1 }]} aria-labelledby={`tarifs-${r.cle}`}>
-          <div class="conteneur">
-            <h2 id={`tarifs-${r.cle}`} class="rubrique-titre">
-              {r.titre}
+  <div class="section section--gris tarifs">
+    <div class="conteneur">
+      {
+        groupes.map((g, i) => (
+          <section class="groupe" aria-labelledby={`groupe-${i}`}>
+            <h2 id={`groupe-${i}`} class="bandeau-titre">
+              {g.titre}
             </h2>
-            <ul class="formules">
-              {formations.flatMap((f) =>
-                f.tarifs.map((t) => {
-                  const prix = prixAffiche(t)
-                  return (
-                    <li class="formule carte" data-revele>
-                      <div class="formule__tete">
-                        <h3 class="formule__nom">{f.tarifs.length > 1 ? t.libelle : f.nom}</h3>
-                        <p class="formule__description">{f.resume}</p>
-                      </div>
-                      <div class="formule__prix">
-                        {prix !== null ? (
-                          <>
-                            <span class="formule__montant">{euros(prix)}</span>
-                            <span class="formule__ttc">TTC{t.volume && ` · ${t.volume}`}</span>
-                          </>
-                        ) : (
-                          <span class="formule__demande">Tarif sur demande</span>
-                        )}
-                      </div>
-                      <ul class="formule__financements" aria-label="Financements possibles">
-                        {f.financements.map((id) => (
-                          <li>{financement(id).titre.replace(/^Le |^Les /, '')}</li>
-                        ))}
-                      </ul>
-                      <div class="formule__actions">
-                        <a class="bouton bouton--petit" href={`/contact?formation=${f.slug}#demande`}>
-                          Obtenir un devis
-                        </a>
-                        <a class="lien-fleche" href={`/${f.slug}`}>
-                          La formation <Icone nom="fleche" />
-                        </a>
-                      </div>
-                    </li>
-                  )
-                }),
-              )}
-            </ul>
-          </div>
-        </section>
-      )
-    })
-  }
+            <div class:list={['groupe__formules', `groupe__formules--${g.formules.length}`]}>
+              {g.formules.map(({ formule, lien }) => (
+                <CarteFormule formule={formule} lien={lien} />
+              ))}
+            </div>
+          </section>
+        ))
+      }
+
+      <section class="groupe" aria-labelledby="groupe-autres">
+        <h2 id="groupe-autres" class="bandeau-titre">Autres formations</h2>
+        <ul class="autres">
+          {
+            AUTRES_FORMATIONS.map((a) => (
+              <li class="autre">
+                <h3 class="autre__titre">
+                  {a.formation ? <a href={`/${a.formation}`}>{a.titre}</a> : a.titre}
+                </h3>
+                <p class="barre-prix">
+                  <span class="barre-prix__libelle">{a.detail}</span>
+                  <span class="barre-prix__montant">
+                    {a.supplement ? '+ ' : ''}
+                    {euros(a.prixTTC)}
+                    <span class="barre-prix__ttc">TTC</span>
+                  </span>
+                </p>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="tarifs__note">
+          Conduite supervisée : tarif sur demande. Le forfait code (6 mois) est compris dans chaque formule ; le code
+          seul se prend à la carte (pack web, livre de code). Plus de détails sur nos formations sont disponibles à
+          l’agence.
+        </p>
+      </section>
+
+      <section class="groupe" aria-labelledby="groupe-carte">
+        <h2 id="groupe-carte" class="bandeau-titre">Prestations à la carte</h2>
+        <div class="table-defile" tabindex="0" role="region" aria-labelledby="groupe-carte">
+          <table class="carte-prix">
+            <thead>
+              <tr>
+                <th scope="col">Prestation</th>
+                <th scope="col">
+                  <span class="carte-prix__boite">
+                    <Icone nom="vitesses" /> Boîte manuelle
+                  </span>
+                </th>
+                <th scope="col">
+                  <span class="carte-prix__boite">
+                    <span class="carte-prix__prnd" aria-hidden="true">PRND</span> Boîte automatique
+                  </span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                PRESTATIONS_A_LA_CARTE.map((p) => (
+                  <tr>
+                    <th scope="row">{p.libelle}</th>
+                    {'prix' in p ? (
+                      <td colspan="2" class="carte-prix__prix">
+                        {euros(p.prix)}
+                      </td>
+                    ) : (
+                      <>
+                        <td class="carte-prix__prix">{euros(p.manuelle)}</td>
+                        <td class="carte-prix__prix">{euros(p.automatique)}</td>
+                      </>
+                    )}
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+        <p class="tarifs__note">
+          <strong>{DEFINITION_LECON}</strong> Tous nos tarifs sont indiqués TTC.
+        </p>
+      </section>
+    </div>
+  </div>
 
   <section class="section" aria-labelledby="titre-prix">
-    <div class="conteneur prix-explications">
+    <div class="conteneur">
       <EnteteSection etiquette="Bon à savoir" id="titre-prix">
         <Fragment slot="titre">Ce qui fait <span class="accent">varier le prix</span></Fragment>
       </EnteteSection>
       <ul class="explications">
         <li>
-          <Icone nom="volant" />
+          <span class="pastille explications__pastille" aria-hidden="true"><Icone nom="volant" /></span>
           <h3>L’évaluation de départ</h3>
-          <p>Obligatoire avant la formation pratique, elle estime le nombre d’heures adapté à votre profil.</p>
+          <p>Obligatoire avant la formation pratique, elle estime le nombre de leçons adapté à votre profil.</p>
         </li>
         <li>
-          <Icone nom="horloge" />
-          <h3>Le nombre d’heures</h3>
+          <span class="pastille explications__pastille" aria-hidden="true"><Icone nom="horloge" /></span>
+          <h3>Le nombre de leçons</h3>
           <p>La loi fixe un minimum (20 heures en boîte manuelle, 13 en automatique) ; chacun avance à son rythme.</p>
         </li>
         <li>
-          <Icone nom="vitesses" />
+          <span class="pastille explications__pastille" aria-hidden="true"><Icone nom="vitesses" /></span>
           <h3>La boîte de vitesses</h3>
-          <p>Boîte manuelle ou automatique : le minimum d’heures, et donc le budget, ne sont pas les mêmes.</p>
+          <p>Boîte manuelle ou automatique : le minimum de leçons, et donc le budget, ne sont pas les mêmes.</p>
         </li>
         <li>
-          <Icone nom="tirelire" />
+          <span class="pastille explications__pastille" aria-hidden="true"><Icone nom="tirelire" /></span>
           <h3>Le financement</h3>
           <p>Paiement en 3 fois sans frais, permis à 1 € par jour, CPF selon votre situation.</p>
           <a class="lien-fleche" href="/financement">Les solutions <Icone nom="fleche" /></a>
         </li>
       </ul>
-      <p class="mention-prix texte-doux">
-        {
-          tousSurDemande
-            ? 'Les prix sont communiqués sur devis, toutes taxes comprises.'
-            : 'Prix toutes taxes comprises (TTC), tels qu’affichés en vitrine. Les forfaits sont exprimés en leçons : le devis précise leur durée et détaille chaque prestation.'
-        }
-      </p>
     </div>
   </section>
 
@@ -141,118 +176,142 @@ const tousSurDemande = FORMATIONS_PUBLIEES.every((f) => f.tarifs.every((t) => pr
 </Base>
 
 <style>
-  .rubrique-titre {
+  .groupe + .groupe {
+    margin-block-start: clamp(3rem, 2rem + 3vw, 5rem);
+  }
+
+  .bandeau-titre {
     margin-block-end: var(--e-6);
-    font-size: clamp(1.9rem, 1.5rem + 1.6vw, 2.7rem);
   }
 
-  .formules {
+  .groupe__formules {
+    display: grid;
+    gap: var(--e-5);
+    align-items: start;
+  }
+
+  .autres {
     display: grid;
     gap: var(--e-4);
     list-style: none;
   }
 
-  .formule {
+  .autre {
     display: grid;
-    gap: var(--e-4);
-    padding: var(--e-5);
-    overflow: hidden;
-  }
-
-  .formule::before {
-    content: '';
-    position: absolute;
-    inset-block-start: 0;
-    inset-inline: 0;
-    height: 4px;
-    background-image: repeating-linear-gradient(90deg, var(--petrole) 0 16px, transparent 16px 26px);
-  }
-
-  .formule__nom {
-    font-size: 1.5rem;
-  }
-
-  .formule__description {
-    margin-block-start: var(--e-2);
-    color: var(--texte-doux);
-    font-size: 0.95rem;
-  }
-
-  .formule__prix {
-    display: grid;
-    padding-block: var(--e-3);
-    border-block: 1px dashed var(--filet);
-  }
-
-  .formule__montant {
-    font-family: var(--police-titre);
-    font-size: 2.6rem;
-    font-weight: 800;
-    line-height: 1;
-    color: var(--nuit);
-  }
-
-  .formule__ttc {
-    font-size: var(--taille-petit);
-    color: var(--texte-doux);
-  }
-
-  .formule__demande {
-    font-family: var(--police-titre);
-    font-size: 1.6rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    color: var(--petrole-fonce);
-  }
-
-  .formule__financements {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--e-2);
-    list-style: none;
-  }
-
-  .formule__financements li {
-    padding: 0.15rem 0.6rem;
-    border-radius: 999px;
-    background: var(--ciel-voile);
-    color: var(--petrole-tres-fonce);
-    font-size: var(--taille-mini);
-    font-weight: 700;
-  }
-
-  .formule__financements li::first-letter {
-    text-transform: uppercase;
-  }
-
-  .formule__actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
     gap: var(--e-3);
-    margin-block-start: auto;
+    align-content: start;
+    padding: var(--e-5);
+    border-radius: var(--rayon-l);
+    background: var(--gris-carte);
+  }
+
+  .autre__titre {
+    font-size: clamp(1.5rem, 1.3rem + 0.7vw, 1.9rem);
+  }
+
+  .autre__titre a {
+    color: var(--encre);
+    text-decoration-color: var(--petrole);
+  }
+
+  .tarifs__note {
+    max-width: var(--largeur-texte);
+    margin-block-start: var(--e-5);
+    color: var(--texte-doux);
+  }
+
+  .tarifs__note strong {
+    color: var(--encre);
+    font-weight: 600;
+  }
+
+  /* La table « prestations à la carte » du flyer : lignes claires et noires. */
+  .table-defile {
+    overflow-x: auto;
+    border-radius: var(--rayon);
+  }
+
+  .carte-prix {
+    width: 100%;
+    min-width: 34rem;
+    border-collapse: separate;
+    border-spacing: 0 6px;
+    font-family: var(--police-titre);
+    font-size: 1.15rem;
+  }
+
+  .carte-prix thead th {
+    padding: 0.7rem 1rem;
+    background: var(--noir);
+    color: var(--blanc);
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .carte-prix thead th:first-child {
+    text-align: start;
+  }
+
+  .carte-prix__boite {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+
+  .carte-prix__boite :global(svg) {
+    width: 1.3em;
+    height: 1.3em;
+  }
+
+  .carte-prix__prnd {
+    font-size: 0.8em;
+    letter-spacing: 0.04em;
+  }
+
+  .carte-prix tbody th {
+    padding: 0.55rem 1rem;
+    font-weight: 600;
+    text-align: start;
+    background: var(--blanc);
+    color: var(--encre);
+  }
+
+  .carte-prix tbody tr:nth-child(even) th {
+    background: var(--noir);
+    color: var(--blanc);
+  }
+
+  .carte-prix__prix {
+    width: 9rem;
+    padding: 0.55rem 1rem;
+    background: var(--petrole-fonce);
+    color: var(--blanc);
+    font-size: 1.3rem;
+    font-weight: 700;
+    text-align: center;
+    white-space: nowrap;
+    border-inline-start: 6px solid var(--gris);
   }
 
   .explications {
     display: grid;
-    gap: var(--e-5);
+    gap: var(--e-6);
     list-style: none;
   }
 
   .explications li {
     display: grid;
-    gap: var(--e-2);
+    gap: var(--e-3);
     align-content: start;
+    justify-items: start;
   }
 
-  .explications :global(svg) {
-    width: 2.75rem;
-    height: 2.75rem;
-    padding: 0.65rem;
-    border-radius: 50%;
-    background: var(--ciel);
-    color: var(--petrole-fonce);
+  .explications__pastille {
+    --taille: 3.6rem;
+    margin: 0.4rem 0 var(--e-2) 0.4rem;
   }
 
   .explications h3 {
@@ -263,20 +322,17 @@ const tousSurDemande = FORMATIONS_PUBLIEES.every((f) => f.tarifs.every((t) => pr
     color: var(--texte-doux);
   }
 
-  .mention-prix {
-    margin-block-start: var(--e-6);
-    font-size: var(--taille-petit);
-  }
-
   @media (min-width: 40rem) {
-    .formules,
+    .groupe__formules,
+    .autres,
     .explications {
       grid-template-columns: repeat(2, 1fr);
     }
   }
 
   @media (min-width: 64rem) {
-    .formules {
+    .groupe__formules--3,
+    .autres {
       grid-template-columns: repeat(3, 1fr);
     }
 

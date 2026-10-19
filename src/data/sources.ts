@@ -78,6 +78,10 @@ export const SOURCES = {
     titre: 'Aide au permis de la Région Île-de-France (iledefrance.fr)',
     url: 'https://www.iledefrance.fr/aide-permis',
   },
+  labaz: {
+    titre: 'L’application LABAZ, FAQ jeunes : réouverture de l’aide au permis (iledefrance.fr)',
+    url: 'https://www.iledefrance.fr/toutes-les-faq/lapplication-mobile-labaz-faq-jeunes',
+  },
   seineSaintDenis: {
     titre: 'Aide départementale au permis de conduire, Seine-Saint-Denis (Mes aides, France Travail)',
     url: 'https://mes-aides.francetravail.fr/mobilite/financer-vos-permis/departement-seine-saint-denis/aide-departementale-au-permis-de-conduire-seine-saint-denis',

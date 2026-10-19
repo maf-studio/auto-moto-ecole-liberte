@@ -2,33 +2,41 @@
  * ============================================================================
  * AUTO-MOTO ÉCOLE LIBERTÉ : le système de styles
  * ============================================================================
- * Direction artistique tirée du dépliant de l’établissement : bleu nuit,
- * bleu pétrole, capitales condensées, bandeaux inclinés, lignes de route
- * en pointillés, signature manuscrite « depuis 2010 ».
+ * Direction artistique du flyer de l’établissement (positifdesign, reçu le
+ * 19 octobre 2026) : fond de couverture bleu nuit qui tombe au noir, turquoise
+ * #398BA6 des bandeaux et des barres de prix, gris clair des pages et des
+ * cartes, blocs noirs, pastilles turquoise à liseré pointillé, étiquettes
+ * noires inclinées, capitales condensées, lignes de route en pointillés,
+ * signature manuscrite « depuis 2010 ».
  *
  * Aucune couleur en dur dans les composants : uniquement ces variables.
  * Contrastes calculés (WCAG AA) :
- *   blanc sur --petrole-fonce      5,83:1   (boutons, étiquettes)
- *   --petrole-fonce sur blanc      5,83:1   (liens, petits accents)
- *   --petrole sur blanc            3,89:1   → décor, ou texte ≥ 24 px gras
- *   --petrole-clair sur --nuit     8,99:1   (accents sur fond sombre)
- *   --texte-doux sur blanc         6,95:1 ; sur --gris 6,41:1 ; sur --ciel 5,75:1
- *   --sur-nuit-doux sur --nuit-2   7,29:1
+ *   blanc sur --petrole-fonce      5,83:1   (boutons, barres de prix, étiquettes)
+ *   blanc sur --petrole            3,89:1   → texte ≥ 24 px gras (bandeaux titres)
+ *   --petrole-fonce sur blanc      5,83:1 ; sur --gris 4,72:1 (liens)
+ *   --petrole-tres-fonce sur --gris-carte 5,35:1 (liens dans les cartes grises)
+ *   --petrole-clair sur --nuit     7,4:1    (accents sur fond sombre)
+ *   --texte-doux sur blanc 6,95:1 ; sur --gris 5,68:1 ; sur --gris-carte 4,88:1
+ *   --sur-nuit-doux sur --nuit     8,2:1
  */
 
 :root {
   /* Couleurs de la marque */
-  --nuit: #071d2b;
-  --nuit-2: #0c2a3d;
-  --nuit-3: #143a52;
+  --nuit: #062b3a;
+  --nuit-2: #0a3647;
+  --nuit-3: #12455b;
+  --nuit-noir: #0f0e14;
+  --noir: #1d1d1d;
   --petrole: #398ba4;
   --petrole-fonce: #256d85;
   --petrole-tres-fonce: #1b5669;
   --petrole-clair: #7cc6dc;
   --ciel: #d9edf3;
   --ciel-voile: #eef7fa;
-  --gris: #f4f6f7;
-  --filet: #dde5e9;
+  --gris: #e6e6e6;
+  --gris-carte: #d6d6d6;
+  --gris-ligne: #cdcdcd;
+  --filet: #d3d9dc;
   --bord-champ: #6b7b86;
   --filet-nuit: rgb(255 255 255 / 0.12);
   --encre: #20252b;
@@ -80,8 +88,12 @@
   --rayon: 12px;
   --rayon-l: 20px;
   --biais: -10deg;
-  --ombre: 0 1px 2px rgb(7 29 43 / 0.05), 0 10px 30px -12px rgb(7 29 43 / 0.18);
-  --ombre-forte: 0 2px 4px rgb(7 29 43 / 0.06), 0 24px 48px -20px rgb(7 29 43 / 0.35);
+  --ombre: 0 1px 2px rgb(6 43 58 / 0.05), 0 10px 30px -12px rgb(6 43 58 / 0.18);
+  --ombre-forte: 0 2px 4px rgb(6 43 58 / 0.06), 0 24px 48px -20px rgb(6 43 58 / 0.35);
+  /* Le fond de la couverture du flyer : bleu nuit en haut, presque noir en bas. */
+  --fond-couverture:
+    radial-gradient(60% 70% at 80% 15%, rgb(57 139 166 / 0.3), transparent 65%),
+    linear-gradient(180deg, var(--nuit) 0%, var(--nuit-noir) 100%);
 
   /* Mouvement (miroir : src/lib/mouvement.ts) */
   --duree-courte: 160ms;
@@ -246,8 +258,11 @@ textarea {
   padding-block: calc(var(--section) * 0.6);
 }
 
+/* Le gris des pages du flyer, avec ses grands reflets en diagonale. */
 .section--gris {
-  background: var(--gris);
+  background:
+    linear-gradient(115deg, transparent 0 58%, rgb(255 255 255 / 0.32) 58% 70%, transparent 70%),
+    var(--gris);
 }
 
 .section--ciel {
@@ -487,6 +502,150 @@ a:hover .lien-fleche svg {
 .carte:has(.carte__lien:focus-visible) {
   outline: 3px solid var(--petrole-fonce);
   outline-offset: 3px;
+}
+
+/* -------------------------------------------------------------- Éléments du flyer */
+
+/* Le bandeau titre turquoise du flyer (« FORMULES PERMIS B ») : capitales
+   espacées, bord droit en biais. Texte ≥ 24 px gras : blanc sur --petrole. */
+.bandeau-titre {
+  display: block;
+  margin: 0;
+  padding: 0.5em 1.2em 0.48em;
+  background: var(--petrole);
+  color: var(--blanc);
+  font-family: var(--police-titre);
+  font-size: clamp(1.6rem, 1.25rem + 1.5vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-transform: uppercase;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 0.55em) 100%, 0 100%);
+}
+
+/* La pastille ronde du flyer : disque turquoise, pictogramme blanc, liseré
+   pointillé blanc à l’intérieur et turquoise à l’extérieur. Décorative. */
+.pastille {
+  --taille: 4.5rem;
+  position: relative;
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: var(--taille);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--petrole);
+  color: var(--blanc);
+  outline: 2px dashed var(--petrole);
+  outline-offset: 4px;
+}
+
+.pastille::before {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border: 2px dashed rgb(255 255 255 / 0.8);
+  border-radius: 50%;
+}
+
+.pastille svg {
+  width: 50%;
+  height: 50%;
+}
+
+/* L’étiquette noire inclinée du flyer (« BOITE MANUELLE »). */
+.etiquette-noire {
+  display: inline-block;
+  padding: 0.28em 0.75em 0.24em;
+  background: var(--noir);
+  color: var(--blanc);
+  font-family: var(--police-titre);
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transform: rotate(-2deg);
+}
+
+/* Les barres de prix du flyer : « ● 20 LEÇONS ……… 1 090 € TTC ». */
+.barres-prix {
+  display: grid;
+  gap: var(--e-2);
+  list-style: none;
+}
+
+.barre-prix {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--e-3);
+  padding: 0.5rem 0.9rem;
+  background: var(--petrole-fonce);
+  color: var(--blanc);
+  font-family: var(--police-titre);
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.barres-prix > li:nth-child(even) .barre-prix {
+  background: var(--noir);
+}
+
+.barre-prix__libelle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.barre-prix__libelle::before {
+  content: '';
+  flex: none;
+  width: 0.62em;
+  height: 0.62em;
+  border-radius: 50%;
+  background: var(--blanc);
+}
+
+.barre-prix__montant {
+  font-size: 1.12em;
+  white-space: nowrap;
+}
+
+.barre-prix__ttc {
+  margin-inline-start: 0.15em;
+  font-size: 0.5em;
+  letter-spacing: 0.04em;
+  vertical-align: 0.35em;
+}
+
+.barre-prix--demande .barre-prix__montant {
+  font-size: 0.85em;
+}
+
+/* La liste « ce que comprend la formule » du flyer : lignes alternées. */
+.liste-formule {
+  list-style: none;
+  font-family: var(--police-titre);
+  font-size: 1.08rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.liste-formule li {
+  padding: 0.22rem 0.6rem;
+}
+
+.liste-formule li:nth-child(odd) {
+  background: rgb(0 0 0 / 0.045);
+}
+
+.liste-formule .liste-formule__fort {
+  color: var(--petrole-tres-fonce);
 }
 
 /* -------------------------------------------------------------- Motifs */

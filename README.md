@@ -4,8 +4,11 @@ Site de l’Auto-Moto École Liberté, 44 boulevard de la Liberté, 93260 Les Li
 
 - **28 pages** : accueil, deux pages rubriques (permis auto, permis moto), 11 pages formations, financement, tarifs, documents d’inscription, à propos, démarche qualité, avis, contact, pages
   légales, plan du site, 404.
-- **Direction artistique** reprise du dépliant de l’établissement : bleu nuit, bleu pétrole, capitales condensées,
-  bandeaux inclinés, lignes de route en pointillés, signature manuscrite « depuis 2010 ».
+- **Direction artistique** du flyer de l’établissement (positifdesign) : fond de couverture bleu nuit qui tombe au
+  noir, turquoise des bandeaux et des barres de prix, gris clair des pages, blocs noirs, pastilles à liseré
+  pointillé, étiquettes noires inclinées, capitales condensées, lignes de route en pointillés, signature
+  manuscrite « depuis 2010 ». Logo officiel en vectoriel, photos des locaux et des véhicules, logos des labels et
+  des financements.
 - **Rien d’inventé** : chaque information inconnue vaut `null` et ce qui en dépend disparaît. Les prix sont ceux de
   la vitrine (TTC), les mentions légales celles du Registre national des entreprises. Les règles (âges, durées,
   aides) citent leur source officielle.
@@ -43,13 +46,15 @@ Tout le contenu est dans `src/data/` : voir **[MODIFIER-LE-CONTENU.md](./MODIFIE
 | Donnée | Fichier |
 |---|---|
 | Coordonnées, horaires, note Google, réseaux, labels, logo, mentions légales, WhatsApp, équipe | `src/data/etablissement.ts` |
-| Catalogue des formations (une entrée = une page), tarifs, statut publié ou brouillon | `src/data/formations.ts` |
+| Catalogue des formations (une entrée = une page), formules et prix du flyer, statut publié ou brouillon | `src/data/formations.ts` |
+| Page Tarifs : ordre des groupes, autres formations, prestations à la carte, définition de la leçon | `src/data/tarifs.ts` |
+| Logos des labels et des financements | `src/data/logos.ts` |
 | Solutions de financement | `src/data/financements.ts` |
 | Documents d’inscription | `src/data/documents.ts` |
 | FAQ de l’accueil et du financement | `src/data/faq.ts` |
 | Avis Google cités | `src/data/avis.ts` |
 | Sources officielles et date de vérification | `src/data/sources.ts` |
-| Photos associées aux formations | `src/data/photos.ts` |
+| Photos des locaux et des véhicules, et leur place en haut des formations | `src/data/photos.ts` |
 | Menus | `src/data/navigation.ts` |
 | Documents qualité du label (PDF) | `src/data/qualite.ts` |
 
@@ -63,7 +68,10 @@ Tout le contenu est dans `src/data/` : voir **[MODIFIER-LE-CONTENU.md](./MODIFIE
 | Hero | `components/accueil/HerosAccueil.astro`, `components/sections/HerosPage.astro` |
 | TrustBar | `components/accueil/BandeConfiance.astro` |
 | FormationCard, FormationDetail | `components/ui/CarteFormation.astro`, `pages/[formation].astro` |
-| FinancingCard | `components/sections/CartesFinancement.astro` |
+| FinancingCard | `components/sections/CartesFinancement.astro` (avec le logo du financement) |
+| Formules du flyer (page Tarifs, pages formations) | `components/tarifs/CarteFormule.astro` |
+| Logos des labels et financements | `components/sections/BandeauLogos.astro`, `components/ui/LogoTiers.astro` |
+| Véhicules | `components/sections/Vehicules.astro` |
 | ReviewSection | `components/sections/AvisGoogle.astro` |
 | FAQAccordion | `components/sections/Questions.astro` |
 | ContactForm, QuoteForm | `components/formulaire/FormulaireDemande.astro` (un seul formulaire, trois variantes) |

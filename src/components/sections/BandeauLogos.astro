@@ -1,0 +1,94 @@
+---
+import LogoTiers from '../ui/LogoTiers.astro'
+import { FINANCEMENTS } from '../../data/financements.ts'
+import { LOGOS_FINANCEMENTS, LOGOS_LABELS } from '../../data/logos.ts'
+
+/**
+ * La rangée de logos du flyer : les labels (École conduite qualité, Qualiopi,
+ * Sécurité routière) et les financements (Mon Compte Formation, 3 fois sans
+ * frais, permis à un euro par jour), chacun sur un carreau blanc. La mention
+ * exigée par la charte Qualiopi est écrite dessous.
+ */
+const financements = FINANCEMENTS.flatMap((f) => {
+  const logo = LOGOS_FINANCEMENTS[f.id]
+  return logo ? [{ id: f.id, logo }] : []
+})
+const mentionQualiopi = LOGOS_LABELS.find((l) => l.mention)?.mention ?? null
+---
+
+<section class="logos" aria-labelledby="titre-logos">
+  <div class="conteneur">
+    <h2 id="titre-logos" class="logos__titre">Labels et financements</h2>
+    <ul class="logos__liste">
+      {
+        LOGOS_LABELS.map((l) => (
+          <li class="logos__carreau">
+            <LogoTiers logo={l} />
+          </li>
+        ))
+      }
+      {
+        financements.map((f) => (
+          <li class="logos__carreau">
+            <a href={`/financement#${f.id}`} class="logos__lien">
+              <LogoTiers logo={f.logo} />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    {mentionQualiopi && <p class="logos__mention">Qualiopi : {mentionQualiopi.charAt(0).toLowerCase() + mentionQualiopi.slice(1)}</p>}
+  </div>
+</section>
+
+<style>
+  .logos {
+    padding-block: var(--e-7) var(--e-6);
+  }
+
+  .logos__titre {
+    margin-block-end: var(--e-5);
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-align: center;
+    color: var(--texte-doux);
+  }
+
+  .logos__liste {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--e-3);
+    list-style: none;
+  }
+
+  .logos__carreau {
+    display: grid;
+    place-items: center;
+    min-width: 7.5rem;
+    height: 7rem;
+    padding: var(--e-3);
+    border: 1px solid var(--filet);
+    border-radius: var(--rayon);
+    background: var(--blanc);
+  }
+
+  .logos__carreau :global(img) {
+    max-height: 5.6rem;
+    width: auto;
+  }
+
+  .logos__lien {
+    display: block;
+    border-radius: var(--rayon-s);
+  }
+
+  .logos__mention {
+    max-width: var(--largeur-texte);
+    margin: var(--e-4) auto 0;
+    color: var(--texte-doux);
+    font-size: var(--taille-petit);
+    text-align: center;
+  }
+</style>

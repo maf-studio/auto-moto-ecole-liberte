@@ -8,7 +8,7 @@ import Questions from '../components/sections/Questions.astro'
 import CarteFormation from '../components/ui/CarteFormation.astro'
 import EnteteSection from '../components/ui/EnteteSection.astro'
 import Icone from '../components/ui/Icone.astro'
-import moto from '../assets/photos/moto.jpg'
+import { PHOTOS } from '../data/photos.ts'
 import '../styles/rubrique.css'
 import { ETABLISSEMENT } from '../data/etablissement.ts'
 import { formationsDe } from '../data/formations.ts'
@@ -71,15 +71,16 @@ const questions: Question[] = [
         <Icone nom="telephone" /> Nous appeler
       </a>
     </Fragment>
-    <div slot="visuel" class="hub-visuel">
+    <div slot="visuel" class="hub-visuel hub-visuel--portrait">
       <Picture
-        src={moto}
+        src={PHOTOS.moto.src}
         formats={['avif', 'webp']}
-          fallbackFormat="jpg"
-        widths={[330, 537]}
+        fallbackFormat="jpg"
+        widths={[480, 720, 1125]}
         sizes="(min-width: 64rem) 40vw, 100vw"
-        alt="La moto-école de Liberté"
+        alt={PHOTOS.moto.alt}
         loading="eager"
+        style={`object-position: ${PHOTOS.moto.position}`}
       />
     </div>
   </HerosPage>

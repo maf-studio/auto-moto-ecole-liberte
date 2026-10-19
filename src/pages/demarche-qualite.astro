@@ -4,7 +4,9 @@ import AppelFinal from '../components/sections/AppelFinal.astro'
 import HerosPage from '../components/sections/HerosPage.astro'
 import EnteteSection from '../components/ui/EnteteSection.astro'
 import Icone from '../components/ui/Icone.astro'
+import LogoTiers from '../components/ui/LogoTiers.astro'
 import { ETABLISSEMENT } from '../data/etablissement.ts'
+import { LOGOS_LABELS } from '../data/logos.ts'
 import { DOCUMENTS_PUBLIES } from '../data/qualite.ts'
 
 const e = ETABLISSEMENT
@@ -41,14 +43,23 @@ const criteres = [
       </EnteteSection>
       <div class="labels-grille">
         {
-          e.labels.map((l) => (
+          e.labels.map((l) => {
+            const logo = LOGOS_LABELS.find((x) => x.nom === l.nom)
+            return (
             <article class="carte label-carte">
-              <span class="label-carte__icone">
-                <Icone nom="label" />
-              </span>
+              {logo ? (
+                <span class="label-carte__logo">
+                  <LogoTiers logo={logo} decoratif />
+                </span>
+              ) : (
+                <span class="label-carte__icone">
+                  <Icone nom="label" />
+                </span>
+              )}
               <h3>{l.nom}</h3>
               <p class="label-carte__detail">{l.detail}</p>
               <p class="texte-doux">{l.explication}</p>
+              {logo?.mention && <p class="texte-doux label-carte__mention">{logo.mention}</p>}
               {l.lien && (
                 <a class="lien-fleche" href={l.lien} target="_blank" rel="noopener">
                   Le texte du label <Icone nom="externe" />
@@ -56,7 +67,8 @@ const criteres = [
                 </a>
               )}
             </article>
-          ))
+            )
+          })
         }
         <article class="carte label-carte">
           <span class="label-carte__icone"><Icone nom="bouclier" /></span>
@@ -154,6 +166,21 @@ const criteres = [
 </Base>
 
 <style>
+  .label-carte__logo {
+    display: grid;
+    place-items: center start;
+    height: 6.2rem;
+  }
+
+  .label-carte__logo :global(img) {
+    max-height: 100%;
+    width: auto;
+  }
+
+  .label-carte__mention {
+    font-size: var(--taille-petit);
+  }
+
   .labels-grille {
     display: grid;
     gap: var(--e-4);

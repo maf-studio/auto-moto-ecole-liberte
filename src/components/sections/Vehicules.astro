@@ -1,0 +1,101 @@
+---
+import { Picture } from 'astro:assets'
+import EnteteSection from '../ui/EnteteSection.astro'
+import { PHOTOS } from '../../data/photos.ts'
+
+/**
+ * Les véhicules de l’auto-école : trois photos au même format, côte à côte
+ * sur ordinateur, en rangée qui défile sur téléphone. Une étiquette noire du
+ * flyer pour légende.
+ */
+interface Props {
+  id?: string
+  gris?: boolean
+}
+
+const { id = 'titre-vehicules', gris = false } = Astro.props
+const vehicules = [
+  { photo: PHOTOS.voitureNoire, legende: 'Voiture-école' },
+  { photo: PHOTOS.voitureGrise, legende: 'Voiture-école' },
+  { photo: PHOTOS.moto, legende: 'Moto-école' },
+]
+---
+
+<section class:list={['section vehicules', { 'section--gris': gris }]} aria-labelledby={id}>
+  <div class="conteneur">
+    <EnteteSection etiquette="Nos véhicules" id={id}>
+      <Fragment slot="titre">En voiture <span class="accent">comme à moto</span></Fragment>
+      Les leçons de conduite se font sur nos voitures-écoles, équipées d’une double commande, et sur notre moto-école.
+    </EnteteSection>
+    <ul class="vehicules__liste" aria-label="Photos de nos véhicules" tabindex="0" data-lenis-prevent-horizontal>
+      {
+        vehicules.map(({ photo, legende }) => (
+          <li class="vehicule">
+            <figure>
+              <Picture
+                src={photo.src}
+                formats={['avif', 'webp']}
+                fallbackFormat="jpg"
+                widths={[360, 540, 720]}
+                sizes="(min-width: 64rem) 25rem, 78vw"
+                alt={photo.alt}
+                class="vehicule__photo"
+                style={`object-position: ${photo.position}`}
+              />
+              <figcaption class="etiquette-noire vehicule__legende">{legende}</figcaption>
+            </figure>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .vehicules__liste {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 78%;
+    gap: var(--e-4);
+    margin-inline: calc(-1 * var(--gouttiere));
+    padding: var(--e-2) var(--gouttiere) var(--e-4);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gouttiere);
+    list-style: none;
+  }
+
+  .vehicule {
+    scroll-snap-align: start;
+  }
+
+  .vehicule figure {
+    position: relative;
+    margin: 0;
+  }
+
+  .vehicule :global(.vehicule__photo) {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    border-radius: var(--rayon-l);
+    box-shadow: var(--ombre);
+  }
+
+  .vehicule__legende {
+    position: absolute;
+    inset-inline-start: var(--e-4);
+    inset-block-end: var(--e-4);
+  }
+
+  @media (min-width: 48rem) {
+    .vehicules__liste {
+      grid-auto-flow: row;
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-columns: auto;
+      margin-inline: 0;
+      padding: 0;
+      overflow: visible;
+    }
+  }
+</style>

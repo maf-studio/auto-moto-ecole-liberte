@@ -3,12 +3,14 @@ import { Picture } from 'astro:assets'
 import Base from '../layouts/Base.astro'
 import AppelFinal from '../components/sections/AppelFinal.astro'
 import HerosPage from '../components/sections/HerosPage.astro'
+import Vehicules from '../components/sections/Vehicules.astro'
 import EnteteSection from '../components/ui/EnteteSection.astro'
 import Etoiles from '../components/ui/Etoiles.astro'
 import Icone from '../components/ui/Icone.astro'
-import facade from '../assets/photos/facade.webp'
-import accueil from '../assets/photos/accueil.png'
+import LogoTiers from '../components/ui/LogoTiers.astro'
 import { ETABLISSEMENT } from '../data/etablissement.ts'
+import { LOGOS_LABELS } from '../data/logos.ts'
+import { PHOTOS } from '../data/photos.ts'
 import { noteFr } from '../lib/format.ts'
 
 const e = ETABLISSEMENT
@@ -31,13 +33,14 @@ const filAriane = [
     </Fragment>
     <div slot="visuel" class="apropos-visuel">
       <Picture
-        src={facade}
+        src={PHOTOS.bureau.src}
         formats={['avif', 'webp']}
-          fallbackFormat="jpg"
-        widths={[480, 800]}
+        fallbackFormat="jpg"
+        widths={[480, 720, 1125]}
         sizes="(min-width: 64rem) 40vw, 100vw"
-        alt="La façade de l’Auto-École Liberté, boulevard de la Liberté aux Lilas"
+        alt={PHOTOS.bureau.alt}
         loading="eager"
+        style={`object-position: ${PHOTOS.bureau.position}`}
       />
     </div>
   </HerosPage>
@@ -111,6 +114,13 @@ const filAriane = [
         e.labels.length > 0 && (
           <div class="labels">
             <h3 class="labels__titre">Démarche qualité</h3>
+            <ul class="labels__logos">
+              {LOGOS_LABELS.map((l) => (
+                <li>
+                  <LogoTiers logo={l} />
+                </li>
+              ))}
+            </ul>
             <ul>
               {e.labels.map((l) => (
                 <li>
@@ -122,6 +132,11 @@ const filAriane = [
                 </li>
               ))}
             </ul>
+            {LOGOS_LABELS.filter((l) => l.mention).map((l) => (
+              <p class="texte-doux labels__agrement">
+                {l.nom} : {l.mention}
+              </p>
+            ))}
             <p class="texte-doux labels__agrement">
               Établissement agréé par la préfecture, n° {e.agrement}. <a href="/demarche-qualite">Notre démarche qualité</a>
             </p>
@@ -135,12 +150,13 @@ const filAriane = [
     <div class="conteneur deux-colonnes deux-colonnes--centre">
       <div class="locaux-photo">
         <Picture
-          src={accueil}
+          src={PHOTOS.attente.src}
           formats={['avif', 'webp']}
           fallbackFormat="jpg"
-          widths={[400, 574]}
+          widths={[480, 720, 1125]}
           sizes="(min-width: 64rem) 30vw, 100vw"
-          alt="L’espace d’accueil de l’auto-école : mur bleu, canapé et fauteuils, documentation de la sécurité routière"
+          alt={PHOTOS.attente.alt}
+          style={`object-position: ${PHOTOS.attente.position}`}
         />
       </div>
       <div>
@@ -167,6 +183,8 @@ const filAriane = [
       </div>
     </div>
   </section>
+
+  <Vehicules gris />
 
   {
     e.equipe.length > 0 && (
@@ -300,6 +318,24 @@ const filAriane = [
     display: block;
   }
 
+  .labels ul.labels__logos {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--e-4);
+    margin-block-end: var(--e-5);
+  }
+
+  .labels .labels__logos li {
+    display: grid;
+    grid-template-columns: auto;
+    place-items: center;
+    height: 6.5rem;
+    padding: var(--e-3);
+    border-radius: var(--rayon);
+    background: var(--blanc);
+  }
+
   .labels__agrement {
     margin-block-start: var(--e-4);
     font-size: var(--taille-petit);
@@ -308,7 +344,7 @@ const filAriane = [
   .locaux-photo :global(img) {
     width: 100%;
     max-width: 26rem;
-    aspect-ratio: 574 / 1020;
+    aspect-ratio: 4 / 5;
     max-height: 34rem;
     object-fit: cover;
     border-radius: var(--rayon-l);
@@ -344,7 +380,7 @@ const filAriane = [
       grid-template-columns: repeat(3, 1fr);
     }
 
-    .labels ul {
+    .labels ul:not(.labels__logos) {
       grid-template-columns: 1fr 1fr;
     }
   }

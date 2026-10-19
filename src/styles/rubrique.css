@@ -11,6 +11,11 @@
     object-fit: cover;
   }
 
+  .hub-visuel--portrait img {
+    aspect-ratio: 4 / 5;
+    max-height: 34rem;
+  }
+
   .hub-grille {
     display: grid;
     gap: var(--e-5);

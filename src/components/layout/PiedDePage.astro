@@ -2,6 +2,8 @@
 import Horaires from '../ui/Horaires.astro'
 import Icone from '../ui/Icone.astro'
 import Logo from '../ui/Logo.astro'
+import LogoTiers from '../ui/LogoTiers.astro'
+import { LOGOS_LABELS } from '../../data/logos.ts'
 import { ETABLISSEMENT } from '../../data/etablissement.ts'
 import { formationsDe } from '../../data/formations.ts'
 
@@ -20,6 +22,15 @@ const annee = new Date().getFullYear()
         Auto-école et moto-école aux Lilas depuis {e.anneeCreation} : code de la route, permis B en boîte manuelle
         ou automatique, conduite accompagnée, permis moto A1 et A2.
       </p>
+      <ul class="pied__labels" aria-label="Labels">
+        {
+          LOGOS_LABELS.map((l) => (
+            <li>
+              <LogoTiers logo={{ ...l, largeur: Math.round(l.largeur * 0.62) }} />
+            </li>
+          ))
+        }
+      </ul>
       {
         e.reseaux.length > 0 && (
           <div class="pied__reseaux">
@@ -91,7 +102,7 @@ const annee = new Date().getFullYear()
   <div class="pied__bande">
     <div class="conteneur pied__bande-contenu">
       <p>
-        {e.nom} · N° d’agrément : {e.agrement} · © {annee}
+        {e.nom} · N° d’agrément : {e.agrement} · {e.adresse.rue}, {e.adresse.codePostal} {e.adresse.ville} · © {annee}
       </p>
       <ul>
         <li><a href="/mentions-legales">Mentions légales</a></li>
@@ -107,6 +118,29 @@ const annee = new Date().getFullYear()
   .pied {
     position: relative;
     margin-block-start: 0;
+    background: var(--fond-couverture);
+  }
+
+  .pied__labels {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--e-2);
+    margin-block-start: var(--e-5);
+    list-style: none;
+  }
+
+  .pied__labels li {
+    display: grid;
+    place-items: center;
+    height: 4.2rem;
+    padding: var(--e-2);
+    border-radius: var(--rayon-s);
+    background: var(--blanc);
+  }
+
+  .pied__labels :global(img) {
+    max-height: 3.4rem;
+    width: auto;
   }
 
   .pied__route {
@@ -258,9 +292,9 @@ const annee = new Date().getFullYear()
 
   .pied__bande p {
     font-family: var(--police-titre);
-    font-size: 1rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
     text-transform: uppercase;
   }
 

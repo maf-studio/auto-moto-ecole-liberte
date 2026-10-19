@@ -13,10 +13,12 @@ import type { Financement } from './financements.ts'
  *                   mais n’est liée de nulle part, porte `noindex` et un
  *                   bandeau « brouillon ». Passer à `publiee` après validation.
  *
- * `tarifs` : les prix TTC affichés sur la vitrine de l’établissement, validés
- * pour le site le 11 octobre 2026 (`verifie: true`). Un tarif sans prix, ou
- * avec `verifie: false`, s’affiche « Tarif sur demande ». Aucun prix n’est
- * inventé.
+ * `formules` : les formules et les prix TTC du flyer de l’établissement
+ * (positifdesign, reçu le 19 octobre 2026), qui reprennent ceux de la vitrine
+ * validés le 11 octobre 2026 (`verifie: true`). Chaque formule garde le titre,
+ * l’étiquette de boîte, le contenu et les prix écrits sur le flyer. Un prix
+ * absent, ou avec `verifie: false`, s’affiche « Tarif sur demande ». Aucun prix
+ * n’est inventé.
  *
  * Les règles écrites ici viennent des sources officielles de `sources.ts`
  * (vérifiées le 11 octobre 2026). Une règle modifiée par une réforme se corrige
@@ -26,14 +28,29 @@ import type { Financement } from './financements.ts'
 export type Categorie = 'code' | 'auto' | 'moto'
 export type Visuel = 'panneau' | 'voiture' | 'automatique' | 'duo' | 'manuelle' | 'moto' | 'scooter'
 
-export interface Tarif {
-  libelle: string
-  /** Volume du forfait tel qu’annoncé par l’établissement, ou `null`. */
+export interface Prix {
+  /** Volume du forfait (« 20 leçons ») ou prestation, tel qu’écrit par l’établissement ; `null` si non précisé. */
   volume: string | null
+  /** La boîte de vitesses, quand une même formule propose les deux (conduite accompagnée). */
+  boite?: string
   /** Prix TTC en euros, ou `null` : « Tarif sur demande ». */
   prixTTC: number | null
   /** `true` seulement après confirmation par l’établissement. */
   verifie: boolean
+}
+
+/** Le pictogramme d’une formule, comme sur le flyer (boîte manuelle, boîte automatique…). */
+export type Pictogramme = 'vitesses' | 'prnd' | 'utilisateurs' | 'scooter' | 'moto' | 'livre'
+
+/** Une formule du flyer : son titre, son étiquette de boîte, ce qu’elle comprend, ses prix. */
+export interface Formule {
+  titre: string
+  pictogramme: Pictogramme
+  /** L’étiquette noire du flyer (« Boîte manuelle »), ou `null`. */
+  boite: string | null
+  /** Ce que comprend la formule, ligne par ligne ; vide si l’établissement ne l’a pas détaillé. */
+  contenu: readonly string[]
+  prix: readonly Prix[]
 }
 
 export interface Formation {
@@ -62,7 +79,7 @@ export interface Formation {
   duree: readonly string[]
   /** Identifiants de `documents.ts` (filtrés automatiquement par formation). */
   financements: ReadonlyArray<Financement['id']>
-  tarifs: readonly Tarif[]
+  formules: readonly Formule[]
   faq: ReadonlyArray<{ question: string; reponse: string }>
   sources: readonly CleSource[]
   /** Formations voisines, proposées en bas de page. */
@@ -141,6 +158,20 @@ const DOCUMENTS_ET_EXAMEN_B = [
   },
 ] as const
 
+/* Les formules du flyer. Le contenu commun des forfaits est écrit une fois. */
+const CONTENU_COMMUN = ['Démarches administratives', 'Forfait code (6 mois)', '1 évaluation de départ', '1 livret numérique']
+
+const contenuForfait = (lecons: string, ...fin: string[]) => [...CONTENU_COMMUN, `${lecons} leçons de conduite`, ...fin]
+
+/** Partagée par les pages Permis A1 et Permis A2 : une seule formule sur le flyer. */
+const FORMULE_MOTO_MANUELLE: Formule = {
+  titre: 'Permis A2/A1',
+  pictogramme: 'scooter',
+  boite: 'Boîte manuelle',
+  contenu: contenuForfait('20', '2 accompagnements à l’examen pratique'),
+  prix: [{ volume: '20 leçons', prixTTC: 850, verifie: true }],
+}
+
 export const FORMATIONS: readonly Formation[] = [
   /* ------------------------------------------------------------------ CODE */
   {
@@ -216,7 +247,19 @@ export const FORMATIONS: readonly Formation[] = [
       'Mieux vaut se présenter quand les résultats d’entraînement sont réguliers, et pas avant.',
     ],
     financements: ['paiement-3-fois', 'autres-aides'],
-    tarifs: [{ libelle: 'Préparation au code de la route', volume: null, prixTTC: null, verifie: false }],
+    formules: [
+      {
+        titre: 'Le code, à la carte',
+        pictogramme: 'livre',
+        boite: null,
+        contenu: [],
+        prix: [
+          { volume: 'Pack web 6 mois', prixTTC: 50, verifie: true },
+          { volume: 'Livre de code', prixTTC: 25, verifie: true },
+          { volume: 'Prolongation accès salle de code 6 mois', prixTTC: 50, verifie: true },
+        ],
+      },
+    ],
     faq: [
       {
         question: 'À partir de quel âge peut-on passer le code ?',
@@ -285,7 +328,18 @@ export const FORMATIONS: readonly Formation[] = [
       'Les leçons ont lieu du lundi au samedi, de 7 h à 20 h.',
     ],
     financements: ['permis-1-euro', 'paiement-3-fois', 'cpf', 'autres-aides'],
-    tarifs: [{ libelle: 'Permis B boîte manuelle', volume: '20 leçons', prixTTC: 1090, verifie: true }],
+    formules: [
+      {
+        titre: 'Permis B',
+        pictogramme: 'vitesses',
+        boite: 'Boîte manuelle',
+        contenu: contenuForfait('20/30', '1 accompagnement à l’examen pratique'),
+        prix: [
+          { volume: '20 leçons', prixTTC: 1090, verifie: true },
+          { volume: '30 leçons', prixTTC: 1490, verifie: true },
+        ],
+      },
+    ],
     faq: [
       {
         question: 'Combien d’heures faut-il pour obtenir le permis ?',
@@ -351,7 +405,18 @@ export const FORMATIONS: readonly Formation[] = [
       'Les leçons ont lieu du lundi au samedi, de 7 h à 20 h.',
     ],
     financements: ['permis-1-euro', 'paiement-3-fois', 'cpf', 'autres-aides'],
-    tarifs: [{ libelle: 'Permis B boîte automatique', volume: '13 leçons', prixTTC: 840, verifie: true }],
+    formules: [
+      {
+        titre: 'Permis B78',
+        pictogramme: 'prnd',
+        boite: 'Boîte automatique',
+        contenu: contenuForfait('13/20', '1 accompagnement à l’examen pratique'),
+        prix: [
+          { volume: '13 leçons', prixTTC: 840, verifie: true },
+          { volume: '20 leçons', prixTTC: 1190, verifie: true },
+        ],
+      },
+    ],
     faq: [
       {
         question: 'Puis-je conduire une voiture manuelle avec ce permis ?',
@@ -445,7 +510,22 @@ export const FORMATIONS: readonly Formation[] = [
       'Examen pratique : dès 17 ans.',
     ],
     financements: ['permis-1-euro', 'paiement-3-fois', 'cpf', 'autres-aides'],
-    tarifs: [{ libelle: 'Conduite accompagnée', volume: '20 leçons', prixTTC: 1350, verifie: true }],
+    formules: [
+      {
+        titre: 'Permis accompagné',
+        pictogramme: 'utilisateurs',
+        boite: null,
+        contenu: contenuForfait(
+          '13/20',
+          '1 rendez-vous préalable + 2 rendez-vous pédagogiques',
+          '1 accompagnement à l’examen pratique',
+        ),
+        prix: [
+          { volume: '20 leçons', boite: 'AAC boîte manuelle', prixTTC: 1350, verifie: true },
+          { volume: '13 leçons', boite: 'AAC boîte automatique', prixTTC: 1150, verifie: true },
+        ],
+      },
+    ],
     faq: [
       {
         question: 'Qui peut être accompagnateur ?',
@@ -523,7 +603,7 @@ export const FORMATIONS: readonly Formation[] = [
       'Conduite supervisée : aucune durée ni distance minimales ne sont imposées. Plus vous roulez, plus vous gagnez en expérience.',
     ],
     financements: ['permis-1-euro', 'paiement-3-fois', 'cpf', 'autres-aides'],
-    tarifs: [{ libelle: 'Conduite supervisée', volume: null, prixTTC: null, verifie: false }],
+    formules: [{ titre: 'Conduite supervisée', pictogramme: 'utilisateurs', boite: null, contenu: [], prix: [{ volume: null, prixTTC: null, verifie: false }] }],
     faq: [
       {
         question: 'Quelle différence avec la conduite accompagnée ?',
@@ -593,7 +673,9 @@ export const FORMATIONS: readonly Formation[] = [
       'Depuis le 1er mars 2024, aucun délai n’est exigé après l’obtention du permis automatique.',
     ],
     financements: ['paiement-3-fois', 'autres-aides'],
-    tarifs: [{ libelle: 'Passerelle boîte manuelle', volume: '7 heures', prixTTC: null, verifie: false }],
+    formules: [
+      { titre: 'Passerelle BEA vers B', pictogramme: 'vitesses', boite: null, contenu: [], prix: [{ volume: '7 leçons', prixTTC: 435, verifie: true }] },
+    ],
     faq: [
       { question: 'Faut-il repasser l’examen ?', reponse: 'Non, la passerelle ne comporte aucun examen.' },
       {
@@ -648,7 +730,7 @@ export const FORMATIONS: readonly Formation[] = [
     programme: COMPETENCES_MOTO,
     duree: ['Au moins 20 heures de formation pratique : 8 heures sur plateau et 12 heures en circulation.'],
     financements: ['permis-1-euro', 'paiement-3-fois', 'cpf', 'autres-aides'],
-    tarifs: [{ libelle: 'Permis A1 ou A2, boîte manuelle', volume: '20 leçons', prixTTC: 850, verifie: true }],
+    formules: [FORMULE_MOTO_MANUELLE],
     faq: [
       {
         question: 'Faut-il avoir le permis B ?',
@@ -704,9 +786,15 @@ export const FORMATIONS: readonly Formation[] = [
     programme: COMPETENCES_MOTO,
     duree: ['Au moins 20 heures de formation pratique : 8 heures sur plateau et 12 heures en circulation.'],
     financements: ['permis-1-euro', 'paiement-3-fois', 'cpf', 'autres-aides'],
-    tarifs: [
-      { libelle: 'Permis A1 ou A2, boîte manuelle', volume: '20 leçons', prixTTC: 850, verifie: true },
-      { libelle: 'Permis A2, boîte automatique', volume: '13 leçons', prixTTC: 750, verifie: true },
+    formules: [
+      FORMULE_MOTO_MANUELLE,
+      {
+        titre: 'Permis A2',
+        pictogramme: 'moto',
+        boite: 'Boîte automatique',
+        contenu: contenuForfait('13', '2 accompagnements à l’examen pratique'),
+        prix: [{ volume: '13 leçons', prixTTC: 750, verifie: true }],
+      },
     ],
     faq: [
       {
@@ -767,7 +855,9 @@ export const FORMATIONS: readonly Formation[] = [
     ],
     duree: ['7 heures : 2 heures de théorie, 2 heures hors circulation et 3 heures en circulation.'],
     financements: ['paiement-3-fois', 'autres-aides'],
-    tarifs: [{ libelle: 'Formation A, A1 ou AM', volume: '7 ou 8 heures', prixTTC: 290, verifie: true }],
+    formules: [
+      { titre: 'Passerelle A2 vers A', pictogramme: 'moto', boite: null, contenu: [], prix: [{ volume: '7 leçons', prixTTC: 290, verifie: true }] },
+    ],
     faq: [
       { question: 'Y a-t-il un examen ?', reponse: 'Non. La formation se valide par l’attestation remise à la fin.' },
       {
@@ -821,7 +911,9 @@ export const FORMATIONS: readonly Formation[] = [
     programme: COMPETENCES_MOTO,
     duree: ['7 heures de formation, sans examen à la fin.'],
     financements: ['paiement-3-fois', 'autres-aides'],
-    tarifs: [{ libelle: 'Formation A, A1 ou AM', volume: '7 ou 8 heures', prixTTC: 290, verifie: true }],
+    formules: [
+      { titre: 'Formation 125 cm³', pictogramme: 'scooter', boite: null, contenu: [], prix: [{ volume: '7 heures', prixTTC: 290, verifie: true }] },
+    ],
     faq: [
       { question: 'Faut-il passer un examen ?', reponse: 'Non. La formation se valide par une attestation.' },
       {
@@ -878,7 +970,7 @@ export const FORMATIONS: readonly Formation[] = [
     ],
     duree: ['8 heures de formation, sans examen.'],
     financements: ['paiement-3-fois', 'autres-aides'],
-    tarifs: [{ libelle: 'Formation A, A1 ou AM', volume: '7 ou 8 heures', prixTTC: 290, verifie: true }],
+    formules: [{ titre: 'Permis AM', pictogramme: 'scooter', boite: null, contenu: [], prix: [{ volume: '8 heures', prixTTC: 290, verifie: true }] }],
     faq: [
       { question: 'Y a-t-il un examen ?', reponse: 'Non. Le permis AM s’obtient après la formation de 8 heures.' },
       {
@@ -907,18 +999,26 @@ export function formationsDe(categorie: Categorie): Formation[] {
   return FORMATIONS_PUBLIEES.filter((f) => f.categorie === categorie)
 }
 
-/** Le tarif à afficher : le prix seulement s’il est confirmé. */
-export function prixAffiche(t: Tarif): number | null {
-  return t.verifie ? t.prixTTC : null
+/** Le prix à afficher : seulement s’il est confirmé. */
+export function prixAffiche(p: Prix): number | null {
+  return p.verifie ? p.prixTTC : null
+}
+
+/** Le plus petit prix confirmé d’une formation (données structurées, « dès »), ou `null`. */
+export function prixMinimum(f: Formation): number | null {
+  const prix = f.formules.flatMap((fo) => fo.prix.map(prixAffiche)).filter((p): p is number => p !== null)
+  return prix.length > 0 ? Math.min(...prix) : null
 }
 
 /**
- * Les autres formules annoncées par l’établissement, sans page dédiée tant que
- * leurs modalités ne sont pas connues.
+ * Les autres formules annoncées par l’établissement, sans page dédiée. La
+ * formation accélérée s’ajoute au forfait choisi (flyer : « votre forfait
+ * + 450 € TTC »).
  */
 export const AUTRES_FORMULES_AUTO = [
   {
     nom: 'Formation accélérée',
-    texte: 'Une formule intensive pour le permis B. Modalités et planning sur demande.',
+    supplementTTC: 450,
+    texte: 'Une formule intensive pour le permis B, qui s’ajoute à votre forfait. Planning sur demande.',
   },
 ] as const

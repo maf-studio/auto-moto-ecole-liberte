@@ -1,7 +1,7 @@
 # À confirmer avec l’Auto-Moto École Liberté
 
-État au 11 octobre 2026. Le contenu du site est validé (sur le modèle du site de référence) : prix de la vitrine,
-formations, labels, garantie financière, réseaux sociaux, avis cités. Les mentions légales viennent du Registre
+État au 19 octobre 2026. Le contenu du site est validé : formules et prix du flyer (positifdesign), formations,
+labels, garantie financière, réseaux sociaux, avis cités, logo officiel, photos des locaux et des véhicules. Les mentions légales viennent du Registre
 national des entreprises (SARL AUTO ECOLE LIBERTE, SIREN 525 082 491, gérant Ali Idir). `pnpm check:publication`
 tient cette liste à jour.
 
@@ -15,17 +15,18 @@ tient cette liste à jour.
 
 ## À fournir pour compléter le site
 
-- [ ] **Prix manquants** (affichés « Tarif sur demande ») : préparation au code, conduite supervisée, passerelle
-      boîte manuelle. Et, si possible, le prix de l’évaluation de départ et de l’heure supplémentaire.
-- [ ] **Durée d’une leçon** : les forfaits sont affichés en leçons, comme en vitrine (une leçon peut durer une ou
-      deux heures). Le site renvoie au devis pour la durée ; à préciser si le gérant le souhaite.
+- [ ] **Prix manquant** (affiché « Tarif sur demande ») : conduite supervisée. Le code seul n’a pas de forfait sur
+      le flyer : le site montre ses prestations à la carte (pack web, livre de code, salle de code).
 - [ ] **Paiement en 3 fois** : formulation provisoire (« trois règlements, sans frais ni intérêts, calendrier fixé
       à l’inscription ») à valider avec le gérant.
 - [ ] **Garantie financière** : nom du garant (facultatif, il s’affiche s’il est donné).
-- [ ] **Logo** : le site utilise l’image fournie, détourée (versions fond sombre et fond clair). Un fichier
-      vectoriel (SVG), s’il existe chez Positif.biz, donnerait un rendu plus net.
-- [ ] **Photos HD** : voiture-école, moto, plateau, salle de code, équipe (avec l’accord de chacun). Le visuel actuel
-      est extrait du dépliant, en basse définition.
+- [ ] **Fichiers des logos** : Qualiopi, École conduite qualité, Sécurité routière, Mon Compte Formation,
+      « 3X sans frais », « Le permis à un euro par jour » sont découpés dans l’image du flyer, en définition moyenne.
+      Les fichiers d’origine (chez positifdesign, ou le PDF du flyer) les rendraient parfaitement nets : les déposer
+      sous le même nom dans `src/assets/logos/`.
+- [ ] **Logos de l’État** (Sécurité routière, Marianne de Qualiopi et du label) : leur usage est encadré. Ils sont
+      repris parce que l’établissement les affiche sur son flyer ; à confirmer s’il y est autorisé.
+- [ ] **Photos complémentaires** (facultatif) : plateau moto, salle de code, équipe (avec l’accord de chacun).
 - [ ] **Documents qualité** du label, en PDF : règlement intérieur, procédures d’évaluation B et A, organisation de
       la formation, déroulement des examens, handicap, réclamations.
 - [ ] **Formation accélérée** : durée, planning et prix, pour lui consacrer une page.
@@ -37,7 +38,9 @@ tient cette liste à jour.
 
 - **« France Travail, aide de 1 200 € »** : aide supprimée le 1er avril 2026. Autocollant à retirer.
 - **« LABAZ, 1 000 € pour ton permis »** : le chèque permis de la Région Île-de-France n’accepte plus de demandes
-  depuis le 22 mai 2026 ; une nouvelle aide est annoncée pour l’automne 2026.
+  depuis le 22 mai 2026 ; la Région annonce une réouverture début 2027, sous une nouvelle forme (FAQ LABAZ,
+  vérifiée le 19 octobre 2026).
+- Ces deux logos figurent encore sur le flyer : ils ne sont pas repris sur le site.
 - **CPF** : depuis février 2026, il ne finance plus le permis B, A1 ou A2 pour tout le monde (demandeurs d’emploi,
   ou salariés avec un cofinancement d’au moins 100 €, dans la limite de 900 €).
 

@@ -26,13 +26,14 @@ Règle d’or : **ne jamais inventer**. Une information inconnue s’écrit `nul
 
 ## Le logo
 
-Déposer le fichier (SVG de préférence) dans `src/assets/marque/`, puis, en haut de `etablissement.ts` :
+Le logo officiel, en vectoriel, est dans `src/assets/marque/` : `logo-liberte-sombre.svg` (fonds sombres) et
+`logo-liberte-clair.svg` (fonds clairs), tirés du fichier du graphiste. Pour le changer, remplacer ces deux
+fichiers en gardant leur nom.
 
-```ts
-import logo from '../assets/marque/logo-liberte.svg'
-```
+## Les logos des labels et des financements : `src/data/logos.ts`
 
-et remplacer `logoFichier: null` par `logoFichier: logo`. Le logo reconstitué disparaît partout.
+Les fichiers sont dans `src/assets/logos/`. Pour un logo plus net, déposer le fichier d’origine sous le même nom.
+`largeur` règle sa taille à l’écran. Un financement fermé ou supprimé (France Travail, LABAZ) n’a pas de logo.
 
 ## Les formations et les prix : `src/data/formations.ts`
 
@@ -41,17 +42,21 @@ financements possibles, sources.
 
 - **Publier ou masquer une formation** : `statut: 'publiee'` ou `statut: 'brouillon'`. Un brouillon n’apparaît ni
   dans les menus, ni dans le plan, ni dans Google.
-- **Afficher un prix** : dans `tarifs`, renseigner `prixTTC` (en euros, sans espace) et passer `verifie: true`.
-  Tant que `verifie` vaut `false`, ou sans prix, le site écrit « Tarif sur demande ». Les prix de la vitrine sont
-  saisis et validés.
+- **Les formules et les prix** : dans `formules`, comme sur le flyer : `titre`, `boite` (l’étiquette noire),
+  `contenu` (ce que comprend le forfait, ligne par ligne) et `prix` (une barre par volume : `volume`, `prixTTC` en
+  euros sans espace, `verifie: true`). Sans prix, ou avec `verifie: false`, le site écrit « Sur demande ». Les
+  formules permis B et moto, communes à plusieurs pages, sont écrites une seule fois en haut du fichier.
+- **La page Tarifs** : l’ordre des groupes, les autres formations, les prestations à la carte et la définition de
+  la leçon sont dans `src/data/tarifs.ts`.
 - **Ajouter une formation** : copier une entrée existante, changer le `slug` (l’adresse de la page) et les textes.
   Elle apparaît automatiquement dans les menus, le pied de page, les tarifs, le formulaire et le sitemap.
 
 ## Les photos : `src/data/photos.ts`
 
-Déposer la photo dans `src/assets/photos/`, l’importer en haut du fichier, puis l’associer à la formation
-(`'permis-b': { src: maPhoto, alt: 'description de la photo' }`). Le texte `alt` décrit ce qu’on voit. La photo
-apparaît en haut de la page de la formation ; les cartes des formations gardent leur icône.
+Les photos des locaux et des véhicules (plaques floutées) sont décrites dans `PHOTOS` : fichier, texte `alt` (ce
+qu’on voit), et `position` (le point à garder visible quand la photo est recadrée). `PHOTOS_FORMATIONS` dit quelle
+photo va en haut de quelle formation ; les cartes des formations gardent leur icône. Pour ajouter une photo : la
+déposer dans `src/assets/photos/`, l’importer en haut du fichier et la décrire dans `PHOTOS`.
 
 ## Les financements : `src/data/financements.ts`
 

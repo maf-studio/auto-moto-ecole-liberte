@@ -41,8 +41,11 @@ const note = e.noteGoogle
         <a class="bouton bouton--contour-clair" href="/contact#demande">Demander un devis</a>
       </div>
       <a class="heros__tel" href={e.telephone.lien}>
-        <Icone nom="telephone" />
-        <span>Une question ? Appelez-nous au <strong>{e.telephone.affiche}</strong></span>
+        <span class="heros__tel-texte">Une question ? Appelez-nous</span>
+        <span class="heros__tel-bande">
+          <Icone nom="telephone" />
+          <strong>{e.telephone.affiche}</strong>
+        </span>
       </a>
 
       {
@@ -97,10 +100,8 @@ const note = e.noteGoogle
     position: relative;
     overflow: hidden;
     padding-block: clamp(2.5rem, 1.5rem + 4vw, 5rem) clamp(5.5rem, 4rem + 4vw, 8rem);
-    background:
-      radial-gradient(70% 80% at 85% 20%, rgb(57 139 164 / 0.32), transparent 65%),
-      radial-gradient(50% 60% at 0% 100%, rgb(57 139 164 / 0.14), transparent 70%),
-      var(--nuit);
+    /* Le fond de la couverture du flyer : bleu nuit, qui tombe au noir. */
+    background: var(--fond-couverture);
   }
 
   .heros__decor {
@@ -190,34 +191,58 @@ const note = e.noteGoogle
     text-wrap: balance;
   }
 
+  /* Le numéro du flyer : grand, blanc, dans un bandeau turquoise incliné. */
   .heros__tel {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--e-3);
-    margin-block-start: var(--e-5);
+    display: grid;
+    justify-items: start;
+    gap: var(--e-2);
+    width: fit-content;
+    margin-block-start: var(--e-6);
     color: var(--sur-nuit-doux);
     text-decoration: none;
   }
 
-  .heros__tel strong {
-    color: var(--sur-nuit);
-    font-family: var(--police-titre);
-    font-size: 1.3rem;
-    letter-spacing: 0.03em;
+  .heros__tel-texte {
+    font-size: var(--taille-petit);
   }
 
-  .heros__tel :global(svg) {
-    flex: none;
-    width: 2.4rem;
-    height: 2.4rem;
-    padding: 0.6rem;
-    border-radius: 50%;
-    background: var(--petrole-fonce);
+  .heros__tel-bande {
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45em;
+    padding: 0.18em 0.7em 0.14em 0.55em;
     color: var(--blanc);
+    font-family: var(--police-titre);
+    font-size: clamp(1.9rem, 1.55rem + 1.3vw, 2.6rem);
+    line-height: 1.1;
   }
 
-  .heros__tel:hover strong {
-    color: var(--petrole-clair);
+  .heros__tel-bande::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--petrole);
+    transform: skewX(var(--biais));
+    transition: background-color var(--duree) var(--courbe);
+  }
+
+  .heros__tel strong {
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  .heros__tel-bande :global(svg) {
+    flex: none;
+    width: 0.75em;
+    height: 0.75em;
+  }
+
+  .heros__tel:hover .heros__tel-bande::before {
+    background: var(--petrole-fonce);
   }
 
   .heros__note {
@@ -274,7 +299,7 @@ const note = e.noteGoogle
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, transparent 55%, rgb(7 29 43 / 0.55));
+    background: linear-gradient(180deg, transparent 55%, rgb(6 43 58 / 0.55));
     pointer-events: none;
   }
 

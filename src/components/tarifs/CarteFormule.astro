@@ -1,0 +1,152 @@
+---
+import Icone from '../ui/Icone.astro'
+import { prixAffiche, type Formule } from '../../data/formations.ts'
+import { euros } from '../../lib/format.ts'
+
+/**
+ * Une formule, comme sur le flyer : pastille et titre, étiquette noire de la
+ * boîte, ce que comprend le forfait (la ligne des leçons en turquoise), puis
+ * les barres de prix. Un prix non confirmé s’écrit « Tarif sur demande ».
+ */
+interface Props {
+  formule: Formule
+  /** Lien vers la page de la formation, s’il y en a une. */
+  lien?: string | null
+  niveau?: 2 | 3
+}
+
+const { formule, lien = null, niveau = 3 } = Astro.props
+const Titre = `h${niveau}` as const
+---
+
+<article class="formule">
+  <header class="formule__tete">
+    <span class="pastille formule__pastille" aria-hidden="true">
+      {
+        formule.pictogramme === 'prnd' ? (
+          <span class="formule__prnd">
+            <span>P</span>
+            <span>R</span>
+            <span>N</span>
+            <span>D</span>
+          </span>
+        ) : (
+          <Icone nom={formule.pictogramme} />
+        )
+      }
+    </span>
+    <div class="formule__titres">
+      <Titre class="formule__titre">{formule.titre}</Titre>
+      {formule.boite && <p class="etiquette-noire formule__boite">{formule.boite}</p>}
+    </div>
+  </header>
+
+  {
+    formule.contenu.length > 0 && (
+      <ul class="liste-formule" aria-label="Ce que comprend la formule">
+        {formule.contenu.map((ligne) => (
+          <li class:list={{ 'liste-formule__fort': /leçons de conduite/.test(ligne) }}>{ligne}</li>
+        ))}
+      </ul>
+    )
+  }
+
+  <ul class="barres-prix" aria-label="Prix">
+    {
+      formule.prix.map((p) => {
+        const prix = prixAffiche(p)
+        return (
+          <li>
+            {p.boite && <span class="etiquette-noire formule__boite-prix">{p.boite}</span>}
+            <span class:list={['barre-prix', { 'barre-prix--demande': prix === null }]}>
+              <span class="barre-prix__libelle">{p.volume ?? formule.titre}</span>
+              <span class="barre-prix__montant">
+                {prix !== null ? (
+                  <>
+                    {euros(prix)}
+                    <span class="barre-prix__ttc">TTC</span>
+                  </>
+                ) : (
+                  'Sur demande'
+                )}
+              </span>
+            </span>
+          </li>
+        )
+      })
+    }
+  </ul>
+
+  {
+    lien && (
+      <a class="lien-fleche formule__lien" href={lien}>
+        La formation <Icone nom="fleche" />
+      </a>
+    )
+  }
+</article>
+
+<style>
+  .formule {
+    display: flex;
+    flex-direction: column;
+    gap: var(--e-4);
+    padding: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+    border-radius: var(--rayon-l);
+    background: var(--gris-carte);
+  }
+
+  .formule__tete {
+    display: flex;
+    align-items: center;
+    gap: var(--e-5);
+    padding: 0.4rem 0 0 0.4rem;
+  }
+
+  .formule__pastille {
+    --taille: 4.2rem;
+  }
+
+  .formule__titres {
+    display: grid;
+    justify-items: start;
+    gap: var(--e-2);
+  }
+
+  .formule__titre {
+    font-size: clamp(1.7rem, 1.4rem + 1vw, 2.2rem);
+    letter-spacing: 0.02em;
+  }
+
+  .formule__prnd {
+    position: relative;
+    display: flex;
+    gap: 0.06em;
+    font-family: var(--police-titre);
+    font-size: 1.05rem;
+    font-weight: 800;
+  }
+
+  .formule .liste-formule {
+    margin-block-start: var(--e-1);
+  }
+
+  .barres-prix li {
+    display: grid;
+    justify-items: start;
+    gap: var(--e-2);
+  }
+
+  .barres-prix li .barre-prix {
+    justify-self: stretch;
+  }
+
+  .formule__boite-prix {
+    font-size: 0.95rem;
+  }
+
+  .formule__lien {
+    margin-block-start: auto;
+    color: var(--petrole-tres-fonce);
+  }
+</style>
