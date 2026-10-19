@@ -26,7 +26,7 @@ const annee = new Date().getFullYear()
         {
           LOGOS_LABELS.map((l) => (
             <li>
-              <LogoTiers logo={{ ...l, largeur: Math.round(l.largeur * 0.62) }} />
+              <LogoTiers logo={{ ...l, largeur: Math.round(l.largeur * 0.62) }} surNuit />
             </li>
           ))
         }
@@ -124,7 +124,8 @@ const annee = new Date().getFullYear()
   .pied__labels {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--e-2);
+    align-items: center;
+    gap: var(--e-4);
     margin-block-start: var(--e-5);
     list-style: none;
   }
@@ -133,9 +134,6 @@ const annee = new Date().getFullYear()
     display: grid;
     place-items: center;
     height: 4.2rem;
-    padding: var(--e-2);
-    border-radius: var(--rayon-s);
-    background: var(--blanc);
   }
 
   .pied__labels :global(img) {

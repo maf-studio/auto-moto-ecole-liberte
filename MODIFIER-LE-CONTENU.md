@@ -19,9 +19,8 @@ Règle d’or : **ne jamais inventer**. Une information inconnue s’écrit `nul
 - **Labels** : `labels` (nom et détail). Une liste vide retire la section.
 - **Paiement en plusieurs fois** : `paiementPlusieursFois.conditions`, une phrase sur les modalités exactes.
 - **Équipe** : `equipe` (prénom, rôle, photo). La section apparaît dès qu’une personne est ajoutée, avec son accord.
-- **Garantie financière** : `garantieFinanciere` (`{ garant: 'Nom du garant' }`). Elle s’affiche sur l’accueil et
-  la page Démarche qualité.
-- **Taux de réussite** : `tauxReussite`, seulement avec sa source (catégorie, taux, année, source).
+- **Garantie financière** : `garantieFinanciere` (`{ garant: 'Nom du garant' }`). Elle s’affiche sur la page
+  Démarche qualité.
 - **Mentions légales** : `legal` (raison sociale, SIRET, directeur de la publication, médiateur…).
 
 ## Le logo
@@ -32,8 +31,9 @@ fichiers en gardant leur nom.
 
 ## Les logos des labels et des financements : `src/data/logos.ts`
 
-Les fichiers sont dans `src/assets/logos/`. Pour un logo plus net, déposer le fichier d’origine sous le même nom.
-`largeur` règle sa taille à l’écran. Un financement fermé ou supprimé (France Travail, LABAZ) n’a pas de logo.
+Les fichiers sont dans `src/assets/logos/`, sans fond. Pour changer un logo, déposer le nouveau fichier sous le même
+nom ; le fichier `…-sur-nuit.png` est sa version pour fond sombre (texte en blanc). `largeur` règle sa taille à
+l’écran. Un financement fermé ou supprimé (France Travail, LABAZ) n’a pas de logo.
 
 ## Les formations et les prix : `src/data/formations.ts`
 

@@ -144,14 +144,6 @@ export const ETABLISSEMENT = {
   garantieFinanciere: { garant: null } as { garant: string | null } | null,
 
   /**
-   * Un taux de réussite, UNIQUEMENT s’il est fourni par l’établissement avec
-   * sa source (l’État ne publie plus de taux par école). `null` : rien ne
-   * s’affiche. Exemple de forme : { categorie: 'B', taux: 70, annee: 2025,
-   * source: 'Bilan transmis par la préfecture' }.
-   */
-  tauxReussite: null as { categorie: string; taux: number; annee: number; source: string } | null,
-
-  /**
    * Le paiement en plusieurs fois, annoncé sur la vitrine (« 3X sans frais »).
    * `conditions` : `null` tant que les modalités exactes ne sont pas
    * communiquées (le site renvoie alors vers l’accueil pour les connaître).

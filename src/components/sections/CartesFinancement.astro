@@ -6,8 +6,8 @@ import { LOGOS_FINANCEMENTS } from '../../data/logos.ts'
 
 /**
  * Les solutions de financement en cartes (accueil, pages formations). Celles
- * qui ont un logo sur le flyer le montrent, sur un carreau blanc ; les autres,
- * la pastille du flyer.
+ * qui ont un logo sur le flyer le montrent, sans fond ; les autres, la
+ * pastille du flyer.
  * `ids` : la sélection à montrer, dans l’ordre ; toutes par défaut.
  */
 interface Props {
@@ -34,7 +34,7 @@ const ICONE: Record<Financement['id'], NomIcone> = {
       <li class="financement" data-revele style={`--rang: ${i}`}>
         {LOGOS_FINANCEMENTS[f.id] ? (
           <span class="financement__logo">
-            <LogoTiers logo={LOGOS_FINANCEMENTS[f.id]!} />
+            <LogoTiers logo={LOGOS_FINANCEMENTS[f.id]!} surNuit={surNuit} />
           </span>
         ) : (
           <span class="pastille financement__pastille" aria-hidden="true">
@@ -88,15 +88,12 @@ const ICONE: Record<Financement['id'], NomIcone> = {
     outline-offset: 3px;
   }
 
-  /* Le carreau blanc du logo, à hauteur fixe pour aligner les cartes. */
+  /* Le logo, sans fond, à hauteur fixe pour aligner les cartes. */
   .financement__logo {
     display: grid;
-    place-items: center;
+    place-items: center start;
     align-self: flex-start;
     height: 6.6rem;
-    padding: var(--e-2) var(--e-3);
-    border-radius: var(--rayon);
-    background: var(--blanc);
   }
 
   .financement__logo :global(img) {

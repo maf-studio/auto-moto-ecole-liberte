@@ -3,24 +3,27 @@ import { Image } from 'astro:assets'
 import type { Logo } from '../../data/logos.ts'
 
 /**
- * Un logo du flyer (label ou financement), à sa largeur d’affichage, servi en
- * deux densités pour rester net sur les écrans haute définition.
+ * Un logo du flyer (label ou financement), sans fond, à sa largeur
+ * d’affichage, servi en deux densités (1x et 2x) pour rester net sur les écrans
+ * haute définition. `surNuit` : la version pour fond sombre, s’il y en a une.
  */
 interface Props {
   logo: Logo
+  surNuit?: boolean
   class?: string
   /** `true` : le logo répète un texte voisin, il est caché aux lecteurs d’écran. */
   decoratif?: boolean
 }
 
-const { logo, class: classe, decoratif = false } = Astro.props
+const { logo, surNuit = false, class: classe, decoratif = false } = Astro.props
+const src = surNuit && logo.srcSurNuit ? logo.srcSurNuit : logo.src
 ---
 
 <Image
-  src={logo.src}
+  src={src}
   alt={decoratif ? '' : logo.alt}
   width={logo.largeur}
-  densities={[1, 1.5]}
+  densities={[1, 2]}
   class:list={['logo-tiers', classe]}
   loading="lazy"
 />

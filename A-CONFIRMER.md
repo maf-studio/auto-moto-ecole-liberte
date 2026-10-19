@@ -20,12 +20,10 @@ tient cette liste à jour.
 - [ ] **Paiement en 3 fois** : formulation provisoire (« trois règlements, sans frais ni intérêts, calendrier fixé
       à l’inscription ») à valider avec le gérant.
 - [ ] **Garantie financière** : nom du garant (facultatif, il s’affiche s’il est donné).
-- [ ] **Fichiers des logos** : Qualiopi, École conduite qualité, Sécurité routière, Mon Compte Formation,
-      « 3X sans frais », « Le permis à un euro par jour » sont découpés dans l’image du flyer, en définition moyenne.
-      Les fichiers d’origine (chez positifdesign, ou le PDF du flyer) les rendraient parfaitement nets : les déposer
-      sous le même nom dans `src/assets/logos/`.
 - [ ] **Logos de l’État** (Sécurité routière, Marianne de Qualiopi et du label) : leur usage est encadré. Ils sont
-      repris parce que l’établissement les affiche sur son flyer ; à confirmer s’il y est autorisé.
+      repris parce que l’établissement les affiche sur son flyer ; à confirmer s’il y est autorisé. Sur fond sombre
+      (pied de page, cartes de l’accueil), Qualiopi, Sécurité routière et Mon Compte Formation ont leur texte en
+      blanc : à vérifier avec leurs chartes.
 - [ ] **Photos complémentaires** (facultatif) : plateau moto, salle de code, équipe (avec l’accord de chacun).
 - [ ] **Documents qualité** du label, en PDF : règlement intérieur, procédures d’évaluation B et A, organisation de
       la formation, déroulement des examens, handicap, réclamations.

@@ -6,7 +6,7 @@ import { LOGOS_FINANCEMENTS, LOGOS_LABELS } from '../../data/logos.ts'
 /**
  * La rangée de logos du flyer : les labels (École conduite qualité, Qualiopi,
  * Sécurité routière) et les financements (Mon Compte Formation, 3 fois sans
- * frais, permis à un euro par jour), chacun sur un carreau blanc. La mention
+ * frais, permis à un euro par jour), sans fond. La mention
  * exigée par la charte Qualiopi est écrite dessous.
  */
 const financements = FINANCEMENTS.flatMap((f) => {
@@ -58,20 +58,16 @@ const mentionQualiopi = LOGOS_LABELS.find((l) => l.mention)?.mention ?? null
   .logos__liste {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     justify-content: center;
-    gap: var(--e-3);
+    gap: var(--e-5) clamp(1.5rem, 1rem + 2vw, 3rem);
     list-style: none;
   }
 
   .logos__carreau {
     display: grid;
     place-items: center;
-    min-width: 7.5rem;
-    height: 7rem;
-    padding: var(--e-3);
-    border: 1px solid var(--filet);
-    border-radius: var(--rayon);
-    background: var(--blanc);
+    height: 6rem;
   }
 
   .logos__carreau :global(img) {
