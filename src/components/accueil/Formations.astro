@@ -7,7 +7,8 @@ import { FORMATIONS_PUBLIEES, formation } from '../../data/formations.ts'
 const code = formation('code-de-la-route')
 const b = formation('permis-b')
 const auto = formation('permis-automatique')
-const PRINCIPALES = new Set([code.slug, b.slug, auto.slug])
+const aac = formation('conduite-accompagnee')
+const PRINCIPALES = new Set([code.slug, b.slug, auto.slug, aac.slug])
 const secondaires = FORMATIONS_PUBLIEES.filter((f) => !PRINCIPALES.has(f.slug))
 ---
 
@@ -22,6 +23,7 @@ const secondaires = FORMATIONS_PUBLIEES.filter((f) => !PRINCIPALES.has(f.slug))
       <CarteFormation titre={code.nom} resume={code.resume} href={`/${code.slug}`} motif="panneau" />
       <CarteFormation titre={b.nomCourt} resume={b.resume} href={`/${b.slug}`} motif="voiture" />
       <CarteFormation titre={auto.nomCourt} resume={auto.resume} href={`/${auto.slug}`} motif="automatique" />
+      <CarteFormation titre={aac.nomCourt} resume={aac.resume} href={`/${aac.slug}`} motif={aac.visuel} />
       <CarteFormation
         titre="Permis moto"
         resume="A1 dès 16 ans, A2 dès 18 ans, passerelle vers le A : prenez la route à deux roues."
@@ -113,15 +115,44 @@ const secondaires = FORMATIONS_PUBLIEES.filter((f) => !PRINCIPALES.has(f.slug))
     color: var(--petrole-fonce);
   }
 
+  /* Cinq cartes : 2 + 2 + 1 puis 3 + 2, la rangée incomplète centrée ; 5 de front sur grand écran. */
   @media (min-width: 40rem) {
     .formations__grille {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .formations__grille > :global(*) {
+      grid-column: span 2;
+    }
+
+    .formations__grille > :global(:last-child:nth-child(odd)) {
+      grid-column: 2 / span 2;
     }
   }
 
   @media (min-width: 64rem) {
     .formations__grille {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(6, 1fr);
+    }
+
+    .formations__grille > :global(:last-child:nth-child(odd)) {
+      grid-column: auto / span 2;
+    }
+
+    .formations__grille > :global(:nth-child(4):nth-last-child(2)) {
+      grid-column: 2 / span 2;
+    }
+  }
+
+  @media (min-width: 80rem) {
+    .formations__grille {
+      grid-template-columns: repeat(5, 1fr);
+    }
+
+    .formations__grille > :global(*),
+    .formations__grille > :global(:last-child:nth-child(odd)),
+    .formations__grille > :global(:nth-child(4):nth-last-child(2)) {
+      grid-column: auto;
     }
   }
 </style>

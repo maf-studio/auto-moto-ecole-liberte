@@ -8,6 +8,7 @@ import EnteteSection from '../components/ui/EnteteSection.astro'
 import Etoiles from '../components/ui/Etoiles.astro'
 import Icone from '../components/ui/Icone.astro'
 import LogoTiers from '../components/ui/LogoTiers.astro'
+import Moniteurs from '../components/ui/Moniteurs.astro'
 import { ETABLISSEMENT } from '../data/etablissement.ts'
 import { LOGOS_LABELS } from '../data/logos.ts'
 import { PHOTOS } from '../data/photos.ts'
@@ -188,23 +189,14 @@ const filAriane = [
 
   {
     e.equipe.length > 0 && (
-      <section class="section section--gris" aria-labelledby="titre-equipe">
+      <section class="section" aria-labelledby="titre-equipe">
         <div class="conteneur">
           <EnteteSection etiquette="L’équipe" id="titre-equipe">
             <Fragment slot="titre">
               Ceux qui vous <span class="accent">accompagnent</span>
             </Fragment>
           </EnteteSection>
-          <ul class="equipe">
-            {e.equipe.map((p) => (
-              <li>
-                {p.photo && <Picture src={p.photo} formats={['avif', 'webp']}
-          fallbackFormat="jpg" widths={[320]} alt={`${p.prenom}, ${p.role}`} />}
-                <strong>{p.prenom}</strong>
-                <span>{p.role}</span>
-              </li>
-            ))}
-          </ul>
+          <Moniteurs />
         </div>
       </section>
     )
@@ -350,26 +342,6 @@ const filAriane = [
 
   .locaux-boutons {
     margin-block-start: var(--e-6);
-  }
-
-  .equipe {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
-    gap: var(--e-5);
-    list-style: none;
-  }
-
-  .equipe li {
-    display: grid;
-    gap: var(--e-1);
-  }
-
-  .equipe :global(img) {
-    width: 100%;
-    aspect-ratio: 4 / 5;
-    object-fit: cover;
-    border-radius: var(--rayon);
-    margin-block-end: var(--e-3);
   }
 
   @media (min-width: 40rem) {

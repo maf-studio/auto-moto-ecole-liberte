@@ -3,7 +3,7 @@ import type { APIRoute } from 'astro'
 import { estIndesirable } from '../../lib/demande/anti-spam.ts'
 import { configurationEnvoi } from '../../lib/demande/configuration.ts'
 import { envoyerDemande } from '../../lib/demande/envoi.ts'
-import { valider } from '../../lib/demande/schema.ts'
+import { valider, type Brut } from '../../lib/demande/schema.ts'
 
 /**
  * La réception d’une demande (tous les formulaires du site).
@@ -39,7 +39,12 @@ export const POST: APIRoute = async ({ request, redirect }) => {
   } catch {
     return repondre(400, { ok: false, erreur: 'format' }, '/demande-erreur?raison=format')
   }
-  const brut = Object.fromEntries([...donnees.entries()].map(([k, v]) => [k, typeof v === 'string' ? v : '']))
+  // Les cases à cocher multiples (jours, moments) arrivent en plusieurs valeurs du même nom.
+  const brut: Brut = {}
+  for (const cle of new Set(donnees.keys())) {
+    const valeurs = donnees.getAll(cle).map((v) => (typeof v === 'string' ? v : ''))
+    brut[cle] = cle === 'jours' || cle === 'moments' ? valeurs.slice(0, 10) : valeurs[0]
+  }
 
   // Un robot repéré reçoit la même réponse qu’un humain, et rien n’est transmis.
   if (estIndesirable(configuration.secret, String(brut.piege ?? ''), String(brut.jeton ?? ''), Date.now()))

@@ -15,10 +15,13 @@ Règle d’or : **ne jamais inventer**. Une information inconnue s’écrit `nul
 - **Note Google** : `noteGoogle` (note, nombre d’avis, date du relevé au format `AAAA-MM-JJ`). Mettre les trois à
   jour ensemble. `null` la retire partout.
 - **Réseaux sociaux** : `reseaux` (Instagram, Snapchat, Facebook ou TikTok, avec l’adresse complète).
-- **WhatsApp** : `whatsapp`, le numéro au format international sans « + » ni espace (`33612345678`).
+- **WhatsApp** : `whatsapp`, le numéro au format international sans « + » ni espace (`33612345678`). Il apparaît
+  alors avec les réseaux sociaux (pied de page sous le logo, menu mobile, « Nous trouver ») et sur la page Contact.
 - **Labels** : `labels` (nom et détail). Une liste vide retire la section.
 - **Paiement en plusieurs fois** : `paiementPlusieursFois.conditions`, une phrase sur les modalités exactes.
-- **Équipe** : `equipe` (prénom, rôle, photo). La section apparaît dès qu’une personne est ajoutée, avec son accord.
+- **Moniteurs** : `equipe`, une entrée par personne : `prenom`, `role`, `presentation` (quelques lignes relues par
+  la personne) et `photo` (fichier dans `src/assets/photos/`, seulement avec son accord écrit ; sinon `null`, son
+  initiale s’affiche). « Vos moniteurs » apparaît alors dans « Pourquoi Liberté » (accueil) et sur la page À propos.
 - **Garantie financière** : `garantieFinanciere` (`{ garant: 'Nom du garant' }`). Elle s’affiche sur la page
   Démarche qualité.
 - **Mentions légales** : `legal` (raison sociale, SIRET, directeur de la publication, médiateur…).

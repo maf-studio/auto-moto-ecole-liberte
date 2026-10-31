@@ -4,6 +4,7 @@ import CarteGoogle from '../ui/CarteGoogle.astro'
 import EnteteSection from '../ui/EnteteSection.astro'
 import Horaires from '../ui/Horaires.astro'
 import Icone from '../ui/Icone.astro'
+import Reseaux from '../ui/Reseaux.astro'
 import facade from '../../assets/photos/facade.webp'
 import { ETABLISSEMENT } from '../../data/etablissement.ts'
 
@@ -39,13 +40,6 @@ const e = ETABLISSEMENT
       <div class="localisation__infos carte">
         <ul class="localisation__coordonnees">
           <li>
-            <Icone nom="adresse" />
-            <span>
-              <strong>Adresse</strong>
-              {e.adresse.rue}, {e.adresse.codePostal} {e.adresse.ville}
-            </span>
-          </li>
-          <li>
             <Icone nom="telephone" />
             <span>
               <strong>Téléphone</strong>
@@ -61,8 +55,10 @@ const e = ETABLISSEMENT
           </li>
         </ul>
 
+        <Reseaux />
+
         <div class="localisation__horaires">
-          <Horaires titre="Bureau" horaires={e.horairesBureau} etat />
+          <Horaires titre="Bureau" horaires={e.horairesBureau} etat adresse />
           <Horaires titre="Conduite" horaires={e.horairesConduite} />
         </div>
 

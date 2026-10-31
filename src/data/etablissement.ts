@@ -96,11 +96,19 @@ export const ETABLISSEMENT = {
   ] as ReadonlyArray<{ nom: 'Instagram' | 'Snapchat' | 'Facebook' | 'TikTok'; url: string }>,
 
   /**
-   * L’équipe : vide tant que les présentations (prénom, rôle, photo) et
-   * l’accord de chacun ne sont pas fournis. La section « L’équipe » de la page
-   * À propos n’apparaît qu’avec au moins une personne.
+   * Les moniteurs : vide tant que les présentations ne sont pas fournies par
+   * l’établissement. Pour chacun : prénom, rôle (« Enseignant de la conduite
+   * auto et moto »…), `presentation` (quelques lignes, relues par la
+   * personne) et `photo` seulement avec son accord écrit (sinon `null` : son
+   * initiale s’affiche). Dès la première personne, « Vos moniteurs »
+   * apparaît dans « Pourquoi Liberté » (accueil) et sur la page À propos.
    */
-  equipe: [] as ReadonlyArray<{ prenom: string; role: string; photo: ImageMetadata | null }>,
+  equipe: [] as ReadonlyArray<{
+    prenom: string
+    role: string
+    presentation: string | null
+    photo: ImageMetadata | null
+  }>,
 
   /**
    * Le logo officiel, en vectoriel, tiré du fichier du graphiste

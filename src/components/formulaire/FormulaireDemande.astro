@@ -5,14 +5,21 @@ import { emettreJeton } from '../../lib/demande/anti-spam.ts'
 import { configurationEnvoi } from '../../lib/demande/configuration.ts'
 import { MESSAGE_MAX } from '../../lib/demande/regles.ts'
 import {
+  LIMITES,
+  OPTIONS_EXPERIENCE,
   OPTIONS_FINANCEMENT,
   OPTIONS_FORMATION,
+  OPTIONS_JOURS,
+  OPTIONS_MOMENTS,
   libelleFormation,
 } from '../../lib/demande/schema.ts'
 
 /**
- * LE formulaire du site : contact, devis, financement. Une seule logique
- * (`lib/demande/`), une seule route d’envoi (`/api/demande`).
+ * LE formulaire du site : demande de devis, contact, financement. Une seule
+ * logique (`lib/demande/`), une seule route d’envoi (`/api/demande`). Ses
+ * champs sont ceux demandés par l’établissement : nom, prénom, âge, ville,
+ * téléphone, e-mail, permis souhaité, expérience de conduite,
+ * disponibilités, questions complémentaires.
  *
  * `formation` : la formation présélectionnée (et transmise dans la demande).
  * Sur /contact, `?formation=permis-b` dans l’adresse la présélectionne aussi.
@@ -45,10 +52,17 @@ const sujet = nomFormation ? `Demande de devis : ${nomFormation}` : 'Demande de 
 const corpsMail = [
   'Bonjour,',
   '',
-  nomFormation ? `Je souhaite un devis pour : ${nomFormation}.` : 'Je souhaite des renseignements sur vos formations.',
+  nomFormation ? `Je souhaite un devis pour : ${nomFormation}.` : 'Je souhaite un devis pour le permis : ',
   '',
-  'Nom et prénom :',
+  'Nom :',
+  'Prénom :',
+  'Âge :',
+  'Ville :',
   'Téléphone :',
+  'Expérience de conduite :',
+  'Disponibilités :',
+  '',
+  'Questions complémentaires :',
   '',
   'Merci.',
 ].join('\n')
@@ -94,18 +108,65 @@ const avecFinancement = variante !== 'court'
 
           <div class="champ">
             <label for={champ('nom')}>
-              Nom et prénom <span aria-hidden="true">*</span>
+              Nom <span aria-hidden="true">*</span>
             </label>
             <input
               id={champ('nom')}
               name="nom"
               type="text"
-              autocomplete="name"
+              autocomplete="family-name"
               required
-              maxlength="100"
+              maxlength={LIMITES.nom}
               aria-describedby={`${champ('nom')}-erreur`}
             />
             <p class="champ__erreur" id={`${champ('nom')}-erreur`} data-erreur="nom" />
+          </div>
+
+          <div class="champ">
+            <label for={champ('prenom')}>
+              Prénom <span aria-hidden="true">*</span>
+            </label>
+            <input
+              id={champ('prenom')}
+              name="prenom"
+              type="text"
+              autocomplete="given-name"
+              required
+              maxlength={LIMITES.prenom}
+              aria-describedby={`${champ('prenom')}-erreur`}
+            />
+            <p class="champ__erreur" id={`${champ('prenom')}-erreur`} data-erreur="prenom" />
+          </div>
+
+          <div class="champ">
+            <label for={champ('age')}>
+              Âge <span aria-hidden="true">*</span>
+            </label>
+            <input
+              id={champ('age')}
+              name="age"
+              type="text"
+              inputmode="numeric"
+              pattern="[0-9]*"
+              required
+              maxlength="3"
+              aria-describedby={`${champ('age')}-aide ${champ('age')}-erreur`}
+            />
+            <p class="champ__aide" id={`${champ('age')}-aide`}>En années. Il détermine les formations possibles.</p>
+            <p class="champ__erreur" id={`${champ('age')}-erreur`} data-erreur="age" />
+          </div>
+
+          <div class="champ">
+            <label for={champ('ville')}>Ville (facultatif)</label>
+            <input
+              id={champ('ville')}
+              name="ville"
+              type="text"
+              autocomplete="address-level2"
+              maxlength={LIMITES.ville}
+              aria-describedby={`${champ('ville')}-erreur`}
+            />
+            <p class="champ__erreur" id={`${champ('ville')}-erreur`} data-erreur="ville" />
           </div>
 
           <div class="champ">
@@ -119,7 +180,7 @@ const avecFinancement = variante !== 'court'
               inputmode="tel"
               autocomplete="tel"
               required
-              maxlength="25"
+              maxlength={LIMITES.telephone}
               aria-describedby={`${champ('telephone')}-aide ${champ('telephone')}-erreur`}
             />
             <p class="champ__aide" id={`${champ('telephone')}-aide`}>Exemple : 06 12 34 56 78</p>
@@ -136,7 +197,7 @@ const avecFinancement = variante !== 'court'
               type="email"
               autocomplete="email"
               required
-              maxlength="160"
+              maxlength={LIMITES.email}
               aria-describedby={`${champ('email')}-erreur`}
             />
             <p class="champ__erreur" id={`${champ('email')}-erreur`} data-erreur="email" />
@@ -144,11 +205,11 @@ const avecFinancement = variante !== 'court'
 
           <div class="champ">
             <label for={champ('formation')}>
-              Formation souhaitée <span aria-hidden="true">*</span>
+              Type de permis souhaité <span aria-hidden="true">*</span>
             </label>
             <select id={champ('formation')} name="formation" required aria-describedby={`${champ('formation')}-erreur`}>
               <option value="" disabled selected={!formation}>
-                Choisir une formation
+                Choisir un permis
               </option>
               {groupes.map((g) => (
                 <optgroup label={g.libelle}>
@@ -161,6 +222,17 @@ const avecFinancement = variante !== 'court'
               ))}
             </select>
             <p class="champ__erreur" id={`${champ('formation')}-erreur`} data-erreur="formation" />
+          </div>
+
+          <div class="champ">
+            <label for={champ('experience')}>Expérience de conduite (facultatif)</label>
+            <select id={champ('experience')} name="experience" aria-describedby={`${champ('experience')}-erreur`}>
+              <option value="">Choisir</option>
+              {OPTIONS_EXPERIENCE.map((o) => (
+                <option value={o.valeur}>{o.libelle}</option>
+              ))}
+            </select>
+            <p class="champ__erreur" id={`${champ('experience')}-erreur`} data-erreur="experience" />
           </div>
 
           {variante === 'complet' && (
@@ -178,15 +250,47 @@ const avecFinancement = variante !== 'court'
             </div>
           )}
 
+          <fieldset class="champ champ--large disponibilites">
+            <legend>Disponibilités pour les leçons (facultatif)</legend>
+            <p class="champ__aide">Les leçons ont lieu du lundi au samedi, de 7 h à 20 h. Cochez ce qui vous convient.</p>
+            <div class="disponibilites__groupe" role="group" aria-labelledby={champ('jours-titre')}>
+              <p class="disponibilites__titre" id={champ('jours-titre')}>Jours</p>
+              <div class="disponibilites__choix">
+                {OPTIONS_JOURS.map((o) => (
+                  <label class="choix">
+                    <input type="checkbox" name="jours" value={o.valeur} />
+                    <span>{o.libelle}</span>
+                  </label>
+                ))}
+              </div>
+              <p class="champ__erreur" data-erreur="jours" />
+            </div>
+            <div class="disponibilites__groupe" role="group" aria-labelledby={champ('moments-titre')}>
+              <p class="disponibilites__titre" id={champ('moments-titre')}>Moments de la journée</p>
+              <div class="disponibilites__choix">
+                {OPTIONS_MOMENTS.map((o) => (
+                  <label class="choix">
+                    <input type="checkbox" name="moments" value={o.valeur} />
+                    <span>{o.libelle}</span>
+                  </label>
+                ))}
+              </div>
+              <p class="champ__erreur" data-erreur="moments" />
+            </div>
+          </fieldset>
+
           <div class="champ champ--large">
-            <label for={champ('message')}>Message (facultatif)</label>
+            <label for={champ('message')}>Questions complémentaires (facultatif)</label>
             <textarea
               id={champ('message')}
               name="message"
               rows={variante === 'court' ? 3 : 5}
               maxlength={MESSAGE_MAX}
-              aria-describedby={`${champ('message')}-erreur`}
+              aria-describedby={`${champ('message')}-aide ${champ('message')}-erreur`}
             />
+            <p class="champ__aide" id={`${champ('message')}-aide`}>
+              Précisez vos besoins : délai souhaité, boîte manuelle ou automatique, code déjà obtenu…
+            </p>
             <p class="champ__erreur" id={`${champ('message')}-erreur`} data-erreur="message" />
           </div>
         </div>
@@ -351,6 +455,71 @@ const avecFinancement = variante !== 'court'
 
   .champ__erreur:empty {
     display: none;
+  }
+
+  fieldset.champ {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .champ legend {
+    padding: 0;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+
+  .disponibilites {
+    gap: var(--e-3);
+  }
+
+  .disponibilites__groupe {
+    display: grid;
+    gap: var(--e-2);
+  }
+
+  .disponibilites__titre {
+    font-size: var(--taille-petit);
+    font-weight: 700;
+    color: var(--texte-doux);
+  }
+
+  .disponibilites__choix {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--e-2);
+  }
+
+  .choix {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-height: 2.75rem;
+    padding: 0.35rem 0.95rem 0.35rem 0.75rem;
+    border: 1.5px solid var(--bord-champ);
+    border-radius: 999px;
+    background: var(--blanc);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: border-color var(--duree-courte) var(--courbe), background-color var(--duree-courte) var(--courbe);
+  }
+
+  .choix:hover {
+    border-color: var(--nuit);
+  }
+
+  .choix:has(input:checked) {
+    border-color: var(--petrole-fonce);
+    background: var(--ciel-voile);
+  }
+
+  .choix input {
+    width: 1.15rem;
+    height: 1.15rem;
+    margin: 0;
+    accent-color: var(--petrole-fonce);
   }
 
   .champ--case {

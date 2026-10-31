@@ -83,8 +83,10 @@ Tout le contenu est dans `src/data/` : voir **[MODIFIER-LE-CONTENU.md](./MODIFIE
 
 ## Formulaires
 
-Un seul formulaire pour tout le site (contact, devis, financement), la formation choisie est transmise
-automatiquement (`?formation=permis-b` dans l’adresse la présélectionne).
+Un seul formulaire de demande de devis pour tout le site (contact, devis, financement), avec les champs demandés
+par l’établissement : nom, prénom, âge, ville, téléphone, e-mail, type de permis, expérience de conduite,
+disponibilités (jours et moments) et questions complémentaires. La formation de la page est présélectionnée
+(`?formation=permis-b` dans l’adresse aussi).
 
 - Envoi réel par **Resend** ou **Brevo**, à l’adresse `CONTACT_TO`, avec « Répondre à » sur l’adresse du demandeur.
 - **Jamais d’envoi simulé** : sans service configuré, les formulaires sont remplacés par les moyens directs

@@ -1,6 +1,7 @@
 ---
 import EnteteSection from '../ui/EnteteSection.astro'
 import Icone, { type NomIcone } from '../ui/Icone.astro'
+import Moniteurs from '../ui/Moniteurs.astro'
 import { ETABLISSEMENT } from '../../data/etablissement.ts'
 
 const raisons: Array<{ icone: NomIcone; titre: string; texte: string }> = [
@@ -49,6 +50,15 @@ const raisons: Array<{ icone: NomIcone; titre: string; texte: string }> = [
         ))
       }
     </ol>
+
+    {
+      ETABLISSEMENT.equipe.length > 0 && (
+        <div class="pourquoi__equipe">
+          <h3 class="pourquoi__equipe-titre">Vos moniteurs</h3>
+          <Moniteurs niveau={4} />
+        </div>
+      )
+    }
   </div>
 </section>
 
@@ -117,6 +127,15 @@ const raisons: Array<{ icone: NomIcone; titre: string; texte: string }> = [
   .pourquoi__texte {
     color: var(--texte-doux);
     font-size: 0.97rem;
+  }
+
+  .pourquoi__equipe {
+    margin-block-start: var(--e-7);
+  }
+
+  .pourquoi__equipe-titre {
+    margin-block-end: var(--e-5);
+    font-size: clamp(1.6rem, 1.3rem + 1vw, 2.1rem);
   }
 
   @media (min-width: 40rem) {

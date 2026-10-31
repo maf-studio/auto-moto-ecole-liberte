@@ -1,21 +1,26 @@
 ---
-import type { Horaires } from '../../data/etablissement.ts'
+import Icone from './Icone.astro'
+import { ETABLISSEMENT, type Horaires } from '../../data/etablissement.ts'
 import { heure, horairesEnTexte, joursFermes, libelleJours } from '../../lib/horaires.ts'
 
 /**
  * Des horaires, à la manière du dépliant : « Lundi au vendredi : 10 h ▶ 12 h ».
  * `etat` : affiche, avec JavaScript, « Ouvert en ce moment » ou « Fermé »
  * (heure de Paris). Sans JavaScript, rien ne s’affiche à sa place.
+ * `adresse` : l’adresse complète sous le titre (le bureau), avec le lien
+ * d’itinéraire.
  */
 interface Props {
   titre: string
   horaires: Horaires
   etat?: boolean
+  adresse?: boolean
   class?: string
 }
 
-const { titre, horaires, etat = false, class: classe } = Astro.props
+const { titre, horaires, etat = false, adresse = false, class: classe } = Astro.props
 const fermes = joursFermes(horaires)
+const e = ETABLISSEMENT
 ---
 
 <div class:list={['horaires', classe]} data-horaires={etat ? JSON.stringify(horaires) : undefined}>
@@ -23,6 +28,17 @@ const fermes = joursFermes(horaires)
     {titre}
     {etat && <span class="horaires__etat" data-etat hidden />}
   </p>
+  {
+    adresse && (
+      <p class="horaires__adresse">
+        <Icone nom="adresse" />
+        <a href={e.google.itineraire} target="_blank" rel="noopener">
+          {e.adresse.rue}, {e.adresse.codePostal} {e.adresse.ville}
+          <span class="visuellement-masque"> (itinéraire, nouvel onglet)</span>
+        </a>
+      </p>
+    )
+  }
   <p class="visuellement-masque">{horairesEnTexte(horaires)}{fermes.length > 0 && ` ; fermé le ${libelleJours(fermes).toLowerCase()}`}.</p>
   <dl class="horaires__liste" aria-hidden="true">
     {
@@ -133,6 +149,28 @@ const fermes = joursFermes(horaires)
     color: var(--succes);
   }
 
+  .horaires__adresse {
+    display: grid;
+    grid-template-columns: 1.15rem 1fr;
+    gap: var(--e-2);
+    align-items: start;
+    margin-block-end: var(--e-3);
+    font-weight: 600;
+  }
+
+  .horaires__adresse svg {
+    width: 1.15rem;
+    height: 1.15rem;
+    margin-block-start: 0.2rem;
+    color: var(--petrole-fonce);
+  }
+
+  .horaires__adresse a {
+    color: inherit;
+    text-decoration-color: var(--petrole);
+    text-underline-offset: 0.2em;
+  }
+
   .horaires__liste {
     display: grid;
     gap: var(--e-2);
@@ -171,6 +209,10 @@ const fermes = joursFermes(horaires)
 
   :global(.surface-nuit) .horaires__ligne {
     border-block-end-color: var(--filet-nuit);
+  }
+
+  :global(.surface-nuit) .horaires__adresse svg {
+    color: var(--petrole-clair);
   }
 
   :global(.surface-nuit) .horaires__etat {

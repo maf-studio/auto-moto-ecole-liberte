@@ -1,0 +1,108 @@
+---
+import { Picture } from 'astro:assets'
+import { ETABLISSEMENT } from '../../data/etablissement.ts'
+
+/**
+ * Les moniteurs, tels que l’établissement les présente (`equipe` dans
+ * `etablissement.ts`) : prénom, rôle, quelques lignes, et la photo seulement
+ * avec l’accord écrit de la personne (sinon, son initiale). Rien ne
+ * s’affiche tant que la liste est vide.
+ */
+interface Props {
+  /** Niveau du titre de chaque carte (le prénom). */
+  niveau?: 3 | 4
+  class?: string
+}
+
+const { niveau = 3, class: classe } = Astro.props
+const Titre = `h${niveau}` as const
+const equipe = ETABLISSEMENT.equipe
+---
+
+{
+  equipe.length > 0 && (
+    <ul class:list={['moniteurs', classe]}>
+      {equipe.map((p) => (
+        <li class="moniteur" data-revele>
+          {p.photo ? (
+            <Picture
+              src={p.photo}
+              formats={['avif', 'webp']}
+              fallbackFormat="jpg"
+              widths={[160, 320]}
+              sizes="7rem"
+              alt={`${p.prenom}, ${p.role.toLowerCase()}`}
+              class="moniteur__photo"
+            />
+          ) : (
+            <span class="moniteur__initiale" aria-hidden="true">
+              {p.prenom.charAt(0)}
+            </span>
+          )}
+          <div class="moniteur__texte">
+            <Titre class="moniteur__prenom">{p.prenom}</Titre>
+            <p class="moniteur__role">{p.role}</p>
+            {p.presentation && <p class="moniteur__presentation">{p.presentation}</p>}
+          </div>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+<style>
+  .moniteurs {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 24rem), 1fr));
+    gap: var(--e-5);
+    list-style: none;
+  }
+
+  .moniteur {
+    display: grid;
+    grid-template-columns: 5.5rem 1fr;
+    gap: var(--e-4);
+    align-items: start;
+    padding: var(--e-5);
+    border: 1px solid var(--filet);
+    border-radius: var(--rayon);
+    background: var(--blanc);
+  }
+
+  .moniteur :global(.moniteur__photo),
+  .moniteur__initiale {
+    width: 5.5rem;
+    height: 5.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+    outline: 2px dashed var(--petrole);
+    outline-offset: 3px;
+  }
+
+  .moniteur__initiale {
+    display: grid;
+    place-items: center;
+    background: var(--nuit);
+    color: var(--petrole-clair);
+    font-family: var(--police-titre-italique);
+    font-style: italic;
+    font-size: 2.4rem;
+    font-weight: 800;
+  }
+
+  .moniteur__prenom {
+    font-size: 1.5rem;
+  }
+
+  .moniteur__role {
+    margin-block-end: var(--e-2);
+    color: var(--petrole-tres-fonce);
+    font-size: var(--taille-petit);
+    font-weight: 700;
+  }
+
+  .moniteur__presentation {
+    color: var(--texte-doux);
+    font-size: 0.97rem;
+  }
+</style>

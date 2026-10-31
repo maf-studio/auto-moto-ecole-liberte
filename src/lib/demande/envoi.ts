@@ -1,5 +1,13 @@
 import type { ConfigurationEnvoi } from './configuration.ts'
-import { libelleFinancement, libelleFormation, type Demande } from './schema.ts'
+import {
+  OPTIONS_JOURS,
+  OPTIONS_MOMENTS,
+  libelleExperience,
+  libelleFinancement,
+  libelleFormation,
+  libellesCoches,
+  type Demande,
+} from './schema.ts'
 
 /**
  * L’envoi de la demande à l’établissement, par Resend ou Brevo (un POST avec
@@ -11,18 +19,25 @@ const surUneLigne = (t: string) => t.replace(/[\p{Cc}\u2028\u2029]+/gu, ' ').tri
 
 function corps(d: Demande): string {
   return [
-    'Nouvelle demande envoyée depuis le site internet.',
+    'Nouvelle demande de devis envoyée depuis le site internet.',
     '',
-    `Nom          ${d.nom}`,
-    `Téléphone    ${d.telephone}`,
-    `E-mail       ${d.email}`,
-    `Formation    ${libelleFormation(d.formation)}`,
-    `Financement  ${libelleFinancement(d.financement) ?? 'Non précisé'}`,
-    d.depuis ? `Page         ${d.depuis}` : null,
+    `Nom            ${d.nom}`,
+    `Prénom         ${d.prenom}`,
+    `Âge            ${d.age} ans`,
+    `Ville          ${d.ville ?? 'Non précisée'}`,
+    `Téléphone      ${d.telephone}`,
+    `E-mail         ${d.email}`,
     '',
-    'Message',
-    '───────',
-    d.message ?? '(aucun message)',
+    `Permis         ${libelleFormation(d.formation)}`,
+    `Expérience     ${libelleExperience(d.experience) ?? 'Non précisée'}`,
+    `Jours          ${libellesCoches(d.jours, OPTIONS_JOURS) ?? 'Non précisés'}`,
+    `Moments        ${libellesCoches(d.moments, OPTIONS_MOMENTS) ?? 'Non précisés'}`,
+    `Financement    ${libelleFinancement(d.financement) ?? 'Non précisé'}`,
+    d.depuis ? `Page           ${d.depuis}` : null,
+    '',
+    'Questions complémentaires',
+    '─────────────────────────',
+    d.message ?? '(aucune)',
     '',
     'Pour répondre : utilisez « Répondre », ou rappelez le numéro indiqué.',
   ]
@@ -31,7 +46,7 @@ function corps(d: Demande): string {
 }
 
 export async function envoyerDemande(c: ConfigurationEnvoi, d: Demande): Promise<void> {
-  const objet = surUneLigne(`Demande site : ${libelleFormation(d.formation)} — ${d.nom}`)
+  const objet = surUneLigne(`Demande de devis : ${libelleFormation(d.formation)} — ${d.prenom} ${d.nom}`)
   const texte = corps(d)
 
   if (c.fournisseur === 'essai') {
@@ -56,7 +71,7 @@ export async function envoyerDemande(c: ConfigurationEnvoi, d: Demande): Promise
     body: JSON.stringify({
       sender: { email: c.expediteur, name: 'Site Auto-Moto École Liberté' },
       to: [{ email: c.destinataire }],
-      replyTo: { email: d.email, name: surUneLigne(d.nom) },
+      replyTo: { email: d.email, name: surUneLigne(`${d.prenom} ${d.nom}`) },
       subject: objet,
       textContent: texte,
     }),

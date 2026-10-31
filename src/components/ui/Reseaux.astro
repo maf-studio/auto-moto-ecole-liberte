@@ -1,0 +1,133 @@
+---
+import Icone, { type NomIcone } from './Icone.astro'
+import { ETABLISSEMENT } from '../../data/etablissement.ts'
+import { telephoneFr } from '../../lib/format.ts'
+
+/**
+ * Les réseaux sociaux de l’établissement et son WhatsApp, en ronds bien
+ * visibles : pied de page (sous le logo), menu mobile, « Nous trouver ».
+ * WhatsApp n’apparaît qu’une fois le numéro renseigné dans
+ * `etablissement.ts`. Rien ne s’affiche sans réseau ni WhatsApp.
+ */
+interface Props {
+  class?: string
+}
+
+const { class: classe } = Astro.props
+const e = ETABLISSEMENT
+const ICONE: Record<(typeof e.reseaux)[number]['nom'], NomIcone> = {
+  Instagram: 'instagram',
+  Snapchat: 'snapchat',
+  Facebook: 'externe',
+  TikTok: 'externe',
+}
+---
+
+{
+  (e.reseaux.length > 0 || e.whatsapp) && (
+    <div class:list={['reseaux', classe]}>
+      {e.reseaux.length > 0 && <p class="signature reseaux__titre">Suivez-nous !</p>}
+      <ul class="reseaux__liste">
+        {e.reseaux.map((r) => (
+          <li>
+            <a class="reseaux__rond" href={r.url} target="_blank" rel="noopener me">
+              <Icone nom={ICONE[r.nom]} />
+              <span class="visuellement-masque">
+                {r.nom} {e.identifiantReseaux} (nouvel onglet)
+              </span>
+            </a>
+          </li>
+        ))}
+        {e.whatsapp && (
+          <li>
+            <a class="reseaux__whatsapp" href={`https://wa.me/${e.whatsapp}`} target="_blank" rel="noopener">
+              <span class="reseaux__rond reseaux__rond--plein">
+                <Icone nom="whatsapp" />
+              </span>
+              <span>
+                WhatsApp <span class="reseaux__numero">{telephoneFr(e.whatsapp)}</span>
+                <span class="visuellement-masque"> (nouvel onglet)</span>
+              </span>
+            </a>
+          </li>
+        )}
+      </ul>
+      {e.reseaux.length > 0 && e.identifiantReseaux && <span class="reseaux__identifiant">{e.identifiantReseaux}</span>}
+    </div>
+  )
+}
+
+<style>
+  .reseaux {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--e-3) var(--e-4);
+  }
+
+  .reseaux__titre {
+    font-size: 1.45rem;
+    color: var(--petrole-fonce);
+  }
+
+  .reseaux__liste {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--e-3);
+    list-style: none;
+  }
+
+  .reseaux__rond {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: var(--petrole-fonce);
+    color: var(--blanc);
+    transition: background-color var(--duree) var(--courbe);
+  }
+
+  a.reseaux__rond:hover,
+  .reseaux__whatsapp:hover .reseaux__rond {
+    background: var(--petrole-tres-fonce);
+  }
+
+  .reseaux__rond :global(svg) {
+    width: 1.35rem;
+    height: 1.35rem;
+  }
+
+  .reseaux__whatsapp {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--e-3);
+    color: inherit;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .reseaux__numero {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .reseaux__identifiant {
+    font-weight: 700;
+  }
+
+  :global(.surface-nuit) .reseaux__titre {
+    color: var(--petrole-clair);
+  }
+
+  :global(.surface-nuit) .reseaux__rond {
+    background: var(--petrole);
+    color: var(--nuit);
+  }
+
+  :global(.surface-nuit) a.reseaux__rond:hover,
+  :global(.surface-nuit) .reseaux__whatsapp:hover .reseaux__rond {
+    background: var(--petrole-clair);
+  }
+</style>

@@ -342,6 +342,40 @@ textarea {
   color: var(--sur-nuit-doux);
 }
 
+/*
+ * Textes justifiés (demande de l’établissement, 31 octobre 2026) : les
+ * paragraphes de texte suivi (chapôs, contenus des pages, réponses, pages
+ * légales), avec la césure du français pour éviter les blancs entre les
+ * mots. Sur téléphone (sous 40 rem), et dans les cartes, le texte reste
+ * aligné à gauche : justifié sur 3 à 6 mots par ligne, il se trouerait.
+ * Les blocs centrés gardent leur alignement.
+ */
+@media (min-width: 40rem) {
+  :is(
+      .chapo,
+      .bloc__intro,
+      .bloc__texte,
+      .bloc__remarque,
+      .question__reponse p,
+      .a-propos__texte p,
+      .texte-long p,
+      .note-ligne,
+      .hub-note,
+      .tarifs__note,
+      .liste-documents__note,
+      .avertissement p,
+      .prose p,
+      .prose li,
+      .pied__marque > p
+    ):not(.etiquette, .signature, :where(.entete-section--centre, .message__contenu) *) {
+    text-align: justify;
+    text-wrap: wrap;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphenate-limit-chars: 7 3 3;
+  }
+}
+
 .signature {
   font-family: var(--police-signature);
   font-weight: 400;

@@ -1,4 +1,4 @@
-import { EMAIL, MESSAGES, MESSAGE_MAX, TELEPHONE } from '../lib/demande/regles.ts'
+import { EMAIL, MESSAGES, MESSAGE_MAX, TELEPHONE, lireAge } from '../lib/demande/regles.ts'
 
 /*
  * Le formulaire de demande, amélioré quand JavaScript est là :
@@ -17,7 +17,10 @@ function verifier(form: HTMLFormElement): Erreurs {
   const d = new FormData(form)
   const val = (n: string) => String(d.get(n) ?? '').trim()
   const erreurs: Erreurs = {}
-  if (val('nom').length < 2) erreurs.nom = MESSAGES.nom
+  if (!val('nom')) erreurs.nom = MESSAGES.nom
+  if (!val('prenom')) erreurs.prenom = MESSAGES.prenom
+  if (!val('age')) erreurs.age = MESSAGES.ageVide
+  else if (lireAge(val('age')) === null) erreurs.age = MESSAGES.age
   if (!val('telephone')) erreurs.telephone = MESSAGES.telephoneVide
   else if (!TELEPHONE.test(val('telephone'))) erreurs.telephone = MESSAGES.telephone
   if (!val('email')) erreurs.email = MESSAGES.emailVide

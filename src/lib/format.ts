@@ -15,3 +15,9 @@ export function dateRelevee(iso: string): string {
 export function dateLongue(iso: string): string {
   return new Date(`${iso}T12:00:00`).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
 }
+
+/** Un numéro WhatsApp international (« 33612345678 ») écrit à la française : « 06 12 34 56 78 ». */
+export function telephoneFr(international: string): string {
+  const national = international.startsWith('33') ? `0${international.slice(2)}` : international
+  return national.replace(/(\d{2})(?=\d)/g, '$1 ')
+}
