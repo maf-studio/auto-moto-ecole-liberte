@@ -2,6 +2,8 @@
 
 overrides:
   'path-to-regexp@>=6.0.0 <6.3.0': 6.3.0
+  # Une bêta (2.0.0-beta.2), tirée par rolldown, fait planter `astro check` : on reste en 1.x.
+  '@emnapi/runtime': ^1.11.3
 
 # Scripts d'installation autorisés paquet par paquet.
 allowBuilds:
