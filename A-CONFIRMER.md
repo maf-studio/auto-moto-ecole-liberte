@@ -1,6 +1,6 @@
 # À confirmer avec l’Auto-Moto École Liberté
 
-État au 31 octobre 2026. Le contenu du site est validé : formules et prix du flyer (positifdesign), formations,
+État au 13 novembre 2026. Le contenu du site est validé : formules et prix du flyer (positifdesign), formations,
 labels, garantie financière, réseaux sociaux, avis cités, logo officiel, photos des locaux et des véhicules. Les mentions légales viennent du Registre
 national des entreprises (SARL AUTO ECOLE LIBERTE, SIREN 525 082 491, gérant Ali Idir). `pnpm check:publication`
 tient cette liste à jour.
@@ -28,14 +28,11 @@ tient cette liste à jour.
       présentation relues par la personne, et une photo seulement avec son accord écrit (droit à l’image). Le bloc
       « Vos moniteurs » est prêt dans « Pourquoi Liberté » : il apparaît dès la première présentation fournie.
 - [ ] **Numéro WhatsApp** à publier (avec l’accord de l’établissement) : il s’ajoutera aux réseaux sociaux.
-- [ ] **Adresse qui reçoit les demandes de devis** : ae.liberte@gmail.com, à confirmer.
 - [ ] **Photos complémentaires** (facultatif) : plateau moto, salle de code.
 - [ ] **Documents qualité** du label, en PDF : règlement intérieur, procédures d’évaluation B et A, organisation de
       la formation, déroulement des examens, handicap, réclamations.
 - [ ] **Formation accélérée** : durée, planning et prix, pour lui consacrer une page.
 - [ ] **Coordonnées GPS** de l’agence (données structurées).
-- [ ] **Nom de domaine** : le site actuel (bouton « Site Web » de la fiche Google), qui détient le domaine, et l’accès
-      pour le brancher.
 
 ## À signaler à l’établissement (vitrine et dépliant)
 

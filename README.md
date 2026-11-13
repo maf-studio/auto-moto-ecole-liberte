@@ -116,9 +116,13 @@ projet, le compte GitHub `maf-studio`. L’identité git du dépôt est donc
 5. Les pages sont statiques : **après tout ajout de variable, redéployer** (Deployments → ⋯ → Redeploy) pour que
    les formulaires apparaissent. Le journal de construction (le déploiement → **Build Logs**) le confirme par
    « Formulaire de devis : actif », ou donne la liste des variables qui manquent encore.
-6. Domaine : l’ajouter dans **Settings → Domains**, puis renseigner `SITE_URL=https://www.le-domaine.fr` et
-   redéployer. Tant que le site tourne sur `*.vercel.app`, toutes les pages sont en `noindex` et `robots.txt`
-   ferme l’accès : une maquette présentée au client n’entre jamais dans Google.
+6. Domaine `autoecoleliberte.fr` (chez IONOS) : l’ajouter dans **Settings → Domains** et recopier chez IONOS les
+   enregistrements que Vercel affiche. **Rattacher le domaine ouvre le site à Google** (son adresse de production
+   n’est plus en `*.vercel.app`) : le faire une fois les mentions légales complètes (`pnpm check:publication`).
+   Le formulaire n’en dépend pas : les demandes de devis arrivent sur ae.liberte@gmail.com, envoyées depuis
+   `devis@autoecoleliberte.fr`, domaine vérifié chez Resend (sans boîte aux lettres à créer). Tant que le site
+   tourne sur `*.vercel.app`, toutes les pages sont en `noindex` et `robots.txt` ferme l’accès : une maquette
+   présentée au client n’entre jamais dans Google.
 7. **Firewall** → règle de limite de requêtes sur `/api/demande` (par exemple 5 par minute et par IP).
 8. Avant d’ouvrir au public : `pnpm check:publication` ne doit plus rien signaler de bloquant.
 
