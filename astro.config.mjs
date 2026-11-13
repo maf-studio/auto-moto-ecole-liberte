@@ -27,6 +27,35 @@ const SITE =
     : 'http://localhost:4321')
 
 /**
+ * L’état du formulaire de devis, écrit dans le journal de construction
+ * (Vercel : Deployments, le déploiement, Build Logs) : actif, ou la liste des
+ * variables qui manquent. Seulement des noms, jamais une valeur. Même règle
+ * que `src/lib/demande/configuration.ts` : tout ou rien.
+ *
+ * @returns {import('astro').AstroIntegration}
+ */
+function etatFormulaire() {
+  return {
+    name: 'liberte:etat-formulaire',
+    hooks: {
+      'astro:build:start': ({ logger }) => {
+        const lire = (/** @type {string} */ cle) => (process.env[cle] ?? '').trim()
+        const fournisseur = lire('EMAIL_PROVIDER')
+        const manque = []
+        if (fournisseur !== 'resend' && fournisseur !== 'brevo') manque.push('EMAIL_PROVIDER (resend ou brevo)')
+        if (fournisseur === 'resend' && !lire('RESEND_API_KEY')) manque.push('RESEND_API_KEY')
+        if (fournisseur === 'brevo' && !lire('BREVO_API_KEY')) manque.push('BREVO_API_KEY')
+        if (!lire('CONTACT_TO')) manque.push('CONTACT_TO')
+        if (!lire('CONTACT_FROM')) manque.push('CONTACT_FROM')
+        if (lire('FORM_SECRET').length < 32) manque.push('FORM_SECRET (32 caractères au moins)')
+        if (manque.length === 0) logger.info(`Formulaire de devis : actif (envoi par ${fournisseur}).`)
+        else logger.warn(`Formulaire de devis : désactivé, il manque ${manque.join(', ')}.`)
+      },
+    },
+  }
+}
+
+/**
  * Les en-têtes de sécurité, écrits dans la configuration produite pour Vercel.
  *
  * L’adaptateur écrit `.vercel/output/config.json` ; ce greffon passe après lui
@@ -128,6 +157,7 @@ export default defineConfig({
   },
 
   integrations: [
+    etatFormulaire(),
     entetesSecurite(),
     sitemap({
       filter: (page) => !CHEMINS_HORS_SITEMAP.includes(new URL(page).pathname.replace(/\/$/, '') || '/'),

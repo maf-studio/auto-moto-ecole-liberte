@@ -114,7 +114,8 @@ projet, le compte GitHub `maf-studio`. L’identité git du dépôt est donc
    `RESEND_API_KEY` (ou `BREVO_API_KEY`), `CONTACT_TO`, `CONTACT_FROM`, `FORM_SECRET` (`openssl rand -hex 32`).
    Chez Resend (ou Brevo), vérifier d’abord le domaine d’expédition, puis renseigner `CONTACT_FROM` sur ce domaine.
 5. Les pages sont statiques : **après tout ajout de variable, redéployer** (Deployments → ⋯ → Redeploy) pour que
-   les formulaires apparaissent.
+   les formulaires apparaissent. Le journal de construction (le déploiement → **Build Logs**) le confirme par
+   « Formulaire de devis : actif », ou donne la liste des variables qui manquent encore.
 6. Domaine : l’ajouter dans **Settings → Domains**, puis renseigner `SITE_URL=https://www.le-domaine.fr` et
    redéployer. Tant que le site tourne sur `*.vercel.app`, toutes les pages sont en `noindex` et `robots.txt`
    ferme l’accès : une maquette présentée au client n’entre jamais dans Google.
