@@ -6,6 +6,7 @@ import Localisation from '../components/sections/Localisation.astro'
 import Horaires from '../components/ui/Horaires.astro'
 import Icone from '../components/ui/Icone.astro'
 import { ETABLISSEMENT } from '../data/etablissement.ts'
+import { telephoneFr } from '../lib/format.ts'
 
 const e = ETABLISSEMENT
 const filAriane = [
@@ -45,9 +46,9 @@ const filAriane = [
         e.whatsapp && (
           <li>
             <a href={`https://wa.me/${e.whatsapp}`} target="_blank" rel="noopener">
-              <Icone nom="message" />
+              <Icone nom="whatsapp" />
               <span>
-                <strong>WhatsApp</strong>Nous écrire<span class="visuellement-masque"> (nouvel onglet)</span>
+                <strong>WhatsApp</strong>{telephoneFr(e.whatsapp)}<span class="visuellement-masque"> (nouvel onglet)</span>
               </span>
             </a>
           </li>

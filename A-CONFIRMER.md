@@ -27,7 +27,6 @@ tient cette liste à jour.
 - [ ] **Les moniteurs** (avec Samy) : pour chacun, le prénom, le rôle (auto, moto, code), trois ou quatre lignes de
       présentation relues par la personne, et une photo seulement avec son accord écrit (droit à l’image). Le bloc
       « Vos moniteurs » est prêt dans « Pourquoi Liberté » : il apparaît dès la première présentation fournie.
-- [ ] **Numéro WhatsApp** à publier (avec l’accord de l’établissement) : il s’ajoutera aux réseaux sociaux.
 - [ ] **Photos complémentaires** (facultatif) : plateau moto, salle de code.
 - [ ] **Documents qualité** du label, en PDF : règlement intérieur, procédures d’évaluation B et A, organisation de
       la formation, déroulement des examens, handicap, réclamations.

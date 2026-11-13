@@ -37,11 +37,12 @@ export const ETABLISSEMENT = {
   email: 'ae.liberte@gmail.com',
 
   /**
-   * WhatsApp : `null` tant qu’aucun numéro n’est fourni avec l’accord de
-   * l’établissement. Renseigné (ex. '33612345678', sans + ni espace), un
-   * bouton WhatsApp apparaît sur la page Contact.
+   * WhatsApp : le numéro au format international, sans + ni espace
+   * (+33 7 45 12 48 18, fourni le 13 novembre 2026). Il apparaît avec les
+   * réseaux sociaux (pied de page, menu mobile, « Nous trouver ») et sur la
+   * page Contact. `null` le retire partout.
    */
-  whatsapp: null as string | null,
+  whatsapp: '33745124818' as string | null,
 
   /**
    * Coordonnées GPS : `null` tant qu’elles n’ont pas été relevées sur place ou
